@@ -1,0 +1,61 @@
+---
+title: "Datasets"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{datasets}
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+# knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+# Set global arguements
+
+```{r vair-global-arguements}
+projectId <- Sys.getenv("VAIR_DEFAULT_PROJECT_ID")
+# location <- "us-central1"
+# vair_region_set("us-central1")
+vair_project_set(projectId)
+```
+
+# Create a dataset
+
+```{r}
+vair_dataset <- vair_create_dataset(displayName = "example_dataset01")
+vair_dataset
+```
+
+# List datasets
+
+```{r}
+datasets_list <- vair_list_datasets()
+datasets_list
+```
+
+# Delete dataset
+
+```{r}
+vair_delete_result <- vair_delete_dataset(displayName = "example_dataset01")
+vair_delete_result
+```
+
+# List datasets
+
+```{r}
+vair_list_datasets()
+```
+
