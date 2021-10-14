@@ -4,8 +4,8 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{datasets}
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -32,6 +32,13 @@ projectId <- Sys.getenv("VAIR_DEFAULT_PROJECT_ID")
 vair_project_set(projectId)
 ```
 
+# List datasets
+
+```{r}
+datasets_list <- vair_list_datasets()
+datasets_list
+```
+
 # Create a dataset
 
 ```{r}
@@ -39,7 +46,7 @@ vair_dataset <- vair_create_dataset(displayName = "example_dataset01")
 vair_dataset
 ```
 
-# List datasets
+# List datasets (again)
 
 ```{r}
 datasets_list <- vair_list_datasets()
