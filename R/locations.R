@@ -4,7 +4,7 @@
 #'
 #' @export
 #'
-#' @family loctions functions
+#' @family locations functions
 vair_list_locations <- function(projectId = vair_project_get()) {
 
     url <- sprintf("https://automl.googleapis.com/v1beta1/projects/%s/locations",

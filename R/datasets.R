@@ -1,6 +1,3 @@
-
-
-
 #' Lists datasets in a project.
 #'
 #' @param projectId GCP project id
@@ -14,9 +11,7 @@ vair_list_datasets <- function(projectId = vair_project_get(),
                     projectId,
                     locationId)
 
-  # https://us-central1-aiplatform.googleapis.com/v1/{parent}/datasets
-  
-  url <- sprintf("https://automl.googleapis.com/v1beta1/%s/datasets",
+  url <- sprintf("https://us-central1-aiplatform.googleapis.com/v1/%s/datasets",
                  parent)
 
   parse_ld <- function(x) {
@@ -26,6 +21,8 @@ vair_list_datasets <- function(projectId = vair_project_get(),
     x
 
   }
+
+  browser()
 
   f <- googleAuthR::gar_api_generator(url,
                                       "GET",
