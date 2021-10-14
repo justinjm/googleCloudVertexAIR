@@ -22,7 +22,7 @@ vair_list_datasets <- function(projectId = vair_project_get(),
 
   }
 
-  browser()
+  # browser()
 
   f <- googleAuthR::gar_api_generator(url,
                                       "GET",
