@@ -27,7 +27,6 @@ gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 
 ```{r vair-global-arguements}
 projectId <- Sys.getenv("VAIR_DEFAULT_PROJECT_ID")
-# location <- "us-central1"
 vair_region_set("us-central1")
 vair_project_set(projectId)
 ```

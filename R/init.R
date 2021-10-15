@@ -2,11 +2,24 @@
 #'
 #' Can also use environment argument VAIR_DEFAULT_REGION
 #'
-#' @param region Region for the endpoint
+#' Current
+#' @param region Region for the endpoint, full list of service endpoints
+#' [here](https://cloud.google.com/vertex-ai/docs/reference/rest#service-endpoint)
 #' @import assertthat
 #' @export
 vair_region_set <- function(region = c("us-central1",
-                                       "eu")){
+                                       "us-east1",
+                                       "us-east4",
+                                       "us-west1",
+                                       "northamerica-northeast1",
+                                       "europe-west1",
+                                       "europe-west2",
+                                       "europe-west4",
+                                       "asia-east1",
+                                       "asia-northeast1",
+                                       "asia-northeast3",
+                                       "asia-southeast1",
+                                       "australia-southeast1")){
 
   region <- match.arg(region)
 
