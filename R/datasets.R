@@ -11,7 +11,8 @@ vair_list_datasets <- function(projectId = vair_project_get(),
                     projectId,
                     locationId)
 
-  url <- sprintf("https://us-central1-aiplatform.googleapis.com/v1/%s/datasets",
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/datasets",
+                 locationId,
                  parent)
 
   parse_ld <- function(x) {
@@ -76,7 +77,8 @@ vair_create_dataset <- function(projectId = vair_project_get(),
     ,class = c("vair_createDatasetRequest", "list")
   )
 
-  url <- sprintf("https://us-central1-aiplatform.googleapis.com/v1/%s/datasets",
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/datasets",
+                 locationId,
                  parent)
 
   f <- googleAuthR::gar_api_generator(url,
