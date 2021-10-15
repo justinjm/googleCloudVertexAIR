@@ -58,47 +58,4 @@ vair_get_location <- function(projectId = vair_project_get(),
 
 }
 
-#' Creates a dataset
-#'
-#'
-#' @param projectId GCP project id
-#' @param locationId location of GCP resources
-#' @param displayName the name of the dataset that is shown in the interface.
-#' The name can be up to 32 characters long and can consist only of ASCII
-#' Latin letters A-Z and a-z, underscores (_), and ASCII digits 0-9.
-#'
-#' @export
-vair_create_dataset <- function(projectId = vair_project_get(),
-                                locationId = vair_region_get(),
-                                displayName) {
 
-    existing_datasets <- vair_list_datasets(projectId, locationId)
-
-    if(displayName %in% existing_datasets$displayName) {
-        stop("Existing dataset already exists, must specify new, unique name.")
-    }
-
-    location_path <- vair_get_location(projectId = projectId,
-                                       locationId = locationId)
-
-    parent <- location_path$name
-
-    Dataset <- sprintf('{"displayName": "%s","tablesDatasetMetadata": { }}',
-                       displayName)
-
-    url <- sprintf("https://automl.googleapis.com/v1beta1/%s/datasets",
-                   parent)
-
-    # automl.projects.locations.datasets.create
-    f <- googleAuthR::gar_api_generator(url,
-                                        "POST",
-                                        data_parse_function = function(x) x,
-                                        checkTrailingSlash = FALSE)
-
-    response <- f(the_body = Dataset)
-
-    out <- response
-
-    structure(out, class = "vair_dataset")
-
-}

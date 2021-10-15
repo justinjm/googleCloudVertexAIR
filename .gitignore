@@ -1,4 +1,9 @@
+.Renviron
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+inst/doc
+*.oauth
+vignettes/request_debug.rds
+googlecloudrunner-auth-key.json
