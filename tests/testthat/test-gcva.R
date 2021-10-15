@@ -23,7 +23,7 @@ test_that("We can fetch a list of datasets", {
   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
   expect_true(projectId != "")
   expect_true(locationId != "")
-  l <- vair_list_datasets(projectId, locationId)
+  l <- gcva_list_datasets(projectId, locationId)
 
   expect_s3_class(l, "data.frame")
   expect_true(

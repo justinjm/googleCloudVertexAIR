@@ -26,15 +26,15 @@ gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 # Set global arguements
 
 ```{r vair-global-arguements}
-projectId <- Sys.getenv("VAIR_DEFAULT_PROJECT_ID")
-vair_region_set("us-central1")
-vair_project_set(projectId)
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set("us-central1")
+gcva_project_set(projectId)
 ```
 
 # List datasets
 
 ```{r}
-datasets_list <- vair_list_datasets()
+datasets_list <- gcva_list_datasets()
 datasets_list
 ```
 

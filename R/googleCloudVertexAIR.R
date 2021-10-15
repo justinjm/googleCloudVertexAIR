@@ -6,4 +6,4 @@
 NULL
 
 ## Store arguments to
-.vair_env <- new.env(parent = emptyenv())
+.gcva_env <- new.env(parent = emptyenv())

@@ -4,8 +4,8 @@
 #' @param locationId location of GCP resources
 #'
 #' @export
-vair_list_datasets <- function(projectId = vair_project_get(),
-                               locationId = vair_region_get()) {
+gcva_list_datasets <- function(projectId = gcva_project_get(),
+                               locationId = gcva_region_get()) {
 
   parent <- sprintf("projects/%s/locations/%s",
                     projectId,
@@ -45,12 +45,12 @@ vair_list_datasets <- function(projectId = vair_project_get(),
 #' Latin letters A-Z and a-z, underscores (_), and ASCII digits 0-9.
 #'
 #' @export
-vair_create_dataset <- function(projectId = vair_project_get(),
-                                locationId = vair_region_get(),
+gcva_create_dataset <- function(projectId = gcva_project_get(),
+                                locationId = gcva_region_get(),
                                 displayName,
                                 gcsSource) {
 
-  existing_datasets <- vair_list_datasets(projectId, locationId)
+  existing_datasets <- gcva_list_datasets(projectId, locationId)
 
   if(displayName %in% existing_datasets$displayName) {
     stop("Existing dataset already exists, must specify new, unique name.")
@@ -74,7 +74,7 @@ vair_create_dataset <- function(projectId = vair_project_get(),
         )
       )
     )
-    ,class = c("vair_createDatasetRequest", "list")
+    ,class = c("gcva_createDatasetRequest", "list")
   )
 
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/datasets",
@@ -90,6 +90,6 @@ vair_create_dataset <- function(projectId = vair_project_get(),
 
   out <- response
 
-  structure(out, class = "vair_dataset")
+  structure(out, class = "gcva_dataset")
 
 }
