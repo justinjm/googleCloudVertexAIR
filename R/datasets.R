@@ -93,3 +93,47 @@ gcva_create_dataset <- function(projectId = gcva_project_get(),
   structure(out, class = "gcva_dataset")
 
 }
+
+
+
+#' Deletes a dataset
+#'
+#' @param projectId GCP project id
+#' @param locationId location of GCP resources
+#' @param displayName the name of the dataset that is shown in the interface.
+#'
+#'
+#' @export
+gcva_delete_dataset <- function(projectId = gcva_project_get(),
+                                locationId = gcva_region_get(),
+                                displayName) {
+
+
+
+  datasets_list <- gcva_list_datasets(projectId = projectId,
+                                      locationId = locationId)
+
+  dataset_display_name <- displayName
+
+  name <- subset(datasets_list,
+                 displayName == dataset_display_name,
+                 select = c(name))
+
+  if (dim(name)[1] == 0) {
+    stop(sprintf("Dataset %s does not exist. Please check the dataset displayname is correct and try again.",
+                 displayName))
+  }
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+                 locationId,
+                 name)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "DELETE",
+                                      data_parse_function = function(x) x)
+
+  response <- f()
+
+  response
+
+}
