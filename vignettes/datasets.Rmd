@@ -9,7 +9,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-# knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Setup
@@ -25,7 +25,7 @@ gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 
 # Set global arguements
 
-```{r vair-global-arguements}
+```{r gcva-global-arguements}
 projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
 gcva_region_set("us-central1")
 gcva_project_set(projectId)
@@ -34,35 +34,35 @@ gcva_project_set(projectId)
 # List datasets
 
 ```{r}
-datasets_list <- gcva_list_datasets()
-datasets_list
+datasets <- gcva_list_datasets()
+datasets
 ```
 
 # Create a dataset
 
 ```{r}
-vair_dataset <- vair_create_dataset(displayName = "example_dataset03",
-                                    gcsSource = "gs://gcatr-dev/bank_marketing.csv")
-vair_dataset
+dataset <- gcva_create_dataset(displayName = "example_dataset03",
+                               gcsSource = "gs://gcatr-dev/bank_marketing.csv")
+dataset
 ```
 
 # List datasets (again)
 
 ```{r}
-datasets_list <- vair_list_datasets()
-datasets_list
+datasets2 <- gcva_list_datasets()
+datasets2
 ```
 
 # Delete dataset
 
 ```{r}
-vair_delete_result <- vair_delete_dataset(displayName = "example_dataset01")
-vair_delete_result
+# gcva_delete_result <- gcva_delete_dataset(displayName = "example_dataset01")
+# gcva_delete_result
 ```
 
 # List datasets
 
 ```{r}
-vair_list_datasets()
+gcva_list_datasets()
 ```
 

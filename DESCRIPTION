@@ -7,8 +7,8 @@ Authors@R: person("Justin", "Marciszewski",
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-8251-4982"))
 Description: A tool to interact with the Google Cloud Vertex AI API. 
-URL: 
-BugReports:
+URL: https://github.com/justinjm/googleCloudVertexAIR
+BugReports: https://github.com/justinjm/googleCloudVertexAIR/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
