@@ -1,11 +1,23 @@
 Package: googleCloudVertexAIR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Google Cloud Vertex AI API Into R
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Justin", "Marciszewski",
+    email = "justin@harborislandanalytics.com", 
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-8251-4982"))
+Description: A tool to interact with the Google Cloud Vertex AI API. 
+URL: 
+BugReports:
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    assertthat (>= 0.2.1),
+    googleAuthR (>= 1.4.0),
+    jsonlite (>= 1.7.2)
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
