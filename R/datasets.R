@@ -22,8 +22,6 @@ vair_list_datasets <- function(projectId = vair_project_get(),
 
   }
 
-  # browser()
-
   f <- googleAuthR::gar_api_generator(url,
                                       "GET",
                                       data_parse_function = parse_ld)
@@ -48,7 +46,8 @@ vair_list_datasets <- function(projectId = vair_project_get(),
 #' @export
 vair_create_dataset <- function(projectId = vair_project_get(),
                                 locationId = vair_region_get(),
-                                displayName) {
+                                displayName,
+                                gcsSource) {
 
   existing_datasets <- vair_list_datasets(projectId, locationId)
 
@@ -60,33 +59,26 @@ vair_create_dataset <- function(projectId = vair_project_get(),
                     projectId,
                     locationId)
 
-  Dataset <- sprintf('{"displayName": "%s","tablesDatasetMetadata": { }}',
-                     displayName)
-  # GCS
-  import_data_request <- structure(
+  Dataset <- structure(
     list(
-      inputConfig = list(
-        params = list(
-          schema_inference_version = "1"
-        ),
-        gcsSource = list(
-          inputUris = input_url
+      display_name = displayName,
+      metadata_schema_uri = "gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml",
+      metadata = list(
+        input_config = list(
+          gcs_source = list(
+            uri = list(
+              gcsSource
+            )
+          )
         )
       )
     )
-    # ,class = c("gar_ImportDataRequest", "list")
+    ,class = c("vair_createDatasetRequest", "list")
   )
-
-
-
-
-
-
 
   url <- sprintf("https://us-central1-aiplatform.googleapis.com/v1/%s/datasets",
                  parent)
 
-  # automl.projects.locations.datasets.create
   f <- googleAuthR::gar_api_generator(url,
                                       "POST",
                                       data_parse_function = function(x) x,

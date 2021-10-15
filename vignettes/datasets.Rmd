@@ -42,7 +42,8 @@ datasets_list
 # Create a dataset
 
 ```{r}
-vair_dataset <- vair_create_dataset(displayName = "example_dataset01")
+vair_dataset <- vair_create_dataset(displayName = "example_dataset01",
+                                    gcsSource = "gs://gcatr-dev/bank_marketing.csv")
 vair_dataset
 ```
 
