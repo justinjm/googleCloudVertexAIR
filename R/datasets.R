@@ -88,9 +88,9 @@ gcva_create_dataset <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = Dataset)
 
-  out <- response
+  out <- response$name
 
-  structure(out, class = "gcva_dataset")
+  message("Dataset created successfully: \n", out)
 
 }
 
@@ -134,6 +134,13 @@ gcva_delete_dataset <- function(projectId = gcva_project_get(),
 
   response <- f()
 
-  response
+  out <- response
+
+  if(out$done==TRUE) {
+    message("Dataset successfully deleted.")
+
+  } else {
+    out
+  }
 
 }

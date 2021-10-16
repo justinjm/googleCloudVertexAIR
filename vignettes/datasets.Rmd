@@ -49,9 +49,8 @@ displayName
 
 
 ```{r}
-dataset <- gcva_create_dataset(displayName = displayName,
-                               gcsSource = "gs://gcatr-dev/bank_marketing.csv")
-dataset
+gcva_create_dataset(displayName = displayName,
+                    gcsSource = "gs://gcatr-dev/bank_marketing.csv")
 ```
 
 # List datasets (again)
@@ -63,8 +62,7 @@ gcva_list_datasets()
 # Delete dataset
 
 ```{r}
-gcva_delete_result <- gcva_delete_dataset(displayName = displayName)
-gcva_delete_result
+gcva_delete_dataset(displayName = displayName)
 ```
 
 # List datasets
