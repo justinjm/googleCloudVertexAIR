@@ -39,18 +39,17 @@ gcva_list_datasets()
 
 # Create a dataset
 
-
-First, let's set a unique dataset name with a timestamp to avoid confusion:
-
 ```{r}
-displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
+# First, let's set a unique dataset name with a timestamp to avoid confusion:
+# displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
+displayName <- "my-experiment-01"
 displayName
 ```
 
 
 ```{r}
-gcva_create_dataset(displayName = displayName,
-                    gcsSource = "gs://gcatr-dev/bank_marketing.csv")
+gcva_create_tabluar_dataset(displayName = displayName,
+                            gcsSource = "gs://gcatr-dev/bank_marketing.csv")
 ```
 
 # List datasets (again)

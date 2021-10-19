@@ -26,7 +26,6 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
   f <- googleAuthR::gar_api_generator(url,
                                       "GET",
                                       data_parse_function = parse_ld)
-
   response <- f()
 
   out <- response
@@ -35,7 +34,7 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
 
 }
 
-#' Creates a dataset
+#' Creates a tabluar dataset
 #'
 #'
 #' @param projectId GCP project id
@@ -45,10 +44,10 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
 #' Latin letters A-Z and a-z, underscores (_), and ASCII digits 0-9.
 #'
 #' @export
-gcva_create_dataset <- function(projectId = gcva_project_get(),
-                                locationId = gcva_region_get(),
-                                displayName,
-                                gcsSource) {
+gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
+                                        locationId = gcva_region_get(),
+                                        displayName,
+                                        gcsSource) {
 
   existing_datasets <- gcva_list_datasets(projectId, locationId)
 
