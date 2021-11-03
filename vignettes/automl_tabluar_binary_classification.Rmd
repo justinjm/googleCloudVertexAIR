@@ -1,0 +1,76 @@
+---
+title: "AutoML training tabular binary classification model for batch prediction¶"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Overview
+
+Emulation of notebook tutorial using Vertex AI SDK via Python: [ai-platform-samples/sdk_automl_tabular_binary_classification_batch.ipynb](https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/master/ai-platform-unified/notebooks/unofficial/sdk/sdk_automl_tabular_binary_classification_batch.ipynb)
+
+# Setup
+
+## Installation
+Install this package `googleCloudVertexAIR` via: 
+
+```r
+if(!require("remotes")){
+    install.packages("remotes")
+}
+remotes::install_github("justinjm/googleCloudVertexAIR")
+```
+
+## Setup Google Cloud Project
+
+## Authenticate your Google Cloud Account
+
+## Create a Cloud Storage bucket
+
+# Tutorial
+
+## Create Dataset
+
+## Train Model
+
+### Create and run training pipeline
+
+To train an AutoML tabular binary classification model, you perform two steps: 1) create a training pipeline, and 2) run the pipeline.
+
+#### Create training pipeline
+
+#### Run the training pipeline
+
+## Model deployment for batch prediction
+
+Now deploy the trained Vertex`Model`resource you created for batch prediction. This differs from deploying a`Model`resource for online prediction.
+
+For online prediction, you:
+
+1. Create an`Endpoint`resource for deploying the`Model`resource to.
+2. Deploy the`Model`resource to the`Endpoint`resource.
+3. Make online prediction requests to the`Endpoint`resource.
+
+For batch-prediction, you:
+
+1. Create a batch prediction job.
+2. The job service will provision resources for the batch prediction request.
+3. The results of the batch prediction request are returned to the caller.
+4. The job service will unprovision the resoures for the batch prediction request.
+
+## Make a batch prediction request
+
+### Make test items
+
+### Make batch input file
+
+### Make the batch prediction request
+
+### Wait for completion of batch prediction job
+
+### Get predictions
+
+## Cleaning up
