@@ -10,7 +10,7 @@ vignette: >
 
 # Overview
 
-Emulation of notebook tutorial using Vertex AI SDK via Python: [ai-platform-samples/sdk_automl_tabular_binary_classification_batch.ipynb](https://github.com/GoogleCloudPlatform/ai-platform-samples/blob/master/ai-platform-unified/notebooks/unofficial/sdk/sdk_automl_tabular_binary_classification_batch.ipynb)
+Emulation of notebook tutorial using Vertex AI SDK via Python: [vertex-ai-samples/automl-tabular-classification.ipynb at master | GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb)
 
 # Setup
 
