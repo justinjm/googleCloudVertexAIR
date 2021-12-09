@@ -10,14 +10,15 @@ vignette: >
 
 # Overview
 
-Emulation of notebook tutorial using Vertex AI SDK via Python: [vertex-ai-samples/automl-tabular-classification.ipynb at master | GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb)
+Emulation of notebook tutorial using Vertex AI SDK via Python: [vertex-ai-samples/automl-tabular-classification.ipynb at master \| GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb)
 
 # Setup
 
 ## Installation
-Install this package `googleCloudVertexAIR` via: 
 
-```r
+Install this package `googleCloudVertexAIR` via:
+
+``` r
 if(!require("remotes")){
     install.packages("remotes")
 }
@@ -50,16 +51,16 @@ Now deploy the trained Vertex`Model`resource you created for batch prediction. T
 
 For online prediction, you:
 
-1. Create an`Endpoint`resource for deploying the`Model`resource to.
-2. Deploy the`Model`resource to the`Endpoint`resource.
-3. Make online prediction requests to the`Endpoint`resource.
+1.  Create an`Endpoint`resource for deploying the`Model`resource to.
+2.  Deploy the`Model`resource to the`Endpoint`resource.
+3.  Make online prediction requests to the`Endpoint`resource.
 
 For batch-prediction, you:
 
-1. Create a batch prediction job.
-2. The job service will provision resources for the batch prediction request.
-3. The results of the batch prediction request are returned to the caller.
-4. The job service will unprovision the resoures for the batch prediction request.
+1.  Create a batch prediction job.
+2.  The job service will provision resources for the batch prediction request.
+3.  The results of the batch prediction request are returned to the caller.
+4.  The job service will unprovision the resoures for the batch prediction request.
 
 ## Make a batch prediction request
 
