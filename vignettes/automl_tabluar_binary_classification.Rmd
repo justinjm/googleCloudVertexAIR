@@ -16,14 +16,17 @@ Emulation of notebook tutorial using Vertex AI SDK via Python: [vertex-ai-sample
 
 ## Installation
 
-Install this package `googleCloudVertexAIR` via:
+Run the following chunk to install `googleCloudVertexAIR` and the other required R packages to complete this tutorial (checking to see if they are installed first and only install if not already): 
 
-``` r
-if(!require("remotes")){
-    install.packages("remotes")
-}
+```{r install_packages, eval=FALSE}
+list.of.packages <- c("remotes", "googleAuthR")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
 remotes::install_github("justinjm/googleCloudVertexAIR")
-```
+``` 
+
+
 
 ## Setup Google Cloud Project
 
