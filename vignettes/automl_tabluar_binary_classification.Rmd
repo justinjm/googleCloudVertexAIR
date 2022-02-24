@@ -26,7 +26,22 @@ if(length(new.packages)) install.packages(new.packages)
 remotes::install_github("justinjm/googleCloudVertexAIR")
 ``` 
 
+### .Renviron
 
+Create a file called `.Renviron` in your project's working directory and use the following environemtn arguments: 
+
+* `GAR_SERVICE_JSON` - path to service account (JSON) keyfile downloaded before and copied 
+* `GCVA_DEFAULT_PROJECT_ID` - string of your GCP project you configured before 
+* `GCVA_DEFAULT_REGION` - region of GCP resorces that can be one of: `"us-central1"` or `"eu"` 
+
+e.g. your `.Renviron` should look like: 
+
+```
+# .Renviron
+GAR_SERVICE_JSON="/Users/me/auth/auth.json"
+GCAT_DEFAULT_PROJECT_ID="my-project"
+GCAT_DEFAULT_REGION="us-central1"
+```
 
 ## Setup Google Cloud Project
 
