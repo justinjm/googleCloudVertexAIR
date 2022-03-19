@@ -8,6 +8,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 # Overview
 
 Emulation of notebook tutorial using Vertex AI SDK via Python: [vertex-ai-samples/automl-tabular-classification.ipynb at master \| GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb)
@@ -47,11 +51,36 @@ GCAT_DEFAULT_REGION="us-central1"
 
 ## Authenticate your Google Cloud Account
 
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+## Set global arguements
+
+```{r gcva-global-arguements}
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set("us-central1")
+gcva_project_set(projectId)
+
+# AutoML dataset
+(displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S")))
+```
+
 ## Create a Cloud Storage bucket
 
 # Tutorial
 
 ## Create Dataset
+
+```{r}
+gcva_create_tabluar_dataset(displayName = displayName,
+                            gcsSource = "gs://gcatr-dev/bank_marketing.csv")
+```
 
 ## Train Model
 
