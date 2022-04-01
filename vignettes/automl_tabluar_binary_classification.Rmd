@@ -14,7 +14,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Overview
 
-Emulation of notebook tutorial using Vertex AI SDK via Python: [vertex-ai-samples/automl-tabular-classification.ipynb at master \| GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb)
+Emulation of notebook tutorials using Vertex AI SDK via Python: 
+* [vertex-ai-samples/automl-tabular-classification.ipynb at master \| GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb)
+* [vertex-ai-mlops/02b - Vertex AI - AutoML with clients (code).ipynb at main · statmike/vertex-ai-mlops](https://github.com/statmike/vertex-ai-mlops/blob/main/02b%20-%20Vertex%20AI%20-%20AutoML%20with%20clients%20(code).ipynb)
 
 # Setup
 
@@ -68,7 +70,8 @@ gcva_region_set("us-central1")
 gcva_project_set(projectId)
 
 # AutoML dataset
-(displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S")))
+displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
+displayName
 ```
 
 ## Create a Cloud Storage bucket
@@ -78,15 +81,26 @@ gcva_project_set(projectId)
 ## Create Dataset
 
 ```{r}
-gcva_create_tabluar_dataset(displayName = displayName,
-                            gcsSource = "gs://gcatr-dev/bank_marketing.csv")
+dataset <- gcva_create_tabluar_dataset(displayName = displayName,
+                                       gcsSource = "gs://gcatr-dev/bank_marketing.csv")
+dataset
 ```
 
 ## Train Model
 
-### Create and run training pipeline
+### Set columns 
 
-To train an AutoML tabular binary classification model, you perform two steps: 1) create a training pipeline, and 2) run the pipeline.
+Target variable: 
+
+```{r}
+# dataset <- gcva_set_target_column(columnDisplayName = "ZZZZZZZZ")
+# dataset
+```
+
+
+
+https://googleapis.dev/python/aiplatform/latest/aiplatform.html#google.cloud.aiplatform.AutoMLTabularTrainingJob
+
 
 #### Create training pipeline
 
