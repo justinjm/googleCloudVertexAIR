@@ -86,10 +86,12 @@ gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
                                       checkTrailingSlash = FALSE)
 
   response <- f(the_body = Dataset)
-  browser()
+
   out <- response
 
   message("Dataset created successfully")
+
+  structure(out, class = "gcva_dataset")
 
 }
 

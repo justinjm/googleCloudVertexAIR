@@ -66,8 +66,8 @@ gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 
 ```{r gcva-global-arguements}
 projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
-gcva_region_set("us-central1")
-gcva_project_set(projectId)
+gcva_region_set(region = "us-central1")
+gcva_project_set(projectId = projectId)
 
 # AutoML dataset
 displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
