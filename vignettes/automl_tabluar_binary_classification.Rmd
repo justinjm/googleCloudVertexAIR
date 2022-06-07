@@ -88,23 +88,54 @@ dataset
 
 ## Train Model
 
-### Set columns 
+### Create training pipeline
 
-Target variable: 
+Python SDK docs: 
+* https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.AutoMLTabularTrainingJob
+* https://googleapis.dev/python/aiplatform/latest/aiplatform/services.html#google.cloud.aiplatform.AutoMLTabularTrainingJob
+
+API doc: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines#InputDataConfig
 
 ```{r}
-# dataset <- gcva_set_target_column(columnDisplayName = "ZZZZZZZZ")
-# dataset
+# job <- gcva_automl_tabluar_training_job(
+#   displayName = ,
+#   optimizationPredictionType="classification",
+#   column_transformations=[
+#       {"categorical": {"column_name": "Type"}},
+#       {"numeric": {"column_name": "Age"}},
+#       {"categorical": {"column_name": "Breed1"}},
+#       {"categorical": {"column_name": "Color1"}},
+#       {"categorical": {"column_name": "Color2"}},
+#       {"categorical": {"column_name": "MaturitySize"}},
+#       {"categorical": {"column_name": "FurLength"}},
+#       {"categorical": {"column_name": "Vaccinated"}},
+#       {"categorical": {"column_name": "Sterilized"}},
+#       {"categorical": {"column_name": "Health"}},
+#       {"numeric": {"column_name": "Fee"}},
+#       {"numeric": {"column_name": "PhotoAmt"}},
+#   ],
+# )
+
 ```
 
 
+### Run the training pipeline
 
-https://googleapis.dev/python/aiplatform/latest/aiplatform.html#google.cloud.aiplatform.AutoMLTabularTrainingJob
 
-
-#### Create training pipeline
-
-#### Run the training pipeline
+```{r}
+# This will take around an hour to run
+# model <- gcva_run_job(
+#   job = job,
+#   dataset=ds,
+#     target_column="Adopted",
+#     training_fraction_split=0.8,
+#     validation_fraction_split=0.1,
+#     test_fraction_split=0.1,
+#     model_display_name="adopted-prediction-model",
+#     disable_early_stopping=False
+#   )
+# model 
+```
 
 ## Model deployment for batch prediction
 
@@ -136,3 +167,10 @@ For batch-prediction, you:
 ### Get predictions
 
 ## Cleaning up
+
+
+## References
+
+* [Vertex AI (aiplatform) AutoML components  |  Google Cloud](https://cloud.google.com/vertex-ai/docs/pipelines/vertex-automl-component) 
+  - [vertex-ai-samples/automl_tabular_classification_beans.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/pipelines/automl_tabular_classification_beans.ipynb)
+- 
