@@ -99,9 +99,17 @@ Python SDK docs:
 API doc: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines#InputDataConfig
 
 ```{r}
-gcva_automl_tabluar_training_job(displayName = "test1")
+job <- gcva_automl_tabluar_training_job(
+  displayName = "test1",
+  optimizationPredictionType = "classification",
+  transformations = (categorical = list(columnn_name = "V2")))
+job
 ```
 
+```{zsh}
+# copy yaml to local directory for development of functions
+# gsutil cp gs://google-cloud-aiplatform/schema/trainingjob/definition/automl_tabular_1.0.0.yaml .
+```
 
 ```{r}
 # job <- gcva_automl_tabluar_training_job(
