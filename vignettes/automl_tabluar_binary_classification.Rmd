@@ -106,6 +106,8 @@ job <- gcva_automl_tabluar_training_job(
 job
 ```
 
+
+
 ```{zsh}
 # copy yaml to local directory for development of functions
 # gsutil cp gs://google-cloud-aiplatform/schema/trainingjob/definition/automl_tabular_1.0.0.yaml .
@@ -138,6 +140,13 @@ job
 
 
 ```{r}
+model <- gcva_run_job(
+  job = job,
+  dataset = displayName,
+  targetColumn = "Class",
+  modelDisplayName = "test1-classification")
+model
+
 # This will take around an hour to run
 # model <- gcva_run_job(
 #   job = job,

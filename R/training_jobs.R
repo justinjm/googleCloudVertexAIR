@@ -15,14 +15,12 @@ gcva_automl_tabluar_training_job <- function(
   request_body <- structure(
     list(
       displayName = displayName,
-      # inputDataConfig = list(), # below in job Run?
+      # inputDataConfig = list(), # below in run_job
       trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/automl_tabular_1.0.0.yaml",
       trainingTaskInputs = list(
-        targetColumn = c("column_name"),
+        targetColumn = c(""),
         predictionType = optimizationPredictionType,
-        transformations = list(
-          transformations
-        ),
+        transformations = transformations,
         budgetMilliNodeHours = budgetMilliNodeHours
       )
     ), class = c("gcva_automl_tabluar_training_job", "list")
@@ -37,13 +35,22 @@ gcva_automl_tabluar_training_job <- function(
 #'
 #'
 #'
-gcva_run_job <- function(job,
+gcva_run_job <- function(projectId = gcva_project_get(),
+                         locationId = gcva_region_get(),
+                         job,
                          dataset,
                          targetColumn,
-                         modelDisplayName){
+                         trainingFractionSplit=0.8,
+                         validationFractionSplit=0.1,
+                         testFractionSplit=0.1,
+                         modelDisplayName,
+                         disableEarlyStopping=FALSE){
+
+  # get dataset id
+  # insert value in trainingTaskInputs `targetColumn`
 
   # get existing datasets to grab datasetID for job submission
-  existing_datasets <- gcva_list_datasets(projectId, locationId)
+  datasets_list <- gcva_list_datasets(projectId, locationId)
 
   dataset_display_name <- displayName
 
@@ -56,11 +63,31 @@ gcva_run_job <- function(job,
                  displayName))
   }
 
-  request_body <- structure(
+  request_body_partial <- structure(
     list(
-      # inputDataConfig = list(), # below in job Run?
+      inputDataConfig = list(
+      datasetId = name)
+    )
     )
 
-  )
+  ## JOIN
+  request_body <- c(job, request_body_partial)
+
+  request_body
+
+  # url <- sprintf("https://automl.googleapis.com/v1beta1/%s/models",
+  #                parent)
+  #
+  # f <- googleAuthR::gar_api_generator(
+  #   url,
+  #   "POST",
+  #   data_parse_function = function(x) x)
+  #
+  # # stopifnot(inherits(request_body, "gcat_model"))
+  #
+  # response <- f(the_body = request_body)
+  #
+  # out <- response
+
 
 }
