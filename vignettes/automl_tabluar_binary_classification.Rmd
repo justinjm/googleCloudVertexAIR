@@ -15,8 +15,10 @@ knitr::opts_chunk$set(echo = TRUE)
 # Overview
 
 Emulation of notebook tutorials using Vertex AI SDK via Python: 
+
 * [vertex-ai-samples/automl-tabular-classification.ipynb at master \| GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb)
 * [vertex-ai-mlops/02b - Vertex AI - AutoML with clients (code).ipynb at main · statmike/vertex-ai-mlops](https://github.com/statmike/vertex-ai-mlops/blob/main/02b%20-%20Vertex%20AI%20-%20AutoML%20with%20clients%20(code).ipynb)
+
 
 # Setup
 
@@ -95,6 +97,11 @@ Python SDK docs:
 * https://googleapis.dev/python/aiplatform/latest/aiplatform/services.html#google.cloud.aiplatform.AutoMLTabularTrainingJob
 
 API doc: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines#InputDataConfig
+
+```{r}
+gcva_automl_tabluar_training_job(displayName = "test1")
+```
+
 
 ```{r}
 # job <- gcva_automl_tabluar_training_job(
