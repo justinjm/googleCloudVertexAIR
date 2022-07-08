@@ -34,7 +34,7 @@ gcva_automl_tabluar_training_job <- function(
 #'
 #'
 #'
-#'
+#' @export
 gcva_run_job <- function(projectId = gcva_project_get(),
                          locationId = gcva_region_get(),
                          job,
@@ -52,28 +52,42 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   # get existing datasets to grab datasetID for job submission
   datasets_list <- gcva_list_datasets(projectId, locationId)
 
-  dataset_display_name <- displayName
+  dataset_display_name <- dataset
 
-  name <- subset(datasets_list,
+  dataset <- subset(datasets_list,
                  displayName == dataset_display_name,
                  select = c(name))
 
-  if (dim(name)[1] == 0) {
-    stop(sprintf("Dataset %s does not exist. Please check the dataset displayname is correct and try again.",
-                 displayName))
-  }
+  # TODO - update for this function
+  # if (dim(name)[1] == 0) {
+  #   stop(sprintf("Dataset %s does not exist. Please check the dataset displayname is correct and try again.",
+  #                displayName))
+  # }
+
+  # get dataset ID from url since not sure how else?
+  dataset_id <- gsub(".*/datasets/" , "", dataset$name)
 
   request_body_partial <- structure(
     list(
       inputDataConfig = list(
-      datasetId = name)
-    )
-    )
+        datasetId = dataset_id)
+    ),
+    class = c("gcva_automl_tabluar_training_job", "list")
+  )
 
-  ## JOIN
+  ## create response body for API call
   request_body <- c(job, request_body_partial)
 
+  ## set target column value
+  request_body[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
+
+  ## return body for debugging during package dev #############################
   request_body
+
+  # TODO - fix printing of output
+  # structure(request_body, class = "gcva_automl_tabluar_training_job")
+
+
 
   # url <- sprintf("https://automl.googleapis.com/v1beta1/%s/models",
   #                parent)
@@ -83,11 +97,10 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   #   "POST",
   #   data_parse_function = function(x) x)
   #
-  # # stopifnot(inherits(request_body, "gcat_model"))
+  # # stopifnot(inherits(request_body, "gcva_automl_tabluar_training_job"))
   #
   # response <- f(the_body = request_body)
   #
   # out <- response
-
 
 }

@@ -10,11 +10,12 @@
 #' }
 
 
-#' #' @export
-#' print.gcva_automl_tabluar_training_job <- function(x,...){
-#'   cat("==Google Cloud Vertex AI AutoML Tabular Training Job==\n")
-#'   cat0("name:                ", x$name)
-#'   cat0("createTime:          ", as.character(timestamp_to_r(x[["metadata"]][["createTime"]])))
-#'   cat0("updateTime:          ", as.character(timestamp_to_r(x[["metadata"]][["updateTime"]])))
-#'
-#' }
+#' @export
+print.gcva_automl_tabluar_training_job <- function(x,...){
+  cat("==Google Cloud Vertex AI AutoML Tabular Training Job==\n")
+  cat0("Display Name:           ", x$displayName)
+  cat0("Prediction Type:        ", x[["trainingTaskInputs"]][["predictionType"]])
+  cat0("Target Column:          ", x[["trainingTaskInputs"]][["targetColumn"]])
+  cat0("DatasetID:              ", x[["inputDataConfig"]][["datasetId"]])
+
+}
