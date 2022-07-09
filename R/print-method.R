@@ -3,7 +3,7 @@ print.gcva_dataset <- function(x,...){
   cat("==Google Cloud Vertex AI Dataset==\n")
   cat0("displayName:         ", x$displayName)
   cat0("createTime:          ", as.character(timestamp_to_r(x[["metadata"]][["genericMetadata"]][["createTime"]])))
-  cat0("DatasetId:           ", gsub(".*datasets/(.*?)/.*", "\\1", dataset$name))
+  cat0("DatasetId:           ", gsub(".*datasets/(.*?)/.*", "\\1", x$name))
  }
 
 #' @export
