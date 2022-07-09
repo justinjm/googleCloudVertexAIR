@@ -20,7 +20,7 @@ gcva_automl_tabluar_training_job <- function(
       trainingTaskInputs = list(
         targetColumn = c(""),
         predictionType = optimizationPredictionType,
-        transformations = transformations,
+        # transformations = transformations,
         budgetMilliNodeHours = budgetMilliNodeHours
       )
     )
@@ -62,7 +62,6 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   }
 
   # get dataset ID from url since not sure how else?
-  # TODO - FIX THIS ??
   dataset_id <- gsub(".*/datasets/" , "", parent$name)
 
   request_body_partial <- structure(
@@ -78,33 +77,28 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   )
 
   ## create response body for API call
-  request_body <- c(job, request_body_partial)
+  TrainingPipeline <- c(job, request_body_partial)
 
-  request_body <- structure(request_body,
+  TrainingPipeline <- structure(TrainingPipeline,
                             class = c("gcva_job", "list"))
 
   ## set target column value
-  request_body[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
+  TrainingPipeline[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
 
-  ## return body for debugging during package dev #############################
-  request_body
-
-  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
-
-  url <- sprintf("https://%s/v1/%s/trainingPipelines",
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/trainingPipelines",
                  locationId,
                  parent)
 
   browser()
 
-  f <- googleAuthR::gar_api_generator(
-    url,
-    "POST",
-    data_parse_function = function(x) x)
+  f <- googleAuthR::gar_api_generator(url,
+                                      "POST",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
 
-  stopifnot(inherits(request_body, "gcva_job"))
+  stopifnot(inherits(TrainingPipeline, "gcva_job"))
 
-  response <- f(the_body = request_body)
+  response <- f(the_body = TrainingPipeline)
 
   out <- response
 
