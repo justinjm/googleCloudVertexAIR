@@ -68,13 +68,20 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   request_body_partial <- structure(
     list(
       inputDataConfig = list(
-        datasetId = dataset_id)
-    ),
-    class = c("gcva_job", "list")
+        datasetId = dataset_id,
+        fractionSplit = list(
+          trainingFraction = trainingFractionSplit,
+          validationFraction = validationFractionSplit,
+          testFraction = testFractionSplit)
+        )
+    )
   )
 
   ## create response body for API call
   request_body <- c(job, request_body_partial)
+
+  request_body <- structure(request_body,
+                            class = c("gcva_job", "list"))
 
   ## set target column value
   request_body[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
@@ -82,24 +89,23 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## return body for debugging during package dev #############################
   request_body
 
-  # TODO - finalize api call
-  # "https://{service-endpoint}/v1/{parent}/trainingPipelines"
   # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
 
   url <- sprintf("https://%s/v1/%s/trainingPipelines",
                  locationId,
                  parent)
-  url
 
-  # f <- googleAuthR::gar_api_generator(
-  #   url,
-  #   "POST",
-  #   data_parse_function = function(x) x)
-  #
-  # stopifnot(inherits(request_body, "gcva_job"))
-  #
-  # response <- f(the_body = request_body)
-  #
-  # out <- response
+  browser()
+
+  f <- googleAuthR::gar_api_generator(
+    url,
+    "POST",
+    data_parse_function = function(x) x)
+
+  stopifnot(inherits(request_body, "gcva_job"))
+
+  response <- f(the_body = request_body)
+
+  out <- response
 
 }
