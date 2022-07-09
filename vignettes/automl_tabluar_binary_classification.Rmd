@@ -31,7 +31,7 @@ list.of.packages <- c("remotes", "googleAuthR")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
-remotes::install_github("justinjm/googleCloudVertexAIR")
+# remotes::install_github("justinjm/googleCloudVertexAIR")
 ``` 
 
 ### .Renviron

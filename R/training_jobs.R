@@ -1,3 +1,4 @@
+#' Constructs an AutoML Tabular Training Job
 #'
 #' @param displayName STRING Required. The user-defined name of this TrainingPipeline.
 #'
@@ -23,14 +24,15 @@ gcva_automl_tabluar_training_job <- function(
         transformations = transformations,
         budgetMilliNodeHours = budgetMilliNodeHours
       )
-    ), class = c("gcva_automl_tabluar_training_job", "list")
+    )
+    , class = c("gcva_automlTabularTrainingJob", "list")
   )
 
   request_body
 
 }
 
-#'
+#' Executes an training job
 #'
 #'
 #'
@@ -72,7 +74,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
       inputDataConfig = list(
         datasetId = dataset_id)
     ),
-    class = c("gcva_automl_tabluar_training_job", "list")
+    class = c("gcva_job", "list")
   )
 
   ## create response body for API call
@@ -84,12 +86,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## return body for debugging during package dev #############################
   request_body
 
-  # TODO - fix printing of output
-  # structure(request_body, class = "gcva_automl_tabluar_training_job")
-
-
-
-  # url <- sprintf("https://automl.googleapis.com/v1beta1/%s/models",
+    # url <- sprintf("https://automl.googleapis.com/v1beta1/%s/models",
   #                parent)
   #
   # f <- googleAuthR::gar_api_generator(
