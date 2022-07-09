@@ -52,20 +52,18 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
   dataset_display_name <- dataset
 
-  dataset <- subset(datasets_list,
-                 displayName == dataset_display_name,
-                 select = c(name))
+  parent <- subset(datasets_list,
+                    displayName == dataset_display_name,
+                    select = c(name))
 
-  # TODO - update for this function
-  # if (dim(name)[1] == 0) {
-  #   stop(sprintf("Dataset %s does not exist. Please check the dataset displayname is correct and try again.",
-  #                displayName))
-  # }
-
+  if (dim(parent)[1] == 0) {
+    stop(sprintf("Dataset %s does not exist. Please check the dataset displayname is correct and try again.",
+                 displayName))
+  }
 
   # get dataset ID from url since not sure how else?
   # TODO - FIX THIS ??
-  dataset_id <- gsub(".*/datasets/" , "", dataset$name)
+  dataset_id <- gsub(".*/datasets/" , "", parent$name)
 
   request_body_partial <- structure(
     list(
@@ -88,15 +86,17 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   # "https://{service-endpoint}/v1/{parent}/trainingPipelines"
   # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
 
-  # url <- sprintf("https://automl.googleapis.com/v1beta1/%s/models",
-  #                parent)
-  #
+  url <- sprintf("https://%s/v1/%s/trainingPipelines",
+                 locationId,
+                 parent)
+  url
+
   # f <- googleAuthR::gar_api_generator(
   #   url,
   #   "POST",
   #   data_parse_function = function(x) x)
   #
-  # stopifnot(inherits(request_body, "gcva_automlTabularTrainingJob"))
+  # stopifnot(inherits(request_body, "gcva_job"))
   #
   # response <- f(the_body = request_body)
   #
