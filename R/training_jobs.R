@@ -16,7 +16,6 @@ gcva_automl_tabluar_training_job <- function(
   request_body <- structure(
     list(
       displayName = displayName,
-      # inputDataConfig = list(), # below in run_job
       trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/automl_tabular_1.0.0.yaml",
       trainingTaskInputs = list(
         targetColumn = c(""),
@@ -48,9 +47,6 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          modelDisplayName,
                          disableEarlyStopping=FALSE){
 
-  # get dataset id
-  # insert value in trainingTaskInputs `targetColumn`
-
   # get existing datasets to grab datasetID for job submission
   datasets_list <- gcva_list_datasets(projectId, locationId)
 
@@ -66,7 +62,9 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   #                displayName))
   # }
 
+
   # get dataset ID from url since not sure how else?
+  # TODO - FIX THIS ??
   dataset_id <- gsub(".*/datasets/" , "", dataset$name)
 
   request_body_partial <- structure(
@@ -86,7 +84,11 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## return body for debugging during package dev #############################
   request_body
 
-    # url <- sprintf("https://automl.googleapis.com/v1beta1/%s/models",
+  # TODO - finalize api call
+  # "https://{service-endpoint}/v1/{parent}/trainingPipelines"
+  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
+
+  # url <- sprintf("https://automl.googleapis.com/v1beta1/%s/models",
   #                parent)
   #
   # f <- googleAuthR::gar_api_generator(
@@ -94,7 +96,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   #   "POST",
   #   data_parse_function = function(x) x)
   #
-  # # stopifnot(inherits(request_body, "gcva_automl_tabluar_training_job"))
+  # stopifnot(inherits(request_body, "gcva_automlTabularTrainingJob"))
   #
   # response <- f(the_body = request_body)
   #

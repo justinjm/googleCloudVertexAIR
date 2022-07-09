@@ -3,11 +3,8 @@ print.gcva_dataset <- function(x,...){
   cat("==Google Cloud Vertex AI Dataset==\n")
   cat0("displayName:         ", x$displayName)
   cat0("createTime:          ", as.character(timestamp_to_r(x[["metadata"]][["genericMetadata"]][["createTime"]])))
-  # cat0("primaryTableSpecId:  ", x[["tablesDatasetMetadata"]][["primaryTableSpecId"]])
-  # cat0("targetColumnSpecId:  ", x[["tablesDatasetMetadata"]][["targetColumnSpecId"]])
-  # cat0("statsUpdateTime:     ", as.character(timestamp_to_r(x[["tablesDatasetMetadata"]][["statsUpdateTime"]])))
+  cat0("DatasetId:           ", gsub(".*datasets/(.*?)/.*", "\\1", dataset$name))
  }
-
 
 #' @export
 print.gcva_automlTabularTrainingJob <- function(x,...){
