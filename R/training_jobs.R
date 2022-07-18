@@ -6,7 +6,7 @@
 gcva_automl_tabluar_training_job <- function(
   displayName,
   optimizationPredictionType = c("regression", "classification"),
-  transformations=NULL,
+  column_transformations=NULL,
   budgetMilliNodeHours=1000) {
 
   # set prediction type from available list
@@ -20,7 +20,25 @@ gcva_automl_tabluar_training_job <- function(
       trainingTaskInputs = list(
         targetColumn = c(""),
         predictionType = optimizationPredictionType,
-        trainBudgetMilliNodeHours = budgetMilliNodeHours
+        trainBudgetMilliNodeHours = budgetMilliNodeHours,
+        transformations = list(
+          numeric = list(columnn_name = "V1"),
+          categorical = list(columnn_name = "V2"),
+          categorical = list(columnn_name = "V3"),
+          categorical = list(columnn_name = "V4"),
+          categorical = list(columnn_name = "V5"),
+          numeric = list(columnn_name = "V6"),
+          categorical = list(columnn_name = "V7"),
+          categorical = list(columnn_name = "V8"),
+          categorical = list(columnn_name = "V9"),
+          numeric = list(columnn_name = "V10"),
+          categorical = list(columnn_name = "V11"),
+          numeric = list(columnn_name = "V12"),
+          numeric = list(columnn_name = "V13"),
+          numeric = list(columnn_name = "V14"),
+          numeric = list(columnn_name = "V15"),
+          categorical = list(columnn_name = "V16")
+        )
       )
     )
     , class = c("gcva_automlTabularTrainingJob", "list")
@@ -46,22 +64,26 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          modelDisplayName,
                          disableEarlyStopping=FALSE){
 
+  # DEV - BREAKPOINT ##########################################################
+  browser()
+  ##########################################################
+
   # get existing datasets to grab datasetID for job submission
   datasets_list <- gcva_list_datasets(projectId, locationId)
 
   dataset_display_name <- dataset
 
-  parent <- subset(datasets_list,
-                    displayName == dataset_display_name,
-                    select = c(name))
+  datasets_list_name <- subset(datasets_list,
+                               displayName == dataset_display_name,
+                               select = c(name))
 
-  if (dim(parent)[1] == 0) {
+  if (dim(datasets_list_name)[1] == 0) {
     stop(sprintf("Dataset %s does not exist. Please check the dataset displayname is correct and try again.",
                  displayName))
   }
 
   # get dataset ID from url since not sure how else?
-  dataset_id <- gsub(".*/datasets/" , "", parent$name)
+  dataset_id <- gsub(".*/datasets/" , "", datasets_list_name$name)
 
   request_body_partial <- structure(
     list(
@@ -83,12 +105,11 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## set target column value
   TrainingPipeline[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
 
+  parent <- gsub("/datasets/.*" , "", datasets_list_name$name)
+
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/trainingPipelines",
                  locationId,
                  parent)
-
-  # DEV - BREAKPOINT ##########################################################
-  # browser()
 
   f <- googleAuthR::gar_api_generator(url,
                                       "POST",

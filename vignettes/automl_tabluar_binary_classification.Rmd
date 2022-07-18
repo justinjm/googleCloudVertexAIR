@@ -113,12 +113,13 @@ REST API docs:
 # gsutil cp gs://google-cloud-aiplatform/schema/trainingjob/definition/automl_tabular_1.0.0.yaml .
 ```
 
+dataset: https://datahub.io/machine-learning/bank-marketing
 
 ```{r}
 job <- gcva_automl_tabluar_training_job(
   displayName = "test1",
   optimizationPredictionType = "classification",
-  transformations = (categorical = list(columnn_name = "V2")))
+  column_transformations = (categorical = list(columnn_name = "V2")))
 job
 
 # job <- gcva_automl_tabluar_training_job(
