@@ -22,22 +22,22 @@ gcva_automl_tabluar_training_job <- function(
         predictionType = optimizationPredictionType,
         trainBudgetMilliNodeHours = budgetMilliNodeHours,
         transformations = list(
-          list(numeric = list(columnn_name = "V1")),
-          list(categorical = list(columnn_name = "V2")),
-          list(categorical = list(columnn_name = "V3")),
-          list(categorical = list(columnn_name = "V4")),
-          list(categorical = list(columnn_name = "V5")),
-          list(numeric = list(columnn_name = "V6")),
-          list(categorical = list(columnn_name = "V7")),
-          list(categorical = list(columnn_name = "V8")),
-          list(categorical = list(columnn_name = "V9")),
-          list(numeric = list(columnn_name = "V10")),
-          list(categorical = list(columnn_name = "V11")),
-          list(numeric = list(columnn_name = "V12")),
-          list(numeric = list(columnn_name = "V13")),
-          list(numeric = list(columnn_name = "V14")),
-          list(numeric = list(columnn_name = "V15")),
-          list(categorical = list(columnn_name = "V16"))
+          list(numeric = list(column_name = "V1")),
+          list(categorical = list(column_name = "V2")),
+          list(categorical = list(column_name = "V3")),
+          list(categorical = list(column_name = "V4")),
+          list(categorical = list(column_name = "V5")),
+          list(numeric = list(column_name = "V6")),
+          list(categorical = list(column_name = "V7")),
+          list(categorical = list(column_name = "V8")),
+          list(categorical = list(column_name = "V9")),
+          list(numeric = list(column_name = "V10")),
+          list(categorical = list(column_name = "V11")),
+          list(numeric = list(column_name = "V12")),
+          list(numeric = list(column_name = "V13")),
+          list(numeric = list(column_name = "V14")),
+          list(numeric = list(column_name = "V15")),
+          list(categorical = list(column_name = "V16"))
 
         )
       )
