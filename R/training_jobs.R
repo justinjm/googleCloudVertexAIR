@@ -20,8 +20,7 @@ gcva_automl_tabluar_training_job <- function(
       trainingTaskInputs = list(
         targetColumn = c(""),
         predictionType = optimizationPredictionType,
-        # transformations = transformations,
-        budgetMilliNodeHours = budgetMilliNodeHours
+        trainBudgetMilliNodeHours = budgetMilliNodeHours
       )
     )
     , class = c("gcva_automlTabularTrainingJob", "list")
@@ -66,13 +65,12 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
   request_body_partial <- structure(
     list(
+      modelToUpload = list(
+        displayName = modelDisplayName
+      ),
       inputDataConfig = list(
-        datasetId = dataset_id,
-        fractionSplit = list(
-          trainingFraction = trainingFractionSplit,
-          validationFraction = validationFractionSplit,
-          testFraction = testFractionSplit)
-        )
+        datasetId = dataset_id
+      )
     )
   )
 
@@ -89,7 +87,8 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                  locationId,
                  parent)
 
-  browser()
+  # DEV - BREAKPOINT ##########################################################
+  # browser()
 
   f <- googleAuthR::gar_api_generator(url,
                                       "POST",
