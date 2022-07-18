@@ -65,10 +65,6 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          modelDisplayName,
                          disableEarlyStopping=FALSE){
 
-  # DEV - BREAKPOINT ##########################################################
-  # browser()
-  ##########################################################
-
   # get existing datasets to grab datasetID for job submission
   datasets_list <- gcva_list_datasets(projectId, locationId)
 
@@ -122,5 +118,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   response <- f(the_body = TrainingPipeline)
 
   out <- response
+
+  out
 
 }

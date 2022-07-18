@@ -73,8 +73,8 @@ gcva_region_set(region = "us-central1")
 gcva_project_set(projectId = projectId)
 
 # AutoML dataset
-displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
-displayName
+datasetDisplayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
+datasetDisplayName
 ```
 
 ## Create a Cloud Storage bucket
@@ -85,7 +85,7 @@ displayName
 
 ```{r}
 dataset <- gcva_create_tabluar_dataset(
-  displayName = displayName,
+  displayName = datasetDisplayName,
   gcsSource = "gs://gcatr-dev/bank_marketing.csv")
 dataset
 ```
@@ -118,8 +118,7 @@ dataset: https://datahub.io/machine-learning/bank-marketing
 ```{r}
 job <- gcva_automl_tabluar_training_job(
   displayName = "test_pipeline_1",
-  optimizationPredictionType = "classification",
-  column_transformations = (categorical = list(columnn_name = "V2")))
+  optimizationPredictionType = "classification")
 job
 ```
 
@@ -130,7 +129,7 @@ job
 ```{r}
 model <- gcva_run_job(
   job = job,
-  dataset = displayName,
+  dataset = datasetDisplayName,
   targetColumn = "Class",
   modelDisplayName = "test1-classification")
 model
