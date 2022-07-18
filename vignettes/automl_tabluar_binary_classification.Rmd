@@ -94,11 +94,19 @@ dataset
 
 ### Create training pipeline
 
-Python SDK docs: 
+
+Vertex AI Docs:  
+
+* https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest
+
+Python SDK docs:  
+
 * https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.AutoMLTabularTrainingJob
 * https://googleapis.dev/python/aiplatform/latest/aiplatform/services.html#google.cloud.aiplatform.AutoMLTabularTrainingJob
 
-API doc: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines#InputDataConfig
+REST API docs:   
+
+* https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines
 
 ```{zsh}
 # copy yaml to local directory for development of functions
