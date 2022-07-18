@@ -32,7 +32,7 @@ missing_packages <- required_packages[!(required_packages %in% installed.package
 if(length(missing_packages)) install.packages(missing_packages)
 
 # remotes::install_github("justinjm/googleCloudVertexAIR")
-options(googleAuthR.verbose = 0) # set for debugging  
+# options(googleAuthR.verbose = 0) # set for debugging  
 ``` 
 
 ### .Renviron
@@ -127,20 +127,20 @@ job
 
 
 ```{r}
-model <- gcva_run_job(
-  job = job,
-  dataset = datasetDisplayName,
-  targetColumn = "Class",
-  modelDisplayName = "test1-classification")
+# model <- gcva_run_job(
+#   job = job,
+#   dataset = datasetDisplayName,
+#   targetColumn = "Class",
+#   modelDisplayName = "test1-classification")
 model
 ```
 
 ```{r}
-saveRDS(model, file = here::here("vignettes", "response-model-2022-07-18.rds"))
+saveRDS(model, file = here::here("vignettes", "response-model2-2022-07-18.rds"))
 ```
 
 ```{r}
-model_loaded <- readRDS(file = here::here("vignettes", "response-model-2022-07-18.rds"))
+model_loaded <- readRDS(file = here::here("vignettes", "response-model2-2022-07-18.rds"))
 model_loaded
 ```
 
