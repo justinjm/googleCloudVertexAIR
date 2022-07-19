@@ -5,22 +5,25 @@
 #' @export
 gcva_automl_tabluar_training_job <- function(
   displayName,
+  weightColumn=NULL,
   optimizationPredictionType = c("regression", "classification"),
-  column_transformations=NULL,
-  budgetMilliNodeHours=1000) {
+  budgetMilliNodeHours=1000,
+  optimizationObjective=NULL,
+  column_transformations=NULL) {
 
   # set prediction type from available list
   optimizationPredictionType <- match.arg(optimizationPredictionType)
 
-
   request_body <- structure(
-    list(
+    rmNullObs(list(
       displayName = displayName,
       trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/automl_tabular_1.0.0.yaml",
       trainingTaskInputs = list(
         targetColumn = c(""),
+        weightColumn = weightColumn,
         predictionType = optimizationPredictionType,
         trainBudgetMilliNodeHours = budgetMilliNodeHours,
+        optimizationObjective = optimizationObjective,
         transformations = list(
           list(numeric = list(column_name = "V1")),
           list(categorical = list(column_name = "V2")),
@@ -38,11 +41,9 @@ gcva_automl_tabluar_training_job <- function(
           list(numeric = list(column_name = "V14")),
           list(numeric = list(column_name = "V15")),
           list(categorical = list(column_name = "V16"))
-
         )
       )
-    )
-    , class = c("gcva_automlTabularTrainingJob", "list")
+    )), class = c("gcva_automlTabularTrainingJob", "list")
   )
 
   request_body
@@ -97,7 +98,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   TrainingPipeline <- c(job, request_body_partial)
 
   TrainingPipeline <- structure(TrainingPipeline,
-                            class = c("gcva_job", "list"))
+                                class = c("gcva_job", "list"))
 
   ## set target column value
   TrainingPipeline[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn

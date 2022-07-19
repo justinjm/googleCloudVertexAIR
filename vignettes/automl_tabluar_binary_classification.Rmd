@@ -120,18 +120,19 @@ job <- gcva_automl_tabluar_training_job(
   displayName = "test_pipeline_1",
   optimizationPredictionType = "classification")
 job
+str(job)
 ```
 
 
 ### Run the training pipeline
 
 
-```{r}
-# model <- gcva_run_job(
-#   job = job,
-#   dataset = datasetDisplayName,
-#   targetColumn = "Class",
-#   modelDisplayName = "test1-classification")
+```r 
+model <- gcva_run_job(
+  job = job,
+  dataset = datasetDisplayName,
+  targetColumn = "Class",
+  modelDisplayName = "test1-classification")
 model
 ```
 
