@@ -1,6 +1,13 @@
 #' Constructs an AutoML Tabular Training Job
 #'
 #' @param displayName STRING Required. The user-defined name of this TrainingPipeline.
+#' @param weightColumn
+#' @param optimizationPredictionType
+#' @param budgetMilliNodeHours
+#' @param optimizationObjective
+#' @param column_transformations
+#'
+#'
 #'
 #' @export
 gcva_automl_tabluar_training_job <- function(
@@ -34,7 +41,11 @@ gcva_automl_tabluar_training_job <- function(
 }
 
 #' Executes an training job
-#'
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
 #'
 #'
 #' @export
