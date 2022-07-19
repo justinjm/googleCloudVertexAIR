@@ -24,24 +24,7 @@ gcva_automl_tabluar_training_job <- function(
         predictionType = optimizationPredictionType,
         trainBudgetMilliNodeHours = budgetMilliNodeHours,
         optimizationObjective = optimizationObjective,
-        transformations = list(
-          list(numeric = list(column_name = "V1")),
-          list(categorical = list(column_name = "V2")),
-          list(categorical = list(column_name = "V3")),
-          list(categorical = list(column_name = "V4")),
-          list(categorical = list(column_name = "V5")),
-          list(numeric = list(column_name = "V6")),
-          list(categorical = list(column_name = "V7")),
-          list(categorical = list(column_name = "V8")),
-          list(categorical = list(column_name = "V9")),
-          list(numeric = list(column_name = "V10")),
-          list(categorical = list(column_name = "V11")),
-          list(numeric = list(column_name = "V12")),
-          list(numeric = list(column_name = "V13")),
-          list(numeric = list(column_name = "V14")),
-          list(numeric = list(column_name = "V15")),
-          list(categorical = list(column_name = "V16"))
-        )
+        transformations = column_transformations
       )
     )), class = c("gcva_automlTabularTrainingJob", "list")
   )
