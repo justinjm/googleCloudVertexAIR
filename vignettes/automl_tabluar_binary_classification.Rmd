@@ -28,7 +28,8 @@ Run the following chunk to install `googleCloudVertexAIR` and the other required
 
 ```{r install_packages, eval=FALSE}
 required_packages <- c("remotes", "googleAuthR")
-missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+missing_packages <- required_packages[!(required_packages %in% 
+                                          installed.packages()[,"Package"])]
 if(length(missing_packages)) install.packages(missing_packages)
 
 # remotes::install_github("justinjm/googleCloudVertexAIR")
@@ -108,23 +109,22 @@ job <- gcva_automl_tabluar_training_job(
   displayName = "test_pipeline_1",
   optimizationPredictionType = "classification",
   column_transformations = list(
-          list(numeric = list(column_name = "V1")),
+          list(numeric     = list(column_name = "V1")),
           list(categorical = list(column_name = "V2")),
           list(categorical = list(column_name = "V3")),
           list(categorical = list(column_name = "V4")),
           list(categorical = list(column_name = "V5")),
-          list(numeric = list(column_name = "V6")),
+          list(numeric     = list(column_name = "V6")),
           list(categorical = list(column_name = "V7")),
           list(categorical = list(column_name = "V8")),
           list(categorical = list(column_name = "V9")),
-          list(numeric = list(column_name = "V10")),
+          list(numeric     = list(column_name = "V10")),
           list(categorical = list(column_name = "V11")),
-          list(numeric = list(column_name = "V12")),
-          list(numeric = list(column_name = "V13")),
-          list(numeric = list(column_name = "V14")),
-          list(numeric = list(column_name = "V15")),
-          list(categorical = list(column_name = "V16"))
-  ))
+          list(numeric     = list(column_name = "V12")),
+          list(numeric     = list(column_name = "V13")),
+          list(numeric     = list(column_name = "V14")),
+          list(numeric     = list(column_name = "V15")),
+          list(categorical = list(column_name = "V16"))))
 job
 ```
 
