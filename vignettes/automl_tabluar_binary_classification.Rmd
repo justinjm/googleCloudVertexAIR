@@ -173,6 +173,8 @@ For batch-prediction, you:
 ### Make batch input file
 
 ### Make the batch prediction request
+[vertex-ai-samples/sdk\_automl\_tabular\_regression\_batch\_bq.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb)
+
 
 ### Wait for completion of batch prediction job
 
