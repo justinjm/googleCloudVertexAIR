@@ -1,0 +1,42 @@
+---
+title: "Models"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette  
+vignette: >
+  %\VignetteIndexEntry{datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+# Set global arguements
+
+```{r gcva-global-arguements}
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set("us-central1")
+gcva_project_set(projectId)
+```
+
+
+# List Models 
+
+
+```{r}
+models_list <- gcva_list_models(projectId = "gc-automl-tables-r")
+models_list
+```

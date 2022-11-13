@@ -18,6 +18,8 @@ test_that("Authentication", {
   expect_true(googleAuthR::gar_has_token())
 })
 
+context("Datasets")
+
 test_that("We can fetch a list of datasets", {
   skip_if_no_token()
 
@@ -35,3 +37,39 @@ test_that("We can fetch a list of datasets", {
     )
   )
 })
+
+
+context("Models")
+
+test_that("We can fetch a list of Models", {
+  skip_if_no_token()
+
+  projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+  locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+  expect_true(projectId != "")
+  expect_true(locationId != "")
+  l <- gcva_list_models(projectId, locationId)
+
+  expect_s3_class(l, "data.frame")
+  expect_true(
+    all(
+      names(l) %in% c("name", "displayName", "predictSchemata",
+                      "metadataSchemaUri",
+                      "metadata","trainingPipeline",
+                      "supportedDeploymentResourcesTypes",
+                      "supportedInputStorageFormats",
+                      "supportedOutputStorageFormats",
+                      "createTime",  "updateTime", "etag",
+                      "supportedExportFormats","explanationSpec",
+                      "versionId","versionAliases",
+                      "versionCreateTime","versionUpdateTime",
+                      "modelSourceInfo"
+      )
+    )
+  )
+})
+
+
+
+
+
