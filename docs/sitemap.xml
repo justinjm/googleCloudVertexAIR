@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/404.html</loc>
   </url>
   <url>
-    <loc>/articles/automl_tabluar_binary_classification.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/automl_tabluar_binary_classification.html</loc>
   </url>
   <url>
-    <loc>/articles/datasets.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/datasets.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/models.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/models.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/index.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_automl_tabluar_training_job.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_automl_tabluar_training_job.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_create_tabluar_dataset.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_create_tabluar_dataset.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_delete_dataset.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_delete_dataset.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_list_datasets.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_list_datasets.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_list_models.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_list_models.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_project_get.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_project_get.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_project_set.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_project_set.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_region_get.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_region_get.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_region_set.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_region_set.html</loc>
   </url>
   <url>
-    <loc>/reference/gcva_run_job.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_run_job.html</loc>
   </url>
   <url>
-    <loc>/reference/googleCloudVertexAIR.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/googleCloudVertexAIR.html</loc>
   </url>
   <url>
-    <loc>/reference/hello.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/hello.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/is.NullOb.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/is.NullOb.html</loc>
   </url>
   <url>
-    <loc>/reference/rmNullObs.html</loc>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/rmNullObs.html</loc>
   </url>
 </urlset>

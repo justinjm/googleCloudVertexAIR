@@ -1,0 +1,13 @@
+title: "googleCloudVertexAIR"
+url: https://code.justinmarciszewski.me/googleCloudVertexAIR/
+home:
+  strip_header: true
+authors:
+  Justin Marciszewski:
+    href: https://www.justinmarciszewski.me/
+template:
+  params:
+    bootswatch: cosmo
+navbar:
+  title: googleCloudVertexAIR
+  type: inverse
