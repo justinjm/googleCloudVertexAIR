@@ -1,9 +1,9 @@
 ---
-title: "AutoML training tabular binary classification model for batch prediction¶"
+title: "Training a tabuluar AutoML model and performing batch prediction"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{datasets}
+  %\VignetteIndexEntry{automltabularbatch}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -218,4 +218,3 @@ batch_predict_job = model.batch_predict(
 
 * [Vertex AI (aiplatform) AutoML components  |  Google Cloud](https://cloud.google.com/vertex-ai/docs/pipelines/vertex-automl-component) 
   - [vertex-ai-samples/automl_tabular_classification_beans.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/pipelines/automl_tabular_classification_beans.ipynb)
-- 

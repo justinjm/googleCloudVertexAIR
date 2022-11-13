@@ -2,10 +2,10 @@ pandoc: 2.14.0.3
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  automl_tabluar_binary_classification: automl_tabluar_binary_classification.html
+  automl_tabluar_classification_batch: automl_tabluar_classification_batch.html
   datasets: datasets.html
   models: models.html
-last_built: 2022-11-13T20:22Z
+last_built: 2022-11-13T20:57Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles
