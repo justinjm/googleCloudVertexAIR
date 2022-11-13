@@ -113,8 +113,8 @@ job <- gcva_automl_tabluar_training_job(
   displayName = sprintf("california-housing-%s", timestamp),
   optimizationPredictionType = "regression",
   column_transformations = list(
-          list(categorical = list(column_name = "longitude")),
-          list(categorical = list(column_name = "latitude")),
+          list(numeric     = list(column_name = "longitude")),
+          list(numeric     = list(column_name = "latitude")),
           list(numeric     = list(column_name = "housing_median_age")),
           list(numeric     = list(column_name = "total_rooms")),
           list(numeric     = list(column_name = "total_bedrooms")),
@@ -137,7 +137,6 @@ model <- gcva_run_job(
   targetColumn = "median_house_value",
   modelDisplayName = sprintf("model-%s", datasetDisplayName))
 model
-
 ```
 
 ```r
