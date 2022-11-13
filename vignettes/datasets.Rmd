@@ -41,8 +41,7 @@ gcva_list_datasets()
 
 ```{r}
 # First, let's set a unique dataset name with a timestamp to avoid confusion:
-# displayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
-displayName <- "my-experiment-01"
+displayName <- paste0("california-housing-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
 displayName
 ```
 

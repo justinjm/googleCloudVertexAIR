@@ -28,10 +28,15 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
                                       data_parse_function = parse_ld)
   response <- f()
 
-  out <- response
-
+  out <- response[, c("displayName",
+                      "name",
+                      "metadataSchemaUri",
+                      "createTime",
+                      "updateTime",
+                      "etag",
+                      "labels",
+                      "metadata")]
   out
-  # out[, c("displayName", "createTime", "etag", "name")]
 
 }
 

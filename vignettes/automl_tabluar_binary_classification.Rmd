@@ -31,9 +31,8 @@ required_packages <- c("remotes", "googleAuthR")
 missing_packages <- required_packages[!(required_packages %in% 
                                           installed.packages()[,"Package"])]
 if(length(missing_packages)) install.packages(missing_packages)
-
-# remotes::install_github("justinjm/googleCloudVertexAIR")
-# options(googleAuthR.verbose = 0) # set for debugging  
+# remotes::install_github("justinjm/googleCloudVertexAIR") # run first time 
+# options(googleAuthR.verbose = 0) # set when debugging  
 ``` 
 
 ### .Renviron
@@ -74,7 +73,7 @@ gcva_region_set(region = "us-central1")
 gcva_project_set(projectId = projectId)
 
 # AutoML dataset
-datasetDisplayName <- paste0("my-experiment-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
+datasetDisplayName <- paste0("california-housing-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
 datasetDisplayName
 ```
 
@@ -85,8 +84,6 @@ datasetDisplayName
 ## Create Dataset
 
 Source dataset: `gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv`
-
-
 
 ```{r}
 dataset <- gcva_create_tabluar_dataset(

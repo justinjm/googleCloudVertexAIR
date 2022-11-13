@@ -6,13 +6,17 @@
 \usage{
 gcva_automl_tabluar_training_job(
   displayName,
+  weightColumn = NULL,
   optimizationPredictionType = c("regression", "classification"),
-  transformations = NULL,
-  budgetMilliNodeHours = 1000
+  budgetMilliNodeHours = 1000,
+  optimizationObjective = NULL,
+  column_transformations = NULL
 )
 }
 \arguments{
 \item{displayName}{STRING Required. The user-defined name of this TrainingPipeline.}
+
+\item{column_transformations}{}
 }
 \description{
 Constructs an AutoML Tabular Training Job
