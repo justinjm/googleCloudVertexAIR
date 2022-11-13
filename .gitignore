@@ -13,4 +13,6 @@ inst/doc
 *.oauth
 *.rds 
 *.json 
+
+# pkgdown - package website files 
 docs
