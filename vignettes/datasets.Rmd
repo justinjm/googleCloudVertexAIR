@@ -31,6 +31,19 @@ gcva_region_set("us-central1")
 gcva_project_set(projectId)
 ```
 
+First, let's set a unique dataset name with a timestamp to avoid confusion:
+```{r}
+timestamp <- strftime(Sys.time(), "%Y%m%d%H%M%S")
+timestamp
+```
+
+
+```{r}
+datasetDisplayName <- sprintf("california-housing-%s", timestamp)
+datasetDisplayName
+```
+
+
 # List datasets
 
 ```{r}
@@ -39,29 +52,25 @@ gcva_list_datasets()
 
 # Create a dataset
 
-```{r}
-# First, let's set a unique dataset name with a timestamp to avoid confusion:
-displayName <- paste0("california-housing-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
-displayName
-```
-
 
 ```{r}
 gcva_create_tabluar_dataset(
-  displayName = displayName,
+  displayName = datasetDisplayName,
   gcsSource = "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv")
 ```
 
 # List datasets (again)
 
 ```{r}
-gcva_list_datasets()
+Sys.sleep(1)
+datasets_list <- gcva_list_datasets()
+datasets_list
 ```
 
 # Delete dataset
 
 ```{r}
-gcva_delete_dataset(displayName = displayName)
+gcva_delete_dataset(displayName = datasetDisplayName)
 ```
 
 # List datasets
