@@ -1,6 +1,8 @@
 context("Setup")
 
-options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+options(
+  googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform"
+  )
 googleAuthR::gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 
 skip_if_no_token <- function() {
@@ -27,12 +29,9 @@ test_that("We can fetch a list of datasets", {
 
   expect_s3_class(l, "data.frame")
   expect_true(
-    all(names(l) %in% c("name",
-                        "displayName",
-                       "metadataSchemaUri",
-                       "createTime",
-                       "updateTime",
-                       "etag",
-                       "labels",
-                       "metadata")))
+    all(
+      names(l) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
+                      "updateTime", "etag", "labels", "metadata")
+    )
+  )
 })
