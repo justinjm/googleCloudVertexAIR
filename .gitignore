@@ -13,3 +13,4 @@ inst/doc
 *.oauth
 *.rds 
 *.json 
+docs
