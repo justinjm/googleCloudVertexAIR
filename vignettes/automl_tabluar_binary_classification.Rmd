@@ -84,12 +84,14 @@ datasetDisplayName
 
 ## Create Dataset
 
-Source dataset: https://datahub.io/machine-learning/bank-marketing
+Source dataset: `gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv`
+
+
 
 ```{r}
 dataset <- gcva_create_tabluar_dataset(
   displayName = datasetDisplayName,
-  gcsSource = "gs://gcatr-dev/bank_marketing.csv")
+  gcsSource = "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv")
 dataset
 ```
 

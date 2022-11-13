@@ -48,8 +48,9 @@ displayName
 
 
 ```{r}
-gcva_create_tabluar_dataset(displayName = displayName,
-                            gcsSource = "gs://gcatr-dev/bank_marketing.csv")
+gcva_create_tabluar_dataset(
+  displayName = displayName,
+  gcsSource = "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv")
 ```
 
 # List datasets (again)

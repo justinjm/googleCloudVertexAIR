@@ -30,7 +30,8 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
 
   out <- response
 
-  out[, c("displayName", "createTime", "etag", "name")]
+  out
+  # out[, c("displayName", "createTime", "etag", "name")]
 
 }
 
