@@ -37,6 +37,6 @@ gcva_project_set(projectId)
 
 
 ```{r}
-models_list <- gcva_list_models(projectId = "gc-automl-tables-r")
+models_list <- gcva_list_models()
 models_list
 ```

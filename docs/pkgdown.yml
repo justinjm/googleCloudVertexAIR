@@ -5,7 +5,7 @@ articles:
   automl_tabluar_classification_batch: automl_tabluar_classification_batch.html
   datasets: datasets.html
   models: models.html
-last_built: 2022-11-13T21:44Z
+last_built: 2022-11-13T21:46Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles
