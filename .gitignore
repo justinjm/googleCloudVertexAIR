@@ -1,9 +1,15 @@
-.Renviron
+# R project files 
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
 inst/doc
+
+# R project files - user generated 
+.Renviron
+
+# R auth files 
 *.oauth
-vignettes/request_debug.rds
-googlecloudrunner-auth-key.json
+*.rds 
+*.json 
