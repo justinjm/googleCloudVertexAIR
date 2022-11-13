@@ -156,14 +156,14 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-11-13 15:57:57&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-11-13 16:10:46&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-11-13 15:57:57&gt; ProjectId set to 'gc-automl-tables-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-11-13 16:10:46&gt; ProjectId set to 'gc-automl-tables-r'</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d%H%M%S"</span><span class="op">)</span></span>
 <span><span class="va">timestamp</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "20221113155757"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "20221113161046"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -172,7 +172,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datasetDisplayName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span></span>
 <span><span class="va">datasetDisplayName</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "california-housing-20221113155757"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "california-housing-20221113161046"</span></span></code></pre>
 <div class="section level3">
 <h3 id="create-a-cloud-storage-bucket">Create a Cloud Storage bucket<a class="anchor" aria-label="anchor" href="#create-a-cloud-storage-bucket"></a>
 </h3>
@@ -193,8 +193,8 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI Dataset==</span></span>
-<span><span class="co">## createTime:           2022-11-13 20:57:58 </span></span>
-<span><span class="co">## DatasetId:            1159591142140936192</span></span></code></pre>
+<span><span class="co">## createTime:           2022-11-13 21:10:46 </span></span>
+<span><span class="co">## DatasetId:            6992526715771682816</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="train-model">Train Model<a class="anchor" aria-label="anchor" href="#train-model"></a>
@@ -227,7 +227,7 @@
 <span></span>
 <span><span class="va">job</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI AutoML Tabular Training Job==</span></span>
-<span><span class="co">## Display Name:            california-housing-20221113155757 </span></span>
+<span><span class="co">## Display Name:            california-housing-20221113161046 </span></span>
 <span><span class="co">## Prediction Type:         regression </span></span>
 <span><span class="co">## Target Column:</span></span></code></pre>
 </div>
