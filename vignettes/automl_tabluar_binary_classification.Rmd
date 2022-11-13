@@ -130,7 +130,7 @@ job
 
 ### Run the training pipeline
 
-```{r}
+```r
 model <- gcva_run_job(
   job = job,
   dataset = datasetDisplayName,
@@ -140,7 +140,7 @@ model
 
 ```
 
-```{r}
+```r
 saveRDS(model, 
         file = here::here(
           "vignettes",sprintf("model-response-%s.rds", datasetDisplayName)
@@ -148,7 +148,7 @@ saveRDS(model,
         )
 ```
 
-```{r}
+```r
 model_loaded <- readRDS(file = here::here(
   "vignettes", sprintf("model-response-%s.rds", datasetDisplayName)
   )
