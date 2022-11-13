@@ -72,8 +72,13 @@ projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
 gcva_region_set(region = "us-central1")
 gcva_project_set(projectId = projectId)
 
+timestamp <- strftime(Sys.time(), "%Y%m%d%H%M%S")
+timestamp
+```
+
 # AutoML dataset
-datasetDisplayName <- paste0("california-housing-", strftime(Sys.time(), "%Y%m%d%H%M%S"))
+```{r}
+datasetDisplayName <- sprintf("california-housing-%s", timestamp)
 datasetDisplayName
 ```
 
@@ -105,46 +110,49 @@ docs:
 
 ```{r}
 job <- gcva_automl_tabluar_training_job(
-  displayName = "test_pipeline_1",
-  optimizationPredictionType = "classification",
+  displayName = sprintf("california-housing-%s", timestamp),
+  optimizationPredictionType = "regression",
   column_transformations = list(
-          list(numeric     = list(column_name = "V1")),
-          list(categorical = list(column_name = "V2")),
-          list(categorical = list(column_name = "V3")),
-          list(categorical = list(column_name = "V4")),
-          list(categorical = list(column_name = "V5")),
-          list(numeric     = list(column_name = "V6")),
-          list(categorical = list(column_name = "V7")),
-          list(categorical = list(column_name = "V8")),
-          list(categorical = list(column_name = "V9")),
-          list(numeric     = list(column_name = "V10")),
-          list(categorical = list(column_name = "V11")),
-          list(numeric     = list(column_name = "V12")),
-          list(numeric     = list(column_name = "V13")),
-          list(numeric     = list(column_name = "V14")),
-          list(numeric     = list(column_name = "V15")),
-          list(categorical = list(column_name = "V16"))))
+          list(categorical = list(column_name = "longitude")),
+          list(categorical = list(column_name = "latitude")),
+          list(numeric     = list(column_name = "housing_median_age")),
+          list(numeric     = list(column_name = "total_rooms")),
+          list(numeric     = list(column_name = "total_bedrooms")),
+          list(numeric     = list(column_name = "population")),
+          list(numeric     = list(column_name = "households")),
+          list(numeric     = list(column_name = "median_income"))
+          )
+  )
+
 job
 ```
 
 
 ### Run the training pipeline
 
-```r 
+```{r}
 model <- gcva_run_job(
   job = job,
   dataset = datasetDisplayName,
-  targetColumn = "Class",
-  modelDisplayName = "test1-classification")
+  targetColumn = "median_house_value",
+  modelDisplayName = sprintf("model-%s", datasetDisplayName))
 model
+
 ```
 
 ```{r}
-saveRDS(model, file = here::here("vignettes", "response-model2-2022-07-18.rds"))
+saveRDS(model, 
+        file = here::here(
+          "vignettes",sprintf("model-response-%s.rds", datasetDisplayName)
+          )
+        )
 ```
 
 ```{r}
-model_loaded <- readRDS(file = here::here("vignettes", "response-model2-2022-07-18.rds"))
+model_loaded <- readRDS(file = here::here(
+  "vignettes", sprintf("model-response-%s.rds", datasetDisplayName)
+  )
+)
 model_loaded
 ```
 
