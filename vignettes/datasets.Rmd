@@ -61,8 +61,12 @@ gcva_create_tabluar_dataset(
 
 # List datasets (again)
 
-```{r}
+```{r echo=FALSE, results='hide'}
+# sleep to ensure dataset creation completes
 Sys.sleep(1)
+```
+
+```{r}
 datasets_list <- gcva_list_datasets()
 datasets_list
 ```
