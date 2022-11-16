@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Setup
 
 ```{r auth, warning=FALSE}
+options(googleAuthR.verbose = 0) # set when debugging
 library(googleAuthR)
 library(googleCloudVertexAIR)
 

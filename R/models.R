@@ -15,6 +15,7 @@ gcva_list_models <- function(projectId = gcva_project_get(),
                  locationId,
                  parent)
 
+
   parse_ld <- function(x) {
     x <- x$models
     x$createTime <- timestamp_to_r(x$createTime)
@@ -22,10 +23,13 @@ gcva_list_models <- function(projectId = gcva_project_get(),
     x
 
   }
+  # https://www.gastonsanchez.com/r4strings/chars.html
+  f <- googleAuthR::gar_api_generator(
+    url,
+    "GET",
+    pars_args = list(filter='displayName="test1-classification"'),
+    data_parse_function = parse_ld)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = parse_ld)
   response <- f()
 
   out <- response
