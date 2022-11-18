@@ -1,0 +1,320 @@
+---
+title: "Training and deploying a custom model"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{customtabularonline}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+Emulation of
+
+* blog post: [Train and deploy ML models with R and plumber on Vertex AI | Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/train-and-deploy-ml-models-with-r-and-plumber-on-vertex-ai)
+* notebook: [vertex-ai-samples/get\_started\_vertex\_training\_r\_using\_r\_kernel.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/ml_ops/stage2/get_started_vertex_training_r_using_r_kernel.ipynb)
+
+[Create](https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline) a `TrainingPipeline`  that runs a `CustomJob` and imports the resulting artifacts as a `Model`.
+
+# Setup
+
+## Installation
+
+Run the following chunk to install `googleCloudVertexAIR` and the other required R packages to complete this tutorial (checking to see if they are installed first and only install if not already):
+
+```{r install_packages, eval=FALSE}
+required_packages <- c("remotes", "googleAuthR")
+missing_packages <- required_packages[!(required_packages %in%
+                                          installed.packages()[,"Package"])]
+if(length(missing_packages)) install.packages(missing_packages)
+# remotes::install_github("justinjm/googleCloudVertexAIR") # run first time
+# options(googleAuthR.verbose = 0) # set when debugging
+```
+
+```{r}
+library(glue)
+sh <- function(cmd, args = c(), intern = FALSE) {
+    if (is.null(args)) {
+        cmd <- glue(cmd)
+        s <- strsplit(cmd, " ")[[1]]
+        cmd <- s[1]
+        args <- s[2:length(s)]
+    }
+    ret <- system2(cmd, args, stdout = TRUE, stderr = TRUE)
+    if ("errmsg" %in% attributes(attributes(ret))$names) cat(attr(ret, "errmsg"), "\n")
+    if (intern) return(ret) else cat(paste(ret, collapse = "\n"))
+}
+```
+
+```{zsh}
+# gcloud config list
+```
+
+### .Renviron
+
+Create a file called `.Renviron` in your project's working directory and use the following environemtn arguments:
+
+* `GAR_SERVICE_JSON` - path to service account (JSON) keyfile downloaded before and copied
+* `GCVA_DEFAULT_PROJECT_ID` - string of your GCP project you configured before
+* `GCVA_DEFAULT_REGION` - region of GCP resorces that can be one of: `"us-central1"` or `"eu"`
+
+e.g. your `.Renviron` should look like:
+
+```
+# .Renviron
+GAR_SERVICE_JSON="/Users/me/auth/auth.json"
+GCAT_DEFAULT_PROJECT_ID="my-project"
+GCAT_DEFAULT_REGION="us-central1"
+```
+
+## Setup Google Cloud Project
+
+## Authenticate your Google Cloud Account
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+## Set global arguements
+
+```{r gcva-global-arguements}
+gcva_region_set(region = "us-central1")
+gcva_project_set(projectId = Sys.getenv("GCVA_DEFAULT_PROJECT_ID"))
+
+timestamp <- strftime(Sys.time(), "%Y%m%d%H%M%S")
+paste0("timestamp: ", timestamp)
+
+datasetDisplayName <- sprintf("california-housing-%s", timestamp)
+paste0("datasetDisplayName: ", datasetDisplayName)
+
+bucket_name <- paste0(gcva_project_get(), "-aip-", timestamp)
+bucket_uri <- paste0("gs://", bucket_name)
+
+paste0("bucket_name: ", bucket_name)
+paste0("bucket_uri: ", bucket_uri)
+```
+
+## Create cloud storage bucket 
+
+```{r}
+sh("gcloud config set project {gcva_project_get()}")
+```
+
+
+```{r}
+# TODO - doesn't work, need to resolve 
+# sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
+```
+
+## Create Dockerfile 
+
+`.src/Dockerfile`
+
+```Dockerfile
+# filename: Dockerfile - container specifications for using R in Vertex AI
+FROM gcr.io/deeplearning-platform-release/r-cpu.4-1:latest
+
+WORKDIR /root
+
+COPY train.R /root/train.R
+COPY serve.R /root/serve.R
+
+# Install Fortran
+RUN apt-get update
+RUN apt-get install gfortran -yy
+
+# Install R packages
+RUN Rscript -e \"install.packages('plumber')\"
+RUN Rscript -e \"install.packages('randomForest')\"
+
+EXPOSE 8080
+```
+
+## Create training script 
+
+`.src/train.R`
+
+```r
+#!/usr/bin/env Rscript
+# filename: train.R - train a Random Forest model on Vertex AI Managed Dataset
+library(tidyverse)
+library(data.table)
+library(randomForest)
+Sys.getenv()
+
+# The GCP Project ID
+project_id <- Sys.getenv("CLOUD_ML_PROJECT_ID")
+
+# The GCP Region
+location <- Sys.getenv("CLOUD_ML_REGION")
+
+# The Cloud Storage URI to upload the trained model artifact to
+model_dir <- Sys.getenv("AIP_MODEL_DIR")
+
+# Next, you create directories to download our training, validation, and test set into.
+dir.create("training")
+dir.create("validation")
+dir.create("test")
+
+# You download the Vertex AI managed data sets into the container environment locally.
+system2("gsutil", c("cp", Sys.getenv("AIP_TRAINING_DATA_URI"), "training/"))
+system2("gsutil", c("cp", Sys.getenv("AIP_VALIDATION_DATA_URI"), "validation/"))
+system2("gsutil", c("cp", Sys.getenv("AIP_TEST_DATA_URI"), "test/"))
+
+# For each data set, you may receive one or more CSV files that you will read into data frames.
+training_df <- list.files("training", full.names = TRUE) %>% map_df(~fread(.))
+validation_df <- list.files("validation", full.names = TRUE) %>% map_df(~fread(.))
+test_df <- list.files("test", full.names = TRUE) %>% map_df(~fread(.))
+
+print("Starting Model Training")
+rf <- randomForest(median_house_value ~ ., data=training_df, ntree=100)
+rf
+
+saveRDS(rf, "rf.rds")
+system2("gsutil", c("cp", "rf.rds", model_dir))
+```
+
+## Create serving script 
+
+`.src/serve.R`
+
+```r
+# filename: serve.R - serve predictions from a Random Forest model
+Sys.getenv()
+library(plumber)
+
+system2("gsutil", c("cp", "-r", Sys.getenv("AIP_STORAGE_URI"), "."))
+system("du -a .")
+
+rf <- readRDS("artifacts/rf.rds")
+library(randomForest)
+
+predict_route <- function(req, res) {
+    print("Handling prediction request")
+    df <- as.data.frame(req$body$instances)
+    preds <- predict(rf, df)
+    return(list(predictions=preds))
+}
+
+print("Staring Serving")
+
+pr() %>%
+    pr_get(Sys.getenv("AIP_HEALTH_ROUTE"), function() "OK") %>%
+    pr_post(Sys.getenv("AIP_PREDICT_ROUTE"), predict_route) %>%
+    pr_run(host = "0.0.0.0", port=as.integer(Sys.getenv("AIP_HTTP_PORT", 8080)))
+```
+
+## Build container and push to artifact registry 
+
+```{r}
+# sh("gcloud services enable artifactregistry.googleapis.com")
+# sh("cd src && gcloud builds submit --region={REGION} --tag={IMAGE_URI} --timeout=1h")
+```
+
+## Create Dataset 
+
+```{r}
+data_uri <- "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"
+
+gcva_create_tabluar_dataset(
+  displayName = datasetDisplayName,
+  gcsSource = data_uri)
+```
+
+```{r}
+gcva_delete_dataset(displayName = datasetDisplayName)
+```
+
+## Create custom training job 
+
+https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline#custom-container
+
+```r
+job <- gcva_custom_container_training_job(
+  displayName = ,
+  containerUri = ,
+  command = c("Rscript", "train.R"),
+  model_serving_container_image_uri = IMAGE_URI
+)
+```
+
+## Execute custom training job 
+
+```r
+model <- gcva_job_run(
+  job = job,
+  dataset = dataset,
+  modelDisplayName = modelDisplayName,
+  machineType = "n1-standard-4"
+)
+
+model$display_name
+model$resource_name
+model$uri
+```
+
+## Create Endpoint 
+
+[Overview of getting predictions on Vertex AI  |  Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
+
+```r
+endpoint <- gcva_create_endpoint(
+    display_name = "California Housing Endpoint",
+    project = PROJECT_ID,
+    location = REGION
+)
+endpoint
+```
+
+## Deploy Model to Endpoint 
+
+```r
+gcva_deploy(
+model = 
+endpoint = endpoint, 
+machine_type = "n1-standard-4")
+```
+
+## Test deployed model 
+
+
+### Create sample input data 
+
+```r
+library(jsonlite)
+df <- read.csv(text=sh("gsutil cat {data_uri}", intern = TRUE))
+head(df, 5)
+
+instances = list(instances=head(df[, names(df) != "median_house_value"], 5))
+instances
+
+json_instances = toJSON(instances)
+json_instances
+```
+
+### submit request 
+
+```r 
+gcva_predict(
+  instances = json_instances 
+)
+```
+
+
+## Cleanup
+
+### Undeploy 
+
+```r
+gcva_undeploy_all(endpoint = endpoint)
+```

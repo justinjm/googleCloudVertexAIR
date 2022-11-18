@@ -40,11 +40,26 @@ gcva_automl_tabluar_training_job <- function(
 
 }
 
+
+#' Executes a custom container training job
+#'
+#'
+#' @param
+#'
+#'
+#'
+#'
+#' @export
+# gcva_custom_container_training_job <- function(){
+#
+# }
+
+
 #' Executes an training job
-#' @param
-#' @param
-#' @param
-#' @param
+#' @param projectId
+#' @param locationId
+#' @param job
+#' @param dataset
 #' @param
 #'
 #'
@@ -118,3 +133,5 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   out
 
 }
+
+
