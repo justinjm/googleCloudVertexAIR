@@ -93,11 +93,28 @@ gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = Dataset)
 
-  out <- response
+  # https://cloud.google.com/vertex-ai/docs/general/long-running-operations
+  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.operations/get
+  # `GET https://{service-endpoint}/v1/{name}`
 
-  message("Dataset created successfully")
+  url2 <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+                 locationId,
+                 response$name)
 
-  structure(out, class = "gcva_dataset")
+  f2 <- googleAuthR::gar_api_generator(url2,
+                                      "GET",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  response2 <- f2()
+
+  response2
+
+  # out <- response
+  #
+  # message("Dataset created successfully")
+  #
+  # structure(out, class = "gcva_dataset")
 
 }
 
