@@ -112,7 +112,8 @@ sh("gcloud config set project {gcva_project_get()}")
 
 
 ```{r}
-# TODO - doesn't work, need to resolve 
+# TODO @justinjm -doesn't work, need to resolve 
+# use googleCloudStorageR instead? https://code.markedmondson.me/googleCloudStorageR/articles/googleCloudStorageR.html
 # sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
 ```
 
@@ -217,6 +218,8 @@ pr() %>%
 ## Build container and push to artifact registry 
 
 ```{r}
+# TODO @justinjm - can i use googleCloudRunner ? 
+# https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_docker.html
 # sh("gcloud services enable artifactregistry.googleapis.com")
 # sh("cd src && gcloud builds submit --region={REGION} --tag={IMAGE_URI} --timeout=1h")
 ```
