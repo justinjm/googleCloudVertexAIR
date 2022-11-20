@@ -51,10 +51,6 @@ sh <- function(cmd, args = c(), intern = FALSE) {
 }
 ```
 
-```{zsh}
-# gcloud config list
-```
-
 ### .Renviron
 
 Create a file called `.Renviron` in your project's working directory and use the following environemtn arguments:
@@ -106,10 +102,10 @@ paste0("bucket_uri: ", bucket_uri)
 
 ## Create cloud storage bucket 
 
-```{r}
-sh("gcloud config set project {gcva_project_get()}")
+```{zsh engine.opts='-i'}
+# sh("gcloud config set project {gcva_project_get()}")
+gcloud config set project $GCVA_DEFAULT_PROJECT_ID
 ```
-
 
 ```{r}
 # TODO @justinjm -doesn't work, need to resolve 
