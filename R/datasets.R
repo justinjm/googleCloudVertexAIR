@@ -40,8 +40,8 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
 
 }
 
+
 #' Creates a tabluar dataset
-#'
 #'
 #' @param projectId GCP project id
 #' @param locationId location of GCP resources
@@ -93,31 +93,14 @@ gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = Dataset)
 
-  # https://cloud.google.com/vertex-ai/docs/general/long-running-operations
-  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.operations/get
-  # `GET https://{service-endpoint}/v1/{name}`
+  # structure(response, class = "gcva_operation")
 
-  url2 <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
-                 locationId,
-                 response$name)
+  out <- gcva_wait_for_op(locationId = locationId,
+                          operation = response$name)
 
-  f2 <- googleAuthR::gar_api_generator(url2,
-                                      "GET",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response2 <- f2()
-
-  response2
-
-  # out <- response
-  #
-  # message("Dataset created successfully")
-  #
-  # structure(out, class = "gcva_dataset")
+  structure(out, class = "gcva_dataset")
 
 }
-
 
 
 #' Deletes a dataset
@@ -125,7 +108,6 @@ gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
 #' @param projectId GCP project id
 #' @param locationId location of GCP resources
 #' @param displayName the name of the dataset that is shown in the interface.
-#'
 #'
 #' @export
 gcva_delete_dataset <- function(projectId = gcva_project_get(),
@@ -159,7 +141,7 @@ gcva_delete_dataset <- function(projectId = gcva_project_get(),
   out <- response
 
   if(out$done==TRUE) {
-    message("Dataset successfully deleted.")
+    myMessage("Dataset successfully deleted.", level = 3)
 
   } else {
     out

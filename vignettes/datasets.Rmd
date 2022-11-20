@@ -55,17 +55,13 @@ gcva_list_datasets()
 
 
 ```{r}
-gcva_create_tabluar_dataset(
+dataset <- gcva_create_tabluar_dataset(
   displayName = datasetDisplayName,
   gcsSource = "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv")
+dataset
 ```
 
 # List datasets (again)
-
-```{r echo=FALSE, results='hide'}
-# sleep to ensure dataset creation completes
-Sys.sleep(1)
-```
 
 ```{r}
 datasets_list <- gcva_list_datasets()
