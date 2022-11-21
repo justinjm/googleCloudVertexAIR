@@ -1,0 +1,42 @@
+---
+title: "Training Pipeline Jobs"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Training Pipeline Jobs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# options(googleAuthR.verbose = 0) # set when debugging
+```
+
+# Setup
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+# Set global arguements
+
+```{r gcva-global-arguements}
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set("us-central1")
+gcva_project_set(projectId)
+```
+
+
+```{r}
+training_pipeline <- gcva_trainingPipeline(
+  trainingPipelineName = "projects/442003009360/locations/us-central1/trainingPipelines/2601571779788931072")
+
+# for gcva_model and gcva_batch_predict function 
+training_pipeline$modelToUpload$name
+```
