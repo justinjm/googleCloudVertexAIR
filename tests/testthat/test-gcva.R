@@ -39,6 +39,66 @@ test_that("We can fetch a list of datasets", {
 })
 
 
+test_that("We can CREATE a dataset", {
+  skip_if_no_token()
+
+  projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+  locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+  expect_true(projectId != "")
+  expect_true(locationId != "")
+  d <- gcva_create_tabluar_dataset(
+    projectId,
+    locationId,
+    displayName = "test_gcva_dataset",
+    gcsSource = "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv")
+
+  expect_s3_class(d, "gcva_dataset")
+  expect_true(
+    all(
+      names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
+                      "updateTime", "etag", "labels", "metadata")
+    )
+  )
+})
+
+
+# test_that("We can get a dataset", {
+#   skip_if_no_token()
+#
+#   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+#   datasetName <- Sys.getenv("GCVA_TEST_DATASET")
+#   expect_true(projectId != "")
+#   expect_true(locationId != "")
+#   d <- gcva_dataset(locationId,
+#                     datasetName)
+#
+#   expect_s3_class(d, "gcva_dataset")
+#   expect_true(
+#     all(
+#       names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
+#                       "updateTime", "etag", "labels", "metadata")
+#     )
+#   )
+# })
+
+
+test_that("We can delete a dataset", {
+  skip_if_no_token()
+
+  projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+  locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+  expect_true(projectId != "")
+  expect_true(locationId != "")
+
+  result <- gcva_delete_dataset(
+    projectId,
+    locationId,
+    displayName = "test_gcva_dataset")
+
+  expect_null(result)
+
+})
+
 context("Models")
 
 test_that("We can fetch a list of Models", {
