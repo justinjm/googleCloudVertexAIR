@@ -32,12 +32,17 @@ gcva_region_set("us-central1")
 gcva_project_set(projectId)
 ```
 
-
 # List Models 
 
+```{r}
+models <- gcva_list_models()
+models
+```
+
+# Get model
 
 ```{r}
-models_list <- gcva_list_models()
-models_list
+model <- gcva_model(modelName = models[1,1])
+model
 ```
 
