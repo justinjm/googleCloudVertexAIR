@@ -58,9 +58,9 @@ gcva_automl_tabluar_training_job <- function(
 #' @param testFractionSplit decimal, percentage of dataset to use for testing model during training
 #' @param modelDisplayName display name of the model
 #' @param disableEarlyStopping disable early stopping default FALSE
-#' @param sync If set to True, the call will block while waiting for the asynchronous batch job to complete.
+#' @param sync If set to TRUE, the call will block while waiting for the asynchronous batch job to complete.
 #'
-#' @returns model object
+#' @returns \href{https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines#TrainingPipeline}{trainingPipeline} object
 #'
 #' @export
 gcva_run_job <- function(projectId = gcva_project_get(),
@@ -73,7 +73,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          testFractionSplit=0.1,
                          modelDisplayName,
                          disableEarlyStopping=FALSE,
-                         sync=FALSE){
+                         sync=TRUE){
 
   # check if dataset object
   stopifnot(inherits(dataset, "gcva_dataset"))
