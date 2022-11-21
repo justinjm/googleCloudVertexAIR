@@ -12,15 +12,13 @@ gcva_wait_for_op <- function(locationId,
                              operation,
                              wait=2) {
 
-  # TODO - add conditional check:
-  # stopifnot(inherits(response, class = "gcva_operation")))
-
   status <- FALSE
   time <- Sys.time()
 
   while(!status){
     Sys.sleep(wait)
-    myMessage("Waiting for operation...timer: ",
+    myMessage("Waiting for operation...", level = 3)
+    myMessage("Timer: ",
               format(difftime(Sys.time(),time), format = "%H:%M:%S"),
               level = 3)
 

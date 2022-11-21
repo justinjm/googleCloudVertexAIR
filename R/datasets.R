@@ -3,6 +3,8 @@
 #' @param projectId GCP project id
 #' @param locationId location of GCP resources
 #'
+#' @return a list of datasets
+#'
 #' @export
 gcva_list_datasets <- function(projectId = gcva_project_get(),
                                locationId = gcva_region_get()) {
@@ -36,6 +38,34 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
                       "etag",
                       "labels",
                       "metadata")]
+  out
+
+}
+
+#' Get a dataset object
+#'
+#' @param locationId locationId of operation
+#' @param datasetName operationId to poll
+#'
+#' @return a Dataset object
+#'
+#' @export
+gcva_dataset <- function(locationId = gcva_region_get(),
+                         datasetName){
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+                 locationId,
+                 datasetName)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "GET",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  response <- f()
+
+  out <- structure(response, class = "gcva_dataset")
+
   out
 
 }
@@ -93,12 +123,13 @@ gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = Dataset)
 
-  # structure(response, class = "gcva_operation")
+  response <- gcva_wait_for_op(locationId = locationId,
+                               operation = response$name)
 
-  out <- gcva_wait_for_op(locationId = locationId,
-                          operation = response$name)
+  out  <- gcva_dataset(locationId = locationId,
+                       datasetName = response$response$name)
 
-  structure(out, class = "gcva_dataset")
+  out
 
 }
 

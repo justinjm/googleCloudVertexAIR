@@ -75,7 +75,8 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          modelDisplayName,
                          disableEarlyStopping=FALSE){
 
-  # TODO - change to accept dataset object only
+  ## TODO - change to accept dataset object only
+  ## stopifnot(inherits(dataset, "gcva_dataset"))
   # get existing datasets to grab datasetID for job submission
   datasets_list <- gcva_list_datasets(projectId, locationId)
 
