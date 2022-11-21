@@ -75,7 +75,7 @@ timestamp <- strftime(Sys.time(), "%Y%m%d%H%M%S")
 timestamp
 ```
 
-# AutoML dataset
+## Set Vertex AI managed dataset display name 
 ```{r}
 datasetDisplayName <- sprintf("california-housing-%s", timestamp)
 datasetDisplayName
