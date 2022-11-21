@@ -1,13 +1,17 @@
+#' @title
 #' Constructs an AutoML Tabular Training Job
 #'
-#' @param displayName STRING Required. The user-defined name of this TrainingPipeline.
-#' @param weightColumn
-#' @param optimizationPredictionType
-#' @param budgetMilliNodeHours
-#' @param optimizationObjective
-#' @param column_transformations
+#' @description
+#' constructs a training job for running
 #'
+#' @param displayName STRING Required. The user-defined name of this TrainingPipeline
+#' @param weightColumn STRING column name of weight
+#' @param optimizationPredictionType STRING Required. model type, one of: "regression", "classification"
+#' @param budgetMilliNodeHours model budget, defaults to 1 hour or 1000
+#' @param optimizationObjective objective to optimize for
+#' @param column_transformations list of columns and column types, each pair a list
 #'
+#' @return "gcva_automlTabularTrainingJob" object
 #'
 #' @export
 gcva_automl_tabluar_training_job <- function(
@@ -41,32 +45,20 @@ gcva_automl_tabluar_training_job <- function(
 }
 
 
-#' Executes a custom container training job
-#'
-#'
-#'
-#'
-#'
-#'
-# gcva_custom_container_training_job <- function(){
-#
-# }
-
-
 #' Executes an training job
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
 #'
-#' @param projectId
-#' @param locationId
-#' @param job
-#' @param dataset
-#' @param targetColumn STRING
-#' @param trainingFractionSplit
-#' @param validationFractionSplit
-#' @param testFractionSplit
-#' @param modelDisplayName
-#' @param disableEarlyStopping
-#' @param wait wait for model training to complete before completing function
+#' @param projectId GCP project id
+#' @param locationId location of GCP resources
+#' @param job a job object of:  "gcva_automlTabularTrainingJob" OR TBD
+#' @param dataset a vertex ai dataset object with class "gcva_dataset"
+#' @param targetColumn STRING full column name of the model target
+#' @param trainingFractionSplit decimal, percentage of dataset to use for training model during training
+#' @param validationFractionSplit decimal, percentage of dataset to use for validating model during training
+#' @param testFractionSplit decimal, percentage of dataset to use for testing model during training
+#' @param modelDisplayName display name of the model
+#' @param disableEarlyStopping disable early stopping default FALSE
+#' @param sync If set to True, the call will block while waiting for the asynchronous batch job to complete.
 #'
 #' @returns model object
 #'
@@ -81,7 +73,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          testFractionSplit=0.1,
                          modelDisplayName,
                          disableEarlyStopping=FALSE,
-                         wait=TRUE){
+                         sync=FALSE){
 
   # check if dataset object
   stopifnot(inherits(dataset, "gcva_dataset"))
@@ -124,11 +116,17 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
   trainingPipeline <- f(the_body = TrainingPipeline)
 
-  structure(trainingPipeline, class = c("gcva_trainingPipeline"))
-  # TODO - handle long running trainingPipeline jobs properly
-  # trainingPipeline <- gcva_wait_for_training_pipeline(trainingPipelineName = trainingPipeline$name)
-  # out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
-  # out
+  if(sync == FALSE) {
+    #return right away
+    out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+    out
+  }  else if(sync == TRUE) {
+    #wait until completed
+    trainingPipeline <- gcva_wait_for_training_pipeline(
+      trainingPipelineName = trainingPipeline$name)
+    out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+    out
+  }
 
 }
 
@@ -144,24 +142,23 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 #' @export
 gcva_wait_for_training_pipeline <- function(locationId = gcva_region_get(),
                                             trainingPipelineName,
-                                            wait=5) {
+                                            wait=300) {
 
-  tp_obj <- gcva_trainingPipeline(trainingPipelineName = trainingPipelineName)
-  trainingPipelineId <- unlist(strsplit(tp_obj$name, "/"))[6]
-  tp_console_url <- sprintf(
-    "https://console.cloud.google.com/ai/platform/locations/%s/training/%s?project=%s",
+  tp <- gcva_trainingPipeline(trainingPipelineName = trainingPipelineName)
+  trainingPipelineId <- unlist(strsplit(tp$name, "/"))[6]
+  console_url <- sprintf(
+    "https://console.cloud.google.com/vertex-ai/locations/%s/training/%s?project=%s",
     locationId, trainingPipelineId, projectId)
-
-  myMessage("view training:\n", tp_console_url, level = 3)
+  myMessage("view training: ", console_url, level = 3)
+  myMessage("pipeline state: ", tp$state, level = 3)
 
   status <- FALSE
-  time <- Sys.time()
 
   while(!status){
     Sys.sleep(wait)
     tp <- gcva_trainingPipeline(trainingPipelineName = trainingPipelineName)
 
-    myMessage("view training:\n", tp_console_url, level = 3)
+    myMessage("view training: ", console_url, level = 3)
     myMessage("pipeline state: ", tp$state, level = 3)
 
     if(tp$state == "PIPELINE_STATE_SUCCEEDED" |

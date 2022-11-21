@@ -2,6 +2,7 @@
 
 S3method(print,gcva_automlTabularTrainingJob)
 S3method(print,gcva_dataset)
+S3method(print,gcva_trainingPipeline)
 export(gcva_automl_tabluar_training_job)
 export(gcva_create_tabluar_dataset)
 export(gcva_dataset)

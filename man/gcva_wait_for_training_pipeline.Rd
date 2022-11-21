@@ -7,7 +7,7 @@
 gcva_wait_for_training_pipeline(
   locationId = gcva_region_get(),
   trainingPipelineName,
-  wait = 5
+  wait = 300
 )
 }
 \arguments{

@@ -2,7 +2,8 @@
 % Please edit documentation in R/training_jobs.R
 \name{gcva_run_job}
 \alias{gcva_run_job}
-\title{Executes a custom container training job}
+\title{Executes an training job
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create}
 \usage{
 gcva_run_job(
   projectId = gcva_project_get(),
@@ -15,21 +16,36 @@ gcva_run_job(
   testFractionSplit = 0.1,
   modelDisplayName,
   disableEarlyStopping = FALSE,
-  wait = TRUE
+  sync = FALSE
 )
 }
 \arguments{
-\item{targetColumn}{STRING}
+\item{projectId}{GCP project id}
 
-\item{wait}{wait for model training to complete before completing function}
+\item{locationId}{location of GCP resources}
+
+\item{job}{a job object of:  "gcva_automlTabularTrainingJob" OR TBD}
+
+\item{dataset}{a vertex ai dataset object with class "gcva_dataset"}
+
+\item{targetColumn}{STRING full column name of the model target}
+
+\item{trainingFractionSplit}{decimal, percentage of dataset to use for training model during training}
+
+\item{validationFractionSplit}{decimal, percentage of dataset to use for validating model during training}
+
+\item{testFractionSplit}{decimal, percentage of dataset to use for testing model during training}
+
+\item{modelDisplayName}{display name of the model}
+
+\item{disableEarlyStopping}{disable early stopping default FALSE}
+
+\item{sync}{If set to True, the call will block while waiting for the asynchronous batch job to complete.}
 }
 \value{
 model object
 }
 \description{
-Executes a custom container training job
-}
-\details{
 Executes an training job
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
 }
