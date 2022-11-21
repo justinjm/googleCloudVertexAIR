@@ -122,14 +122,14 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
   stopifnot(inherits(TrainingPipeline, "gcva_job"))
 
-  # trainingPipeline <- f(the_body = TrainingPipeline)
+  trainingPipeline <- f(the_body = TrainingPipeline)
 
-  trainingPipeline <- gcva_wait_for_training_pipeline(trainingPipelineName = trainingPipeline$name)
-  out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  structure(trainingPipeline, class = c("gcva_trainingPipeline"))
+  # TODO - handle long running trainingPipeline jobs properly
+  # trainingPipeline <- gcva_wait_for_training_pipeline(trainingPipelineName = trainingPipeline$name)
+  # out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  # out
 
-  out
-
-  # structure(trainingPipeline, class = c("gcva_trainingPipeline"))
 }
 
 

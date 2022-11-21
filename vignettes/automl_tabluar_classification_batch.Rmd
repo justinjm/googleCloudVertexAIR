@@ -127,7 +127,7 @@ job <- gcva_automl_tabluar_training_job(
 
 ### Run the training pipeline
 
-```{r}
+```r
 model <- gcva_run_job(
   job = job,
   dataset = dataset,
