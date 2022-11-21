@@ -23,3 +23,12 @@ if(!require("remotes")){
 remotes::install_github("justinjm/googleCloudVertexAIR")
 ```
 
+## Getting Started 
+
+Please see the package site here for more information and examples.
+
+## Function Reference Diagram
+
+Here's a visualization of the package's function and how they work together:
+
+![](./man/function_diagram.png)
