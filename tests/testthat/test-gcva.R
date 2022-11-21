@@ -20,7 +20,7 @@ test_that("Authentication", {
 
 context("Datasets")
 
-test_that("We can fetch a list of datasets", {
+test_that("We can get a list of datasets", {
   skip_if_no_token()
 
   projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
@@ -39,7 +39,7 @@ test_that("We can fetch a list of datasets", {
 })
 
 
-test_that("We can CREATE a dataset", {
+test_that("We can create a dataset", {
   skip_if_no_token()
 
   projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
@@ -66,6 +66,7 @@ test_that("We can get a dataset", {
   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
   datasetName <- Sys.getenv("GCVA_TEST_DATASET_NAME")
   expect_true(locationId != "")
+  expect_true(datasetName != "")
   d <- gcva_dataset(locationId, datasetName)
 
   expect_s3_class(d, "gcva_dataset")
@@ -123,6 +124,30 @@ test_that("We can fetch a list of Models", {
 })
 
 
+test_that("We can get a Model", {
+  skip_if_no_token()
 
+  locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+  modelName <- Sys.getenv("GCVA_TEST_MODEL_NAME")
+  expect_true(locationId != "")
+  expect_true(modelName != "")
+  m <- gcva_model(locationId,modelName)
 
-
+  expect_s3_class(m, "gcva_model")
+  expect_true(
+    all(
+      names(m) %in% c("name", "displayName", "predictSchemata",
+                      "metadataSchemaUri",
+                      "metadata","trainingPipeline",
+                      "supportedDeploymentResourcesTypes",
+                      "supportedInputStorageFormats",
+                      "supportedOutputStorageFormats",
+                      "createTime",  "updateTime", "etag",
+                      "supportedExportFormats","explanationSpec",
+                      "versionId","versionAliases",
+                      "versionCreateTime","versionUpdateTime",
+                      "modelSourceInfo"
+      )
+    )
+  )
+})

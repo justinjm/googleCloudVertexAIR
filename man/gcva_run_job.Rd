@@ -2,7 +2,7 @@
 % Please edit documentation in R/training_jobs.R
 \name{gcva_run_job}
 \alias{gcva_run_job}
-\title{Executes an training job}
+\title{Executes a custom container training job}
 \usage{
 gcva_run_job(
   projectId = gcva_project_get(),
@@ -14,9 +14,22 @@ gcva_run_job(
   validationFractionSplit = 0.1,
   testFractionSplit = 0.1,
   modelDisplayName,
-  disableEarlyStopping = FALSE
+  disableEarlyStopping = FALSE,
+  wait = TRUE
 )
 }
+\arguments{
+\item{targetColumn}{STRING}
+
+\item{wait}{wait for model training to complete before completing function}
+}
+\value{
+model object
+}
 \description{
+Executes a custom container training job
+}
+\details{
 Executes an training job
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
 }

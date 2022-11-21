@@ -14,6 +14,9 @@ gcva_list_datasets(
 
 \item{locationId}{location of GCP resources}
 }
+\value{
+a list of datasets
+}
 \description{
 Lists datasets in a project.
 }
