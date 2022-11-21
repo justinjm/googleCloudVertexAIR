@@ -43,6 +43,7 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
 }
 
 #' Get a dataset object
+#' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.datasets/get
 #'
 #' @param locationId locationId of operation
 #' @param datasetName operationId to poll
@@ -123,11 +124,9 @@ gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = Dataset)
 
-  response <- gcva_wait_for_op(locationId = locationId,
-                               operation = response$name)
+  response <- gcva_wait_for_op(operation = response$name)
 
-  out  <- gcva_dataset(locationId = locationId,
-                       datasetName = response$response$name)
+  out  <- gcva_dataset(datasetName = response$response$name)
 
   out
 
