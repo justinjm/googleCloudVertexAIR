@@ -123,8 +123,6 @@ job <- gcva_automl_tabluar_training_job(
           list(numeric     = list(column_name = "median_income"))
           )
   )
-
-job
 ```
 
 
@@ -133,7 +131,7 @@ job
 ```r
 model <- gcva_run_job(
   job = job,
-  dataset = datasetDisplayName,
+  dataset = dataset,
   targetColumn = "median_house_value",
   modelDisplayName = sprintf("model-%s", datasetDisplayName))
 model

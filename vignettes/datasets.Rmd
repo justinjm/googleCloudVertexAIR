@@ -61,7 +61,6 @@ dataset <- gcva_create_tabluar_dataset(
 dataset
 ```
 
-
 # List datasets (again)
 
 ```{r}
@@ -73,8 +72,7 @@ datasets_list
 # Delete dataset
 
 ```{r}
-delete_job <- gcva_delete_dataset(displayName = datasetDisplayName)
-delete_job
+gcva_delete_dataset(displayName = datasetDisplayName)
 ```
 
 

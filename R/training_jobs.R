@@ -75,24 +75,13 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          modelDisplayName,
                          disableEarlyStopping=FALSE){
 
-  ## TODO - change to accept dataset object only
-  ## stopifnot(inherits(dataset, "gcva_dataset"))
-  # get existing datasets to grab datasetID for job submission
-  datasets_list <- gcva_list_datasets(projectId, locationId)
-
-  dataset_display_name <- dataset
-
-  datasets_list_name <- subset(datasets_list,
-                               displayName == dataset_display_name,
-                               select = c(name))
-
-  if (dim(datasets_list_name)[1] == 0) {
-    stop(sprintf("Dataset %s does not exist. Please check the dataset displayname is correct and try again.",
-                 displayName))
-  }
+  # check if dataset object
+  stopifnot(inherits(dataset, "gcva_dataset"))
 
   # get dataset ID from url since not sure how else?
-  dataset_id <- gsub(".*/datasets/" , "", datasets_list_name$name)
+  # https://cloud.google.com/apis/design/resource_names
+  # dataset_id <- gsub(".*/datasets/" , "", dataset$name)
+  dataset_id <- unlist(strsplit(dataset$name, "/"))[6]
 
   request_body_partial <- structure(
     list(
@@ -114,7 +103,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## set target column value
   TrainingPipeline[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
 
-  parent <- gsub("/datasets/.*" , "", datasets_list_name$name)
+  parent <- gsub("/datasets/.*" , "", dataset$name)
 
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/trainingPipelines",
                  locationId,
@@ -129,7 +118,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = TrainingPipeline)
 
-  out <- response
+  out <- structure(response, class = c("gcva_trainingPipeline"))
 
   out
 

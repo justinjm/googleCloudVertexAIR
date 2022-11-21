@@ -10,8 +10,7 @@ print.gcva_dataset <- function(x,...){
 #' @export
 print.gcva_automlTabularTrainingJob <- function(x,...){
   cat("==Google Cloud Vertex AI AutoML Tabular Training Job==\n")
-  cat0("displayName:           ", x$displayName)
-  cat0("redictionType:        ", x[["trainingTaskInputs"]][["predictionType"]])
-  cat0("targetColumn:          ", x[["trainingTaskInputs"]][["targetColumn"]])
-  cat0("datasetId:              ", x[["inputDataConfig"]][["datasetId"]])
+  cat0("displayName:         ", x$displayName)
+  cat0("predictionType:       ", x[["trainingTaskInputs"]][["predictionType"]])
+  cat0("datasetId:           ", x[["inputDataConfig"]][["datasetId"]])
 }
