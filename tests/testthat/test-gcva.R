@@ -2,7 +2,7 @@ context("Setup")
 
 options(
   googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform"
-  )
+)
 googleAuthR::gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 
 skip_if_no_token <- function() {
@@ -47,9 +47,7 @@ test_that("We can CREATE a dataset", {
   expect_true(projectId != "")
   expect_true(locationId != "")
   d <- gcva_create_tabluar_dataset(
-    projectId,
-    locationId,
-    displayName = "test_gcva_dataset",
+    projectId,locationId,displayName = "test_gcva_dataset",
     gcsSource = "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv")
 
   expect_s3_class(d, "gcva_dataset")
@@ -62,24 +60,22 @@ test_that("We can CREATE a dataset", {
 })
 
 
-# test_that("We can get a dataset", {
-#   skip_if_no_token()
-#
-#   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
-#   datasetName <- Sys.getenv("GCVA_TEST_DATASET")
-#   expect_true(projectId != "")
-#   expect_true(locationId != "")
-#   d <- gcva_dataset(locationId,
-#                     datasetName)
-#
-#   expect_s3_class(d, "gcva_dataset")
-#   expect_true(
-#     all(
-#       names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
-#                       "updateTime", "etag", "labels", "metadata")
-#     )
-#   )
-# })
+test_that("We can get a dataset", {
+  skip_if_no_token()
+
+  locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+  datasetName <- Sys.getenv("GCVA_TEST_DATASET_NAME")
+  expect_true(locationId != "")
+  d <- gcva_dataset(locationId, datasetName)
+
+  expect_s3_class(d, "gcva_dataset")
+  expect_true(
+    all(
+      names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
+                      "updateTime", "etag", "labels", "metadata")
+    )
+  )
+})
 
 
 test_that("We can delete a dataset", {
@@ -89,13 +85,10 @@ test_that("We can delete a dataset", {
   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
   expect_true(projectId != "")
   expect_true(locationId != "")
+  r <- gcva_delete_dataset(projectId, locationId,
+                                displayName = "test_gcva_dataset")
 
-  result <- gcva_delete_dataset(
-    projectId,
-    locationId,
-    displayName = "test_gcva_dataset")
-
-  expect_null(result)
+  expect_null(r)
 
 })
 

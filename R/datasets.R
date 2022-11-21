@@ -46,7 +46,7 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.datasets/get
 #'
 #' @param locationId locationId of operation
-#' @param datasetName operationId to poll
+#' @param datasetName the full name of the dataset object to get
 #'
 #' @return a Dataset object
 #'
