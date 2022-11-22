@@ -100,12 +100,8 @@ dataset
 
 ### Create training pipeline
 
-docs: 
-
-* [Vertex AI](https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest)
-* [Python SDK - Google Cloud](https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.AutoMLTabularTrainingJob)
-* [Python SDK - GitHub](https://googleapis.dev/python/aiplatform/latest/aiplatform/services.html#google.cloud.aiplatform.AutoMLTabularTrainingJob)
-* [REST API](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines)
+* Doc: https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest
+* API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines)
 
 ```{r}
 job <- gcva_automl_tabluar_training_job(
@@ -129,58 +125,41 @@ job <- gcva_automl_tabluar_training_job(
 
 ```r
 # more R native ?
-training_pipeline_job <- gcva_run_job(
+trainingPipelineJob <- gcva_run_job(
   job = job,
   dataset = dataset,
   targetColumn = "median_house_value",
   modelDisplayName = sprintf("model-%s", datasetDisplayName))
 
-modelName <- training_pipeline_job$modelToUpload$name
+modelName <- trainingPipelineJob$modelToUpload$name
 modelName 
 ```
 
-
 ```r
-# Similar to python examples 
-model <- gcva_run_job(
-  job = job,
-  dataset = dataset,
-  targetColumn = "median_house_value",
-  modelDisplayName = sprintf("model-%s", datasetDisplayName))
-model
-```
-
-```r
-saveRDS(model, 
+saveRDS(trainingPipelineJob, 
         file = here::here(
-          "vignettes",sprintf("model-response-%s.rds", datasetDisplayName)
-          )
+          "vignettes",sprintf("trainingPipelineJob-response-%s.rds",
+                              datasetDisplayName)
         )
-```
-
-```r
-model_loaded <- readRDS(file = here::here(
-  "vignettes", sprintf("model-response-%s.rds", datasetDisplayName)
-  )
 )
-model_loaded
 ```
-
-## Model deployment for batch prediction
-
 
 ## Make a batch prediction request
 
+* Doc: https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
+* API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs
+
 ### Make test items
+
+TODO 
 
 ### Make batch input file
 
+TODO 
+
 ### Make the batch prediction request
 
-https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
-
 #### set constants 
-
 
 ```{r}
 (bq_source_uri <- paste0("bq://",projectId,".","california_housing", ".", "batch01"))
@@ -188,6 +167,7 @@ https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/g
 ```
 
 #### execute request
+
 ```{r}
 batch_prediction_job <- gcva_batch_predict(
   model = model, #modelName
@@ -206,9 +186,17 @@ batch_prediction_job <- gcva_batch_predict(
 
 ## REference 
 
-
-https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb
-
+* Create training pipeline
+  * [Vertex AI](https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest)
+  * [Python SDK - Google Cloud](https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.AutoMLTabularTrainingJob)
+  * [Python SDK - GitHub](https://googleapis.dev/python/aiplatform/latest/aiplatform/services.html#google.cloud.aiplatform.AutoMLTabularTrainingJob)
+  * [REST API](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines)
+* Batch Prediction 
+  * https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
+  * https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs
+  * https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb
+  
+  
 ```
 You can make a batch prediction by invoking the batch_predict() method, with the following parameters:
 
