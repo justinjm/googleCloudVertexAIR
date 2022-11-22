@@ -28,7 +28,7 @@ Emulation of
 Run the following chunk to install `googleCloudVertexAIR` and the other required R packages to complete this tutorial (checking to see if they are installed first and only install if not already):
 
 ```{r install_packages, eval=FALSE}
-required_packages <- c("remotes", "googleAuthR")
+required_packages <- c("remotes", "googleAuthR", "withr")
 missing_packages <- required_packages[!(required_packages %in%
                                           installed.packages()[,"Package"])]
 if(length(missing_packages)) install.packages(missing_packages)
@@ -37,17 +37,22 @@ if(length(missing_packages)) install.packages(missing_packages)
 ```
 
 ```{r}
-library(glue)
+library(withr) # for gcloud sdk: https://stackoverflow.com/a/64381848/1812363 
+library(glue) 
+
 sh <- function(cmd, args = c(), intern = FALSE) {
+  with_path(path.expand("~/google-cloud-sdk/bin/"), {
     if (is.null(args)) {
-        cmd <- glue(cmd)
-        s <- strsplit(cmd, " ")[[1]]
-        cmd <- s[1]
-        args <- s[2:length(s)]
+      cmd <- glue(cmd)
+      s <- strsplit(cmd, " ")[[1]]
+      cmd <- s[1]
+      args <- s[2:length(s)]
     }
     ret <- system2(cmd, args, stdout = TRUE, stderr = TRUE)
     if ("errmsg" %in% attributes(attributes(ret))$names) cat(attr(ret, "errmsg"), "\n")
     if (intern) return(ret) else cat(paste(ret, collapse = "\n"))
+  }
+  )
 }
 ```
 
@@ -100,31 +105,37 @@ paste0("bucket_name: ", bucket_name)
 paste0("bucket_uri: ", bucket_uri)
 
 # TODO - add 
-# IMAGE_URI
-# 
-# 
+private_repo <- "my-docker-repo"
+image_name <- "vertex-r"  # @param {type:"string"}
+image_tag <- "latest"  # @param {type:"string"}
+image_uri <- glue(
+  "{gcva_region_get()}-docker.pkg.dev/{gcva_project_get()}/{private_repo}/{image_name}:{image_tag}"
+)
+image_uri 
 ```
 
 ## Create cloud storage bucket 
 
 ```{r}
-# https://stackoverflow.com/a/64381848/1812363 
-withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
-   sh("gcloud config set project {gcva_project_get()}")
-})
+
+sh("gcloud config set project {gcva_project_get()}")
 ```
 
 ```{r}
-withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
-   sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
-})
+sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
 ```
 
 ## Create Dockerfile 
 
+```{r}
+dir.create("src", showWarnings=FALSE)
+```
+
+
 `.src/Dockerfile`
 
-```Dockerfile
+```{r}
+Dockerfile = cat("
 # filename: Dockerfile - container specifications for using R in Vertex AI
 FROM gcr.io/deeplearning-platform-release/r-cpu.4-1:latest
 
@@ -142,13 +153,15 @@ RUN Rscript -e \"install.packages('plumber')\"
 RUN Rscript -e \"install.packages('randomForest')\"
 
 EXPOSE 8080
+", file = "src/Dockerfile")
 ```
 
 ## Create training script 
 
 `.src/train.R`
 
-```r
+```{r}
+cat('
 #!/usr/bin/env Rscript
 # filename: train.R - train a Random Forest model on Vertex AI Managed Dataset
 library(tidyverse)
@@ -186,13 +199,16 @@ rf
 
 saveRDS(rf, "rf.rds")
 system2("gsutil", c("cp", "rf.rds", model_dir))
+', file = "src/train.R")
 ```
 
 ## Create serving script 
 
 `.src/serve.R`
 
-```r
+```{r}
+cat('
+#!/usr/bin/env Rscript
 # filename: serve.R - serve predictions from a Random Forest model
 Sys.getenv()
 library(plumber)
@@ -216,14 +232,21 @@ pr() %>%
     pr_get(Sys.getenv("AIP_HEALTH_ROUTE"), function() "OK") %>%
     pr_post(Sys.getenv("AIP_PREDICT_ROUTE"), predict_route) %>%
     pr_run(host = "0.0.0.0", port=as.integer(Sys.getenv("AIP_HTTP_PORT", 8080)))
+', file = "src/serve.R")
 ```
 
 ## Build container and push to artifact registry 
 
+
+```{r}
+sh("gcloud services enable artifactregistry.googleapis.com")
+```
+
+
 ```{r}
 # TODO @justinjm - can i use googleCloudRunner ? 
 # https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_docker.html
-# sh("gcloud services enable artifactregistry.googleapis.com")
+
 # sh("cd src && gcloud builds submit --region={REGION} --tag={IMAGE_URI} --timeout=1h")
 ```
 
@@ -264,9 +287,9 @@ model <- gcva_job_run(
   machineType = "n1-standard-4"
 )
 
-model$display_name
-model$resource_name
-model$uri
+model$display_name #python sdk
+model$resource_name  #python sdk
+model$uri  #python sdk
 ```
 
 ## Create Endpoint 
@@ -297,16 +320,7 @@ gcva_deploy(
 
 ### Create sample input data 
 
-
 ```{r}
-# test 
-data_uri <- "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"
-withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
-   sh("gsutil cat {data_uri}", intern = TRUE)
-})
-```
-
-```r
 library(jsonlite)
 df <- read.csv(text=sh("gsutil cat {data_uri}", intern = TRUE))
 head(df, 5)
