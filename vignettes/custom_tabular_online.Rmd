@@ -108,13 +108,13 @@ paste0("bucket_uri: ", bucket_uri)
 ## Create cloud storage bucket 
 
 ```{r}
+# https://stackoverflow.com/a/64381848/1812363 
 withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
    sh("gcloud config set project {gcva_project_get()}")
 })
 ```
 
 ```{r}
-# https://stackoverflow.com/a/64381848/1812363 
 withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
    sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
 })
@@ -238,7 +238,7 @@ gcva_create_tabluar_dataset(
 ```
 
 ```{r}
-gcva_delete_dataset(displayName = datasetDisplayName)
+# gcva_delete_dataset(displayName = datasetDisplayName)
 ```
 
 ## Create custom training job 
@@ -271,7 +271,7 @@ model$uri
 
 ## Create Endpoint 
 
-[Overview of getting predictions on Vertex AI  |  Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
+[Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
 
 ```r
 endpoint <- gcva_create_endpoint(
@@ -286,15 +286,25 @@ endpoint
 
 ```r
 gcva_deploy(
-model = 
-endpoint = endpoint, 
-machine_type = "n1-standard-4")
+  model = model,
+  endpoint = endpoint, 
+  machine_type = "n1-standard-4"
+)
 ```
 
 ## Test deployed model 
 
 
 ### Create sample input data 
+
+
+```{r}
+# test 
+data_uri <- "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"
+withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
+   sh("gsutil cat {data_uri}", intern = TRUE)
+})
+```
 
 ```r
 library(jsonlite)
