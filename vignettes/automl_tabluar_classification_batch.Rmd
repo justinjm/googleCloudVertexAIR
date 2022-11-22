@@ -167,7 +167,7 @@ TODO
 
 #### execute request
 
-```{r}
+```r
 batch_prediction_job <- gcva_batch_predict(
   model = model, #modelName
   bigquerySource= bq_source_uri,
