@@ -124,15 +124,14 @@ job <- gcva_automl_tabluar_training_job(
 ### Run the training pipeline
 
 ```r
-# more R native ?
 trainingPipelineJob <- gcva_run_job(
   job = job,
   dataset = dataset,
   targetColumn = "median_house_value",
   modelDisplayName = sprintf("model-%s", datasetDisplayName))
 
-modelName <- trainingPipelineJob$modelToUpload$name
-modelName 
+model <- trainingPipelineJob$modelToUpload$name
+model 
 ```
 
 ```r
@@ -162,8 +161,8 @@ TODO
 #### set constants 
 
 ```{r}
-(bq_source_uri <- paste0("bq://",projectId,".","california_housing", ".", "batch01"))
-(bq_destination_prefix <- paste0("bq://",projectId,".","california_housing"))
+(bq_source_uri <- sprintf("bq://%s.california_housing.batch01", projectId))
+(bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
 ```
 
 #### execute request
@@ -184,7 +183,7 @@ batch_prediction_job <- gcva_batch_predict(
 
 ## Cleaning up
 
-## REference 
+## Reference 
 
 * Create training pipeline
   * [Vertex AI](https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest)
@@ -195,32 +194,3 @@ batch_prediction_job <- gcva_batch_predict(
   * https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
   * https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs
   * https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb
-  
-  
-```
-You can make a batch prediction by invoking the batch_predict() method, with the following parameters:
-
-- `job_display_name`: The human readable name for the batch prediction job.
-- `gcs_source`: A list of one or more batch request input files.
-- `gcs_destination_prefix`: The Cloud Storage location for storing the batch prediction resuls.
-- `instances_format`: The format for the input instances, either 'bigquery', 'csv' or 'jsonl'. Defaults to 'jsonl'.
-- `predictions_format`: The format for the output predictions, either 'csv' or 'jsonl'. Defaults to 'jsonl'.
-- `machine_type`: The type of machine to use for training.
-- `accelerator_type`: The hardware accelerator type.
-- `accelerator_count`: The number of accelerators to attach to a worker replica.
-- `sync`: If set to True, the call will block while waiting for the asynchronous batch job to complete.
-```
-
-
-```r
-# Note: The bigquery_source and bigquery_destination_prefix must be in the same region
-PREDICTION_RESULTS_DATASET_ID = f"{PROJECT_ID}.{RESULTS_DATASET_ID}"
-
-batch_predict_job = model.batch_predict(
-    job_display_name="tabular_regression_batch_predict_job",
-    bigquery_source=f"bq://{PREDICTION_INPUT_TABLE_ID}",
-    instances_format="bigquery",
-    predictions_format="bigquery",
-    bigquery_destination_prefix=f"bq://{PREDICTION_RESULTS_DATASET_ID}",
-)
-```
