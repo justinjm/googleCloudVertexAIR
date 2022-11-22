@@ -98,19 +98,26 @@ bucket_uri <- paste0("gs://", bucket_name)
 
 paste0("bucket_name: ", bucket_name)
 paste0("bucket_uri: ", bucket_uri)
+
+# TODO - add 
+# IMAGE_URI
+# 
+# 
 ```
 
 ## Create cloud storage bucket 
 
-```{zsh engine.opts='-i'}
-# sh("gcloud config set project {gcva_project_get()}")
-gcloud config set project $GCVA_DEFAULT_PROJECT_ID
+```{r}
+withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
+   sh("gcloud config set project {gcva_project_get()}")
+})
 ```
 
 ```{r}
-# TODO @justinjm -doesn't work, need to resolve 
-# use googleCloudStorageR instead? https://code.markedmondson.me/googleCloudStorageR/articles/googleCloudStorageR.html
-# sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
+# https://stackoverflow.com/a/64381848/1812363 
+withr::with_path(path.expand("~/google-cloud-sdk/bin/"), {
+   sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
+})
 ```
 
 ## Create Dockerfile 
