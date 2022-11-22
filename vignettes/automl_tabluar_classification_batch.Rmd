@@ -150,15 +150,6 @@ model <- gcva_run_job(
 model
 ```
 
-
-example outpyut from python sdk
-```
-INFO:google.cloud.aiplatform.training_jobs:View Training:
-https://console.cloud.google.com/ai/platform/locations/us-central1/training/8712176095752880128?project=764015827198
-INFO:google.cloud.aiplatform.training_jobs:AutoMLTabularTrainingJob projects/764015827198/locations/us-central1/trainingPipelines/8712176095752880128 current state:
-PipelineState.PIPELINE_STATE_RUNNING
-```
-
 ```r
 saveRDS(model, 
         file = here::here(
@@ -177,20 +168,6 @@ model_loaded
 
 ## Model deployment for batch prediction
 
-Now deploy the trained Vertex`Model`resource you created for batch prediction. This differs from deploying a`Model`resource for online prediction.
-
-For online prediction, you:
-
-1.  Create an`Endpoint`resource for deploying the`Model`resource to.
-2.  Deploy the`Model`resource to the`Endpoint`resource.
-3.  Make online prediction requests to the`Endpoint`resource.
-
-For batch-prediction, you:
-
-1.  Create a batch prediction job.
-2.  The job service will provision resources for the batch prediction request.
-3.  The results of the batch prediction request are returned to the caller.
-4.  The job service will unprovision the resoures for the batch prediction request.
 
 ## Make a batch prediction request
 
@@ -199,8 +176,40 @@ For batch-prediction, you:
 ### Make batch input file
 
 ### Make the batch prediction request
-[vertex-ai-samples/sdk\_automl\_tabular\_regression\_batch\_bq.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb)
 
+https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
+
+#### set constants 
+
+
+```{r}
+(bq_source_uri <- paste0("bq://",projectId,".","california_housing", ".", "batch01"))
+(bq_destination_prefix <- paste0("bq://",projectId,".","california_housing"))
+```
+
+#### execute request
+```{r}
+batch_prediction_job <- gcva_batch_predict(
+  model = model, #modelName
+  bigquerySource= bq_source_uri,
+  instancesFormat = "bigquery",
+  predictionsFormat = "bigquery",
+  bigqueryDestinationPrefix = bq_destination_prefix
+)
+```
+
+### Wait for completion of batch prediction job
+
+### Get predictions
+
+## Cleaning up
+
+## REference 
+
+
+https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb
+
+```
 You can make a batch prediction by invoking the batch_predict() method, with the following parameters:
 
 - `job_display_name`: The human readable name for the batch prediction job.
@@ -212,6 +221,8 @@ You can make a batch prediction by invoking the batch_predict() method, with the
 - `accelerator_type`: The hardware accelerator type.
 - `accelerator_count`: The number of accelerators to attach to a worker replica.
 - `sync`: If set to True, the call will block while waiting for the asynchronous batch job to complete.
+```
+
 
 ```r
 # Note: The bigquery_source and bigquery_destination_prefix must be in the same region
@@ -225,15 +236,3 @@ batch_predict_job = model.batch_predict(
     bigquery_destination_prefix=f"bq://{PREDICTION_RESULTS_DATASET_ID}",
 )
 ```
-
-### Wait for completion of batch prediction job
-
-### Get predictions
-
-## Cleaning up
-
-
-## References
-
-* [Vertex AI (aiplatform) AutoML components  |  Google Cloud](https://cloud.google.com/vertex-ai/docs/pipelines/vertex-automl-component) 
-  - [vertex-ai-samples/automl_tabular_classification_beans.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/pipelines/automl_tabular_classification_beans.ipynb)
