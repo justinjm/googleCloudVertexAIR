@@ -187,6 +187,13 @@ batch_prediction_job <- gcva_batch_predict(
 
 ## Cleaning up
 
+TODO
+
+```r
+gcva_delete_job()
+gcva_delete_model()
+```
+
 ## Reference
 
 * Create training pipeline

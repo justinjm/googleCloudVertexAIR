@@ -347,4 +347,7 @@ gcva_predict(
 
 ```r
 gcva_undeploy_all(endpoint = endpoint)
+
+gcva_delete_endpoint()
+gcva_delete_job()
 ```
