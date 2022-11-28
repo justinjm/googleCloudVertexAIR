@@ -171,6 +171,9 @@ TODO
 
 #### execute request
 
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
+
+
 ```r
 batch_prediction_job <- gcva_batch_predict(
   model = model, #modelName
