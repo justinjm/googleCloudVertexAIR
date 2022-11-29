@@ -1,5 +1,8 @@
 # googleCloudVertexAIR
 
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 An R interface to [Vertex AI](https://cloud.google.com/vertex-ai)
 
 Vertex AI REST API documentation [here](https://cloud.google.com/vertex-ai/docs/reference/rest)
