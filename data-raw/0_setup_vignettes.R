@@ -4,8 +4,6 @@ library(glue)
 
 options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
 
-gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
-
 projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
 
 bqr_auth(json_file = Sys.getenv("GAR_SERVICE_JSON"))
@@ -27,6 +25,12 @@ OPTIONS (
   location = 'us'
 )
 ")
+
+bqr_query(projectId = projectId,
+          datasetId ="california_housing",
+          query = query_training_data,
+          useLegacySql = FALSE)
+
 
 # Create external table: https://cloud.google.com/bigquery/docs/external-data-cloud-storage#sql
 #standardSQL
