@@ -1,6 +1,17 @@
-# library(googleAuthR)
-# library(bigqueryR)
-# library(glue)
+library(googleAuthR)
+library(bigQueryR)
+library(glue)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+
+bqr_auth(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+
+bqr_list_projects(projectId)
+bqr_list_datasets(projectId)
 
 # Steps
 # create dataset if does not exist
@@ -8,13 +19,14 @@
 # create create permenant table -  batch of examples (25) of random for batch prediction
 
 
-
 # Create dataset https://cloud.google.com/bigquery/docs/datasets#sql
-# #standardSQL
-# CREATE SCHEMA `<your-project-id>.california-housing`
-# OPTIONS (
-#   location = "us"
-# )
+query_training_data <- glue("
+#standardSQL
+CREATE SCHEMA `{projectId}.california_housing`
+OPTIONS (
+  location = 'us'
+)
+")
 
 # Create external table: https://cloud.google.com/bigquery/docs/external-data-cloud-storage#sql
 #standardSQL
