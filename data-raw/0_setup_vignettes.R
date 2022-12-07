@@ -10,7 +10,7 @@ projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
 
 bqr_auth(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 
-bqr_list_projects(projectId)
+bqr_list_projects()
 bqr_list_datasets(projectId)
 
 # Steps
