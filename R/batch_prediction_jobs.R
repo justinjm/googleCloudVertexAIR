@@ -32,14 +32,20 @@ gcva_batch_predict <- function(jobDisplayName,
                                bigqueryDestinationPrefix) {
 
   # TODO - what is default params to run function? bq or gcs?
+
+  # check bq url for bigquerySource
+  # stopifnot(grepl("bq://", bigquerySource, fixed = TRUE))
+
   # check bq url
   tryCatch({
     stopifnot(grepl("bq://", bigquerySource, fixed = TRUE))
 
   }, error = function(e) {
     stop("error: ", e$message)
+    myMessage("bigquerySource must be a BigQuery URI to a table, e.g. - 'bq://projectId.bqDatasetId.bqTableId'", level = 3)
 
   })
+
 
 
   instancesFormat <- match.arg(instancesFormat)
@@ -47,13 +53,13 @@ gcva_batch_predict <- function(jobDisplayName,
 
 
   # build input config
-  inputConfig = list(
+  inputConfig_l = list(
     instancesFormat = instancesFormat,
     bigquerySource = bigquerySource
   )
 
   # build output config
-  outputConfig =list(
+  outputConfig_l =list(
     predictionsFormat = predictionsFormat
   )
 
@@ -62,9 +68,8 @@ gcva_batch_predict <- function(jobDisplayName,
     rmNullObs(
       list(
         displayName = jobDisplayName,
-        inputConfig = inputConfig,
-        outputConfig = outputConfig
-
+        inputConfig = inputConfig_l,
+        outputConfig = outputConfig_l
       )
     ), class = c("gcva_batchPredictionJob", "list")
   )
