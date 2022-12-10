@@ -54,7 +54,8 @@ test_that("We can create a dataset", {
   expect_true(
     all(
       names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
-                      "updateTime", "etag", "labels", "metadata")
+                      "updateTime", "etag", "labels", "metadata",
+                      "metadataArtifact")
     )
   )
 })
