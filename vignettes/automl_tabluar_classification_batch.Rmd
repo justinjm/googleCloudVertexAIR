@@ -147,6 +147,12 @@ saveRDS(trainingPipelineJob,
 )
 ```
 
+```{r}
+# model state = completed 
+model <- "projects/442003009360/locations/us-central1/models/2734102788232445952"
+```
+
+
 ## Make a batch prediction request
 
 * Doc: https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
@@ -165,7 +171,7 @@ TODO
 #### set constants
 
 ```{r}
-(bq_source_uri <- sprintf("bq://%s.california_housing.batch_01", projectId))
+(bq_source_uri <- sprintf("bq//%s.california_housing.batch_01", projectId))
 (bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
 ```
 
@@ -174,14 +180,16 @@ TODO
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
 
 
-```r
+```{r}
 batch_prediction_job <- gcva_batch_predict(
+  jobDisplayName = sprintf("california-housing-%s", timestamp),
   model = model, #modelName
   bigquerySource= bq_source_uri,
   instancesFormat = "bigquery",
   predictionsFormat = "bigquery",
   bigqueryDestinationPrefix = bq_destination_prefix
 )
+batch_prediction_job
 ```
 
 ### Wait for completion of batch prediction job
