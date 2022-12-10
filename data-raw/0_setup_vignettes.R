@@ -1,3 +1,7 @@
+# 0_setup_vingettes.R
+# for creating datasets in GCP for vingettes
+
+# load packages
 library(googleAuthR)
 library(bigQueryR)
 library(glue)
@@ -16,37 +20,66 @@ bqr_list_datasets(projectId)
 # create external table -  copy of training dataset in BQ (for training job and batch)
 # create create permenant table -  batch of examples (25) of random for batch prediction
 
+# Create BQ dataset
+# https://cloud.google.com/bigquery/docs/datasets#sql
+bq_dataset_name <- "california_housing"
 
-# Create dataset https://cloud.google.com/bigquery/docs/datasets#sql
-query_training_data <- glue("
+query_bq_dataset <- glue("
 #standardSQL
-CREATE SCHEMA `{projectId}.california_housing`
+CREATE SCHEMA `{projectId}.{bq_dataset_name}`
 OPTIONS (
   location = 'us'
 )
 ")
 
 bqr_query(projectId = projectId,
-          datasetId ="california_housing",
-          query = query_training_data,
+          datasetId = bq_dataset_name,
+          query = query_bq_dataset,
           useLegacySql = FALSE)
 
 
-# Create external table: https://cloud.google.com/bigquery/docs/external-data-cloud-storage#sql
+# Create BQ external table
+# https://cloud.google.com/bigquery/docs/external-data-cloud-storage#sql
+query_bq_table <- glue("
 #standardSQL
-# CREATE OR REPLACE EXTERNAL TABLE california-housing.training_data
-# OPTIONS(
-#   format = 'CSV',
-#   uris = ['gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv']
-# )
+CREATE EXTERNAL TABLE california_housing.source_data
+OPTIONS(
+  format = 'CSV',
+  uris = ['gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv']
+)
+")
+
+bqr_query(projectId = projectId,
+          datasetId = bq_dataset_name,
+          query = query_bq_table,
+          useLegacySql = FALSE)
+
+# Create BQ permenant table
+# https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement
+query_bq_table2 <- glue("
+#standardSQL
+CREATE TABLE `california_housing.data` AS (
+    SELECT * FROM `california_housing.source_data`
+  )
+")
 
 
-# Create table
-# #standardSQL
-# # CREATE OR REPLACE TABLE california-housing.batch
-# SELECT * FROM `california-housing.training_data`
+bqr_query(projectId = projectId,
+          datasetId = bq_dataset_name,
+          query = query_bq_table2,
+          useLegacySql = FALSE)
 
-# FARM_FINGERPRINT(ROW_NUMBER())
-# https://cloud.google.com/bigquery/docs/reference/standard-sql/numbering_functions#row_number
-# https://stackoverflow.com/questions/45444201/using-farm-fingerprint-for-google-big-query
-# https://stackoverflow.com/questions/46019624/how-to-do-repeatable-sampling-in-bigquery-standard-sql
+# Create BQ permenant table - batch
+# https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement
+
+query_bq_table2 <- glue("
+#standardSQL
+CREATE TABLE `california_housing.batch_01` AS (
+    SELECT * FROM `california_housing.source_data` LIMIT 10
+  )
+")
+
+bqr_query(projectId = projectId,
+          datasetId = bq_dataset_name,
+          query = query_bq_table2,
+          useLegacySql = FALSE)
