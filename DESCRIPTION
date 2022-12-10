@@ -19,6 +19,7 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    bigqueryR
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
