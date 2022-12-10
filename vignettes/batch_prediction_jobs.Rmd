@@ -1,0 +1,63 @@
+---
+title: "Performing batch prediction"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{automltabularbatch}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+## Set global arguements
+
+```{r gcva-global-arguements}
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set(region = "us-central1")
+gcva_project_set(projectId = projectId)
+```
+
+
+```{r}
+# hard code model that we know has a state = completed for demonstration purposes.
+model <- "projects/442003009360/locations/us-central1/models/2734102788232445952"
+```
+
+### Make the batch prediction request
+
+#### set constants
+
+```{r}
+(bq_source_uri <- sprintf("bq//%s.california_housing.batch_01", projectId))
+(bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
+```
+
+#### execute request
+
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
+
+
+```{r}
+batch_prediction_job <- gcva_batch_predict(
+  jobDisplayName = sprintf("california-housing-%s", timestamp),
+  model = model, #modelName
+  bigquerySource= bq_source_uri,
+  instancesFormat = "bigquery",
+  predictionsFormat = "bigquery",
+  bigqueryDestinationPrefix = bq_destination_prefix
+)
+batch_prediction_job
+```
