@@ -165,7 +165,7 @@ TODO
 #### set constants
 
 ```{r}
-(bq_source_uri <- sprintf("bq://%s.california_housing.batch01", projectId))
+(bq_source_uri <- sprintf("bq://%s.california_housing.batch_01", projectId))
 (bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
 ```
 
