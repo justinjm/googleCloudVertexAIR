@@ -27,9 +27,25 @@ gcva_batch_predict <- function(jobDisplayName,
                                gcsDestinationPrefix = NULL,
                                bigqueryDestinationPrefix = NULL) {
 
-  # check bq url for bigquerySource
-  stopifnot("bigquerySource must be a BigQuery URI to a table, e.g. - 'bq://projectId.bqDatasetId.bqTableId'",
-    grepl("bq://", bigquerySource, fixed = TRUE))
+  # # check uri for gcsSource
+  # stopifnot(
+  #   "gcsSource must be a Cloud Storage URI or 'gs://bucket-name/filename'" =
+  #     grepl("gs://", gcsSource, fixed = TRUE) == TRUE)
+  #
+  # # check uri for bigquerySource
+  # stopifnot(
+  #   "bigquerySource must be a BigQuery URI to a table or 'bq://projectId.bqDatasetId.bqTableId'" =
+  #     grepl("bq://", bigquerySource, fixed = TRUE) == TRUE)
+
+  # # check uri for gcsSource
+  # if(grepl("gs://", gcsSource, fixed = TRUE)) {
+  #   stop("gcsSource must be a Cloud Storage URI or 'gs://bucket-name/filename'")
+  # }
+  #
+  # # check uri for bigquerySource
+  # if(grepl("bq://", bigquerySource, fixed = TRUE)) {
+  #   stop("bigquerySource must be a BigQuery URI to a table or 'bq://projectId.bqDatasetId.bqTableId'")
+  # }
 
   instancesFormat <- match.arg(instancesFormat)
   predictionsFormat <- match.arg(predictionsFormat)
@@ -37,20 +53,19 @@ gcva_batch_predict <- function(jobDisplayName,
 
   # merge into request body
   request_body <- structure(
-    list(
-      displayName = jobDisplayName,
-      rmNullObs(
-        list(
-          inputConfig = list(
-            instancesFormat = instancesFormat,
-            gcsSource = gcsSource,
-            bigquerySource = bigquerySource
-          ),
-          outputConfig = list(
-            predictionsFormat = predictionsFormat,
-            gcsDestination = gcsDestinationPrefix,
-            bigqueryDestination = bigqueryDestinationPrefix
-          )
+    rmNullObs(
+      list(
+        displayName = jobDisplayName,
+        model = model,
+        inputConfig = list(
+          instancesFormat = instancesFormat,
+          gcsSource = gcsSource,
+          bigquerySource = bigquerySource
+        ),
+        outputConfig = list(
+          predictionsFormat = predictionsFormat,
+          gcsDestination = gcsDestinationPrefix,
+          bigqueryDestination = bigqueryDestinationPrefix
         )
       )
     ), class = c("gcva_batchPredictionJob", "list")
