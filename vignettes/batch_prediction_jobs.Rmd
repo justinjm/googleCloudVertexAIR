@@ -41,7 +41,7 @@ model <- "projects/442003009360/locations/us-central1/models/2734102788232445952
 #### set constants
 
 ```{r}
-(bq_source_uri <- sprintf("bq//%s.california_housing.batch_01", projectId))
+(bq_source_uri <- sprintf("bq://%s.california_housing.batch_01", projectId))
 (bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
 ```
 
