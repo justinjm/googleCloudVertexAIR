@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 #' Submit a Batch Prediction Job
 #'
 #'
@@ -29,40 +22,37 @@ gcva_batch_predict <- function(jobDisplayName,
                                model,
                                gcsSource = NULL,
                                bigquerySource = NULL,
-                               instancesFormat = c("bigquery"),
-                               predictionsFormat = c("bigquery"),
-                               gcsDestinationPrefix,
-                               bigqueryDestinationPrefix) {
+                               instancesFormat = c("jsonl", "csv", "bigquery", "file-list"),
+                               predictionsFormat = c("jsonl","csv","bigquery"),
+                               gcsDestinationPrefix = NULL,
+                               bigqueryDestinationPrefix = NULL) {
 
   # check bq url for bigquerySource
-  # stopifnot(grepl("bq://", bigquerySource, fixed = TRUE))
+  stopifnot("bigquerySource must be a BigQuery URI to a table, e.g. - 'bq://projectId.bqDatasetId.bqTableId'",
+    grepl("bq://", bigquerySource, fixed = TRUE))
 
-  # check bq url
-  tryCatch({
-    stopifnot(grepl("bq://", bigquerySource, fixed = TRUE))
-  }, error = function(e) {
-    stop("error: ", e$message)
-    myMessage("bigquerySource must be a BigQuery URI to a table, e.g. - 'bq://projectId.bqDatasetId.bqTableId'", level = 3)
-
-  })
-    instancesFormat <- match.arg(instancesFormat)
-    predictionsFormat <- match.arg(predictionsFormat)
+  instancesFormat <- match.arg(instancesFormat)
+  predictionsFormat <- match.arg(predictionsFormat)
 
 
   # merge into request body
   request_body <- structure(
-    list(displayName = jobDisplayName,
-         rmNullObs(
-           list(inputConfig = list(
-             instancesFormat = instancesFormat,
-             gcsSource = gcsSource,
-             bigquerySource = bigquerySource
-           ),
-           outputConfig = list(
-             predictionsFormat = predictionsFormat
-           )
-           )
-         )
+    list(
+      displayName = jobDisplayName,
+      rmNullObs(
+        list(
+          inputConfig = list(
+            instancesFormat = instancesFormat,
+            gcsSource = gcsSource,
+            bigquerySource = bigquerySource
+          ),
+          outputConfig = list(
+            predictionsFormat = predictionsFormat,
+            gcsDestination = gcsDestinationPrefix,
+            bigqueryDestination = bigqueryDestinationPrefix
+          )
+        )
+      )
     ), class = c("gcva_batchPredictionJob", "list")
   )
 
