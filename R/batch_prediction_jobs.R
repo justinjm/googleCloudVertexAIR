@@ -1,6 +1,7 @@
 #' Submit a Batch Prediction Job
 #'
-#'
+#' @param projectId GCP project id
+#' @param locationId location of GCP resources
 #' @param jobDisplayName STRING Required. The user-defined name of this BatchPredictionJob.
 #' @param model STRING The name of the Model resource that produces the predictions via this job,
 #' must share the same ancestor Location. Starting this job has no impact on any existing deployments of the Model and their resources.
@@ -18,7 +19,9 @@
 #' @param bigqueryDestinationPrefix BigQuery path. For example: bq://projectId or bq://projectId.bqDatasetId or bq://projectId.bqDatasetId.bqTableId.
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs#BatchPredictionJob
 #' @export
-gcva_batch_predict <- function(jobDisplayName,
+gcva_batch_predict <- function(projectId = gcva_project_get(),
+                               locationId = gcva_region_get(),
+                               jobDisplayName,
                                model,
                                gcsSource = NULL,
                                bigquerySource = NULL,
@@ -27,32 +30,12 @@ gcva_batch_predict <- function(jobDisplayName,
                                gcsDestinationPrefix = NULL,
                                bigqueryDestinationPrefix = NULL) {
 
-  # # check uri for gcsSource
-  # stopifnot(
-  #   "gcsSource must be a Cloud Storage URI or 'gs://bucket-name/filename'" =
-  #     grepl("gs://", gcsSource, fixed = TRUE) == TRUE)
-  #
-  # # check uri for bigquerySource
-  # stopifnot(
-  #   "bigquerySource must be a BigQuery URI to a table or 'bq://projectId.bqDatasetId.bqTableId'" =
-  #     grepl("bq://", bigquerySource, fixed = TRUE) == TRUE)
-
-  # # check uri for gcsSource
-  # if(grepl("gs://", gcsSource, fixed = TRUE)) {
-  #   stop("gcsSource must be a Cloud Storage URI or 'gs://bucket-name/filename'")
-  # }
-  #
-  # # check uri for bigquerySource
-  # if(grepl("bq://", bigquerySource, fixed = TRUE)) {
-  #   stop("bigquerySource must be a BigQuery URI to a table or 'bq://projectId.bqDatasetId.bqTableId'")
-  # }
-
+  # align inputs with required
   instancesFormat <- match.arg(instancesFormat)
   predictionsFormat <- match.arg(predictionsFormat)
 
-
   # merge into request body
-  request_body <- structure(
+  batchPredictionJob <- structure(
     rmNullObs(
       list(
         displayName = jobDisplayName,
@@ -71,6 +54,26 @@ gcva_batch_predict <- function(jobDisplayName,
     ), class = c("gcva_batchPredictionJob", "list")
   )
 
-  request_body
+  parent <- sprintf("projects/%s/locations/%s",
+                    projectId,
+                    locationId)
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/batchPredictionJobs",
+                 locationId,
+                 parent)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "POST",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  stopifnot(inherits(batchPredictionJob, "gcva_batchPredictionJob"))
+
+  batchPredictionJob
+  # batchPredictionJob <- f(the_body = batchPredictionJob)
+
+  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState
+
+
 
 }
