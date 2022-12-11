@@ -80,7 +80,7 @@ timestamp
 ```
 
 ## Set Vertex AI managed dataset display name
-```{r}
+```{r set-datsetDisplayName}
 datasetDisplayName <- sprintf("california-housing-%s", timestamp)
 datasetDisplayName
 ```
@@ -93,7 +93,7 @@ datasetDisplayName
 
 Source dataset: `gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv`
 
-```{r}
+```{r create-dataset}
 dataset <- gcva_create_tabluar_dataset(
   displayName = datasetDisplayName,
   gcsSource = "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv")
@@ -107,7 +107,7 @@ dataset
 * Doc: https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest
 * API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines)
 
-```{r}
+```{r create-automl-tabular-training-job}
 job <- gcva_automl_tabluar_training_job(
   displayName = sprintf("california-housing-%s", timestamp),
   optimizationPredictionType = "regression",
@@ -138,7 +138,7 @@ model <- trainingPipelineJob$modelToUpload$name
 model 
 ```
 
-```r
+```{r eval=FALSE, include=FALSE, echo=FALSE, results='hide'}
 saveRDS(trainingPipelineJob, 
         file = here::here(
           "vignettes",sprintf("trainingPipelineJob-response-%s.rds",
@@ -170,7 +170,7 @@ TODO
 
 #### set constants
 
-```{r}
+```{r set-constants-for-batch-prediction}
 (bq_source_uri <- sprintf("bq//%s.california_housing.batch_01", projectId))
 (bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
 ```
@@ -180,7 +180,7 @@ TODO
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
 
 
-```{r}
+```{r batch-prediction-job}
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = sprintf("california-housing-%s", timestamp),
   model = model, #modelName
@@ -204,6 +204,11 @@ TODO
 gcva_delete_job()
 gcva_delete_model()
 ```
+
+```{r cleanup-delete-dataset}
+gcva_delete_dataset(displayName = dataset$displayName)
+```
+
 
 ## Reference
 
