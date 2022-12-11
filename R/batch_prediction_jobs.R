@@ -36,7 +36,7 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
                                bigqueryDestinationPrefix = NULL,
                                sync=TRUE) {
 
-  # align inputs with required
+  # align with require inputs
   instancesFormat <- match.arg(instancesFormat)
   predictionsFormat <- match.arg(predictionsFormat)
 
@@ -49,12 +49,16 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
         inputConfig = list(
           instancesFormat = instancesFormat,
           gcsSource = gcsSource,
-          bigquerySource = bigquerySource
+          bigquerySource = list(
+            inputUri = bigquerySource
+          )
         ),
         outputConfig = list(
           predictionsFormat = predictionsFormat,
           gcsDestination = gcsDestinationPrefix,
-          bigqueryDestination = bigqueryDestinationPrefix
+          bigqueryDestination = list(
+            outputUri = bigqueryDestinationPrefix
+          )
         )
       )
     ), class = c("gcva_batchPredictionJob", "list")
@@ -74,18 +78,17 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
                                       checkTrailingSlash = FALSE)
 
   stopifnot(inherits(batchPredictionJob, "gcva_batchPredictionJob"))
-
   batchPredictionJob
-  # batchPredictionJob <- f(the_body = batchPredictionJob)
 
-  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState
+  # batchPredictionJob <- f(the_body = batchPredictionJob)
+  #
   # if(sync == FALSE) {
   #   #return right away
   #   out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
   #   out
   # }  else if(sync == TRUE) {
   #   #wait until completed
-  #   batchPredictionJo <- gcva_wait_for_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
+  #   batchPredictionJob <- gcva_wait_for_batch_prediction_job(batchPredictionJobName = batchPredictionJob$name)
   #   out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
   #   out
   # }
@@ -95,11 +98,43 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
 
 #' Wait for a BatchPredctionJob operation
 #'https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState
+#' @param locationId locationId of training pipeline
+#' @param batchPredictionJobName Resource name of the BatchPredictionJob.
+#' @param wait INTEGER number of seconds to wait between checks. Default is 5minutes
+#'
+#' @return batchPredictionJob object
 #'
 #' @export
-# gcva_wait_for_batch_prediction_job <- function(){
-#
-# }
+gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
+                                               batchPredictionJobName,
+                                               wait=300){
+
+  job <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
+  # console_url <- sprintf(
+  #   "https://console.cloud.google.com/vertex-ai/locations/%s/training/%s?project=%s",
+  #   locationId, trainingPipelineId, projectId)
+  #
+  # myMessage("view job: ", console_url, level = 3)
+  myMessage("job state: ", job$state, level = 3)
+
+  status <- FALSE
+
+  while(!status){
+    Sys.sleep(wait)
+
+    # myMessage("view job: ", console_url, level = 3)
+    myMessage("job state: ", job$state, level = 3)
+
+    if(job$state == "JOB_STATE_SUCCEEDED" |
+       job$state == "JOB_STATE_FAILED" |
+       job$state == "JOB_STATE_CANCELLED"){
+      status <- TRUE
+    } else {
+      status <- FALSE
+    }
+  }
+
+}
 
 
 #' Get a BatchPrediction object

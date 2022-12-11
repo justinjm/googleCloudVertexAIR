@@ -59,11 +59,14 @@ batch_prediction_job <- gcva_batch_predict(
   predictionsFormat = "bigquery",
   bigqueryDestinationPrefix = bq_destination_prefix
 )
-# batch_prediction_job
 
-# show raw JSON body submitted to API for debugging while developing package
-jsonlite::toJSON(batch_prediction_job, pretty = TRUE, auto_unbox = TRUE) 
+batch_prediction_job
 ```
 
+```{r}
+# show raw JSON body submitted to API for debugging while developing package
+# jsonlite::toJSON(batch_prediction_job, pretty = TRUE, auto_unbox = TRUE) 
+```
 
-
+example url: 
+https://console.cloud.google.com/vertex-ai/locations/us-central1/batch-predictions/7283609362524798976/properties?project=gc-vertex-ai-r
