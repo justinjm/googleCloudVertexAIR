@@ -80,18 +80,18 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
   stopifnot(inherits(batchPredictionJob, "gcva_batchPredictionJob"))
   batchPredictionJob
 
-  # batchPredictionJob <- f(the_body = batchPredictionJob)
-  #
-  # if(sync == FALSE) {
-  #   #return right away
-  #   out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
-  #   out
-  # }  else if(sync == TRUE) {
-  #   #wait until completed
-  #   batchPredictionJob <- gcva_wait_for_batch_prediction_job(batchPredictionJobName = batchPredictionJob$name)
-  #   out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
-  #   out
-  # }
+  batchPredictionJob <- f(the_body = batchPredictionJob)
+
+  if(sync == FALSE) {
+    #return right away
+    out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
+    out
+  }  else if(sync == TRUE) {
+    #wait until completed
+    batchPredictionJob <- gcva_wait_for_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
+    out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
+    out
+  }
 
 }
 
@@ -106,10 +106,10 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
 #'
 #' @export
 gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
-                                               batchPredictionJobName,
+                                               batchPredictionJob,
                                                wait=300){
 
-  job <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
+  job <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob)
   # console_url <- sprintf(
   #   "https://console.cloud.google.com/vertex-ai/locations/%s/training/%s?project=%s",
   #   locationId, trainingPipelineId, projectId)
