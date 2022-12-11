@@ -34,4 +34,4 @@ Please see the package site here for more information and examples.
 
 Here's a visualization of the package's function and how they work together:
 
-![](./man/function_diagram.png)
+![](./man/figures/function_diagram.png)

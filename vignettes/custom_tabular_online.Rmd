@@ -21,9 +21,9 @@ Emulation of
 
 [Create](https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline) a `TrainingPipeline`  that runs a `CustomJob` and imports the resulting artifacts as a `Model`.
 
-# Setup
+## Setup
 
-## Installation
+### Installation
 
 Run the following chunk to install `googleCloudVertexAIR` and the other required R packages to complete this tutorial (checking to see if they are installed first and only install if not already):
 
@@ -75,6 +75,8 @@ GCAT_DEFAULT_REGION="us-central1"
 
 ## Setup Google Cloud Project
 
+TODO
+
 ## Authenticate your Google Cloud Account
 
 ```{r auth, warning=FALSE}
@@ -117,7 +119,6 @@ image_uri
 ## Create cloud storage bucket 
 
 ```{r}
-
 sh("gcloud config set project {gcva_project_get()}")
 ```
 
@@ -242,11 +243,9 @@ pr() %>%
 sh("gcloud services enable artifactregistry.googleapis.com")
 ```
 
-
 ```{r}
 # TODO @justinjm - can i use googleCloudRunner ? 
 # https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_docker.html
-
 # sh("cd src && gcloud builds submit --region={REGION} --tag={IMAGE_URI} --timeout=1h")
 ```
 
@@ -255,13 +254,10 @@ sh("gcloud services enable artifactregistry.googleapis.com")
 ```{r}
 data_uri <- "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"
 
-gcva_create_tabluar_dataset(
+dataset <- gcva_create_tabluar_dataset(
   displayName = datasetDisplayName,
   gcsSource = data_uri)
-```
-
-```{r}
-# gcva_delete_dataset(displayName = datasetDisplayName)
+dataset
 ```
 
 ## Create custom training job 
@@ -340,14 +336,29 @@ gcva_predict(
 )
 ```
 
-
 ## Cleanup
+
+TODO
 
 ### Undeploy 
 
 ```r
 gcva_undeploy_all(endpoint = endpoint)
-
 gcva_delete_endpoint()
+```
+### Deletes 
+
+```r
 gcva_delete_job()
 ```
+
+```{r}
+gcva_delete_dataset(displayName = datasetDisplayName)
+```
+
+local directory 
+
+```{r}
+unlink("src", recursive = TRUE) # will delete directory called 'mydir'
+```
+

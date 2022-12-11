@@ -59,10 +59,22 @@
       <a href="../articles/automl_tabluar_classification_batch.html">Training a tabuluar AutoML model and performing batch prediction</a>
     </li>
     <li>
+      <a href="../articles/batch_prediction_jobs.html">Performing batch prediction</a>
+    </li>
+    <li>
+      <a href="../articles/custom_tabular_online.html">Training and deploying a custom model</a>
+    </li>
+    <li>
       <a href="../articles/datasets.html">Datasets</a>
     </li>
     <li>
       <a href="../articles/models.html">Models</a>
+    </li>
+    <li>
+      <a href="../articles/testing_sh.html">testing sh</a>
+    </li>
+    <li>
+      <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
     </li>
   </ul>
 </li>
@@ -87,9 +99,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Training a tabuluar AutoML model and performing batch prediction</h1>
+      <h1 data-toc-skip>Training a tabuluar AutoML model and performing
+batch prediction</h1>
             
-            <h4 data-toc-skip class="date">2022-11-13</h4>
+            <h4 data-toc-skip class="date">2022-12-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/automl_tabluar_classification_batch.Rmd" class="external-link"><code>vignettes/automl_tabluar_classification_batch.Rmd</code></a></small>
       <div class="hidden name"><code>automl_tabluar_classification_batch.Rmd</code></div>
@@ -103,8 +116,11 @@
 </h2>
 <p>Emulation of notebook tutorials using Vertex AI SDK via Python:</p>
 <ul>
-<li><a href="https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb" class="external-link">vertex-ai-samples/automl-tabular-classification.ipynb at master | GoogleCloudPlatform/vertex-ai-samples</a></li>
-<li><a href="https://github.com/statmike/vertex-ai-mlops/blob/main/02b%20-%20Vertex%20AI%20-%20AutoML%20with%20clients%20(code).ipynb" class="external-link">vertex-ai-mlops/02b - Vertex AI - AutoML with clients (code).ipynb at main · statmike/vertex-ai-mlops</a></li>
+<li><a href="https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/master/notebooks/official/automl/automl-tabular-classification.ipynb" class="external-link">vertex-ai-samples/automl-tabular-classification.ipynb
+at master | GoogleCloudPlatform/vertex-ai-samples</a></li>
+<li><a href="https://github.com/statmike/vertex-ai-mlops/blob/main/02%20-%20Vertex%20AI%20AutoML/02b%20-%20Vertex%20AI%20-%20AutoML%20with%20clients%20(code).ipynb" class="external-link">vertex-ai-mlops/02b
+- Vertex AI - AutoML with clients (code).ipynb at main ·
+statmike/vertex-ai-mlops</a></li>
 </ul>
 </div>
 <div class="section level2">
@@ -113,25 +129,31 @@
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p>Run the following chunk to install <code>googleCloudVertexAIR</code> and the other required R packages to complete this tutorial (checking to see if they are installed first and only install if not already):</p>
+<p>Run the following chunk to install <code>googleCloudVertexAIR</code>
+and the other required R packages to complete this tutorial (checking to
+see if they are installed first and only install if not already):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">required_packages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remotes"</span>, <span class="st">"googleAuthR"</span><span class="op">)</span></span>
 <span><span class="va">missing_packages</span> <span class="op">&lt;-</span> <span class="va">required_packages</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">required_packages</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> </span>
 <span>                                          <span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span>,<span class="st">"Package"</span><span class="op">]</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">missing_packages</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">missing_packages</span><span class="op">)</span></span>
-<span><span class="co"># remotes::install_github("justinjm/googleCloudVertexAIR") # run first time </span></span>
-<span><span class="co"># options(googleAuthR.verbose = 0) # set when debugging  </span></span></code></pre></div>
+<span></span>
+<span><span class="co"># remotes::install_github("justinjm/googleCloudVertexAIR") # run first time </span></span></code></pre></div>
 <div class="section level4">
 <h4 id="renviron">.Renviron<a class="anchor" aria-label="anchor" href="#renviron"></a>
 </h4>
-<p>Create a file called <code>.Renviron</code> in your project’s working directory and use the following environemtn arguments:</p>
+<p>Create a file called <code>.Renviron</code> in your project’s working
+directory and use the following environemtn arguments:</p>
 <ul>
 <li>
-<code>GAR_SERVICE_JSON</code> - path to service account (JSON) keyfile downloaded before and copied</li>
+<code>GAR_SERVICE_JSON</code> - path to service account (JSON)
+keyfile downloaded before and copied</li>
 <li>
-<code>GCVA_DEFAULT_PROJECT_ID</code> - string of your GCP project you configured before</li>
+<code>GCVA_DEFAULT_PROJECT_ID</code> - string of your GCP project
+you configured before</li>
 <li>
-<code>GCVA_DEFAULT_REGION</code> - region of GCP resorces that can be one of: <code>"us-central1"</code> or <code>"eu"</code>
+<code>GCVA_DEFAULT_REGION</code> - region of GCP resorces that can
+be one of: <code>"us-central1"</code> or <code>"eu"</code>
 </li>
 </ul>
 <p>e.g. your <code>.Renviron</code> should look like:</p>
@@ -162,23 +184,23 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-11-13 16:46:34&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-12-11 13:58:14&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-11-13 16:46:34&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-12-11 13:58:14&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d%H%M%S"</span><span class="op">)</span></span>
 <span><span class="va">timestamp</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "20221113164634"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "20221211135814"</span></span></code></pre>
 </div>
-</div>
-<div class="section level2">
-<h2 id="automl-dataset">AutoML dataset<a class="anchor" aria-label="anchor" href="#automl-dataset"></a>
-</h2>
+<div class="section level3">
+<h3 id="set-vertex-ai-managed-dataset-display-name">Set Vertex AI managed dataset display name<a class="anchor" aria-label="anchor" href="#set-vertex-ai-managed-dataset-display-name"></a>
+</h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datasetDisplayName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span></span>
 <span><span class="va">datasetDisplayName</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "california-housing-20221113164634"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "california-housing-20221211135814"</span></span></code></pre>
+</div>
 <div class="section level3">
 <h3 id="create-a-cloud-storage-bucket">Create a Cloud Storage bucket<a class="anchor" aria-label="anchor" href="#create-a-cloud-storage-bucket"></a>
 </h3>
@@ -190,17 +212,21 @@
 <div class="section level3">
 <h3 id="create-dataset">Create Dataset<a class="anchor" aria-label="anchor" href="#create-dataset"></a>
 </h3>
-<p>Source dataset: <code>gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</code></p>
+<p>Source dataset:
+<code>gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</code></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_create_tabluar_dataset.html">gcva_create_tabluar_dataset</a></span><span class="op">(</span></span>
 <span>  displayName <span class="op">=</span> <span class="va">datasetDisplayName</span>,</span>
 <span>  gcsSource <span class="op">=</span> <span class="st">"gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Dataset created successfully</span></span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## 2022-12-11 13:58:16&gt; Waiting for operation...</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-12-11 13:58:16&gt; Timer: 2.005322 secs</span></span></code></pre>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI Dataset==</span></span>
-<span><span class="co">## createTime:           2022-11-13 21:46:35 </span></span>
-<span><span class="co">## DatasetId:            5365953194104979456</span></span></code></pre>
+<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/2378404179577143296 </span></span>
+<span><span class="co">## displayName:          california-housing-20221211135814 </span></span>
+<span><span class="co">## createTime:           2022-12-11 18:58:15 </span></span>
+<span><span class="co">## gcsSource:            gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="train-model">Train Model<a class="anchor" aria-label="anchor" href="#train-model"></a>
@@ -208,14 +234,12 @@
 <div class="section level4">
 <h4 id="create-training-pipeline">Create training pipeline<a class="anchor" aria-label="anchor" href="#create-training-pipeline"></a>
 </h4>
-<p>docs:</p>
 <ul>
-<li><a href="https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest" class="external-link">Vertex AI</a></li>
-<li><a href="https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.AutoMLTabularTrainingJob" class="external-link">Python SDK - Google Cloud</a></li>
-<li><a href="https://googleapis.dev/python/aiplatform/latest/aiplatform/services.html#google.cloud.aiplatform.AutoMLTabularTrainingJob" class="external-link">Python SDK - GitHub</a></li>
-<li><a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines" class="external-link">REST API</a></li>
+<li>Doc: <a href="https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest" class="external-link uri">https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest</a>
+</li>
+<li>API: <a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines</a>)</li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">job</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_automl_tabluar_training_job.html">gcva_automl_tabluar_training_job</a></span><span class="op">(</span></span>
 <span>  displayName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span>,</span>
 <span>  optimizationPredictionType <span class="op">=</span> <span class="st">"regression"</span>,</span>
@@ -229,102 +253,96 @@
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>numeric     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>column_name <span class="op">=</span> <span class="st">"households"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>numeric     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>column_name <span class="op">=</span> <span class="st">"median_income"</span><span class="op">)</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="va">job</span></span></code></pre></div>
-<pre><code><span><span class="co">## ==Google Cloud Vertex AI AutoML Tabular Training Job==</span></span>
-<span><span class="co">## Display Name:            california-housing-20221113164634 </span></span>
-<span><span class="co">## Prediction Type:         regression </span></span>
-<span><span class="co">## Target Column:</span></span></code></pre>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="run-the-training-pipeline">Run the training pipeline<a class="anchor" aria-label="anchor" href="#run-the-training-pipeline"></a>
 </h4>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_run_job.html">gcva_run_job</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">trainingPipelineJob</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_run_job.html">gcva_run_job</a></span><span class="op">(</span></span>
 <span>  job <span class="op">=</span> <span class="va">job</span>,</span>
-<span>  dataset <span class="op">=</span> <span class="va">datasetDisplayName</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="va">dataset</span>,</span>
 <span>  targetColumn <span class="op">=</span> <span class="st">"median_house_value"</span>,</span>
 <span>  modelDisplayName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"model-%s"</span>, <span class="va">datasetDisplayName</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">model</span></span></code></pre></div>
+<span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="va">trainingPipelineJob</span><span class="op">$</span><span class="va">modelToUpload</span><span class="op">$</span><span class="va">name</span></span>
+<span><span class="va">model</span> </span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">model</span>, </span>
-<span>        file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span></span>
-<span>          <span class="st">"vignettes"</span>,<span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"model-response-%s.rds"</span>, <span class="va">datasetDisplayName</span><span class="op">)</span></span>
-<span>          <span class="op">)</span></span>
-<span>        <span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">model_loaded</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span></span>
-<span>  <span class="st">"vignettes"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"model-response-%s.rds"</span>, <span class="va">datasetDisplayName</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">model_loaded</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># model state = completed </span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="st">"projects/442003009360/locations/us-central1/models/2734102788232445952"</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level3">
-<h3 id="model-deployment-for-batch-prediction">Model deployment for batch prediction<a class="anchor" aria-label="anchor" href="#model-deployment-for-batch-prediction"></a>
-</h3>
-<p>Now deploy the trained Vertex<code>Model</code>resource you created for batch prediction. This differs from deploying a<code>Model</code>resource for online prediction.</p>
-<p>For online prediction, you:</p>
-<ol style="list-style-type: decimal">
-<li>Create an<code>Endpoint</code>resource for deploying the<code>Model</code>resource to.</li>
-<li>Deploy the<code>Model</code>resource to the<code>Endpoint</code>resource.</li>
-<li>Make online prediction requests to the<code>Endpoint</code>resource.</li>
-</ol>
-<p>For batch-prediction, you:</p>
-<ol style="list-style-type: decimal">
-<li>Create a batch prediction job.</li>
-<li>The job service will provision resources for the batch prediction request.</li>
-<li>The results of the batch prediction request are returned to the caller.</li>
-<li>The job service will unprovision the resoures for the batch prediction request.</li>
-</ol>
 </div>
 <div class="section level3">
 <h3 id="make-a-batch-prediction-request">Make a batch prediction request<a class="anchor" aria-label="anchor" href="#make-a-batch-prediction-request"></a>
 </h3>
+<ul>
+<li>Doc: <a href="https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python" class="external-link uri">https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python</a>
+</li>
+<li>API: <a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs</a>
+</li>
+</ul>
 <div class="section level4">
 <h4 id="make-test-items">Make test items<a class="anchor" aria-label="anchor" href="#make-test-items"></a>
 </h4>
+<p>TODO</p>
 </div>
 <div class="section level4">
 <h4 id="make-batch-input-file">Make batch input file<a class="anchor" aria-label="anchor" href="#make-batch-input-file"></a>
 </h4>
+<p>TODO</p>
 </div>
 <div class="section level4">
 <h4 id="make-the-batch-prediction-request">Make the batch prediction request<a class="anchor" aria-label="anchor" href="#make-the-batch-prediction-request"></a>
 </h4>
-<p><a href="https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb" class="external-link">vertex-ai-samples/sdk_automl_tabular_regression_batch_bq.ipynb at main · GoogleCloudPlatform/vertex-ai-samples</a></p>
-<p>You can make a batch prediction by invoking the batch_predict() method, with the following parameters:</p>
-<ul>
-<li>
-<code>job_display_name</code>: The human readable name for the batch prediction job.</li>
-<li>
-<code>gcs_source</code>: A list of one or more batch request input files.</li>
-<li>
-<code>gcs_destination_prefix</code>: The Cloud Storage location for storing the batch prediction resuls.</li>
-<li>
-<code>instances_format</code>: The format for the input instances, either ‘bigquery’, ‘csv’ or ‘jsonl’. Defaults to ‘jsonl’.</li>
-<li>
-<code>predictions_format</code>: The format for the output predictions, either ‘csv’ or ‘jsonl’. Defaults to ‘jsonl’.</li>
-<li>
-<code>machine_type</code>: The type of machine to use for training.</li>
-<li>
-<code>accelerator_type</code>: The hardware accelerator type.</li>
-<li>
-<code>accelerator_count</code>: The number of accelerators to attach to a worker replica.</li>
-<li>
-<code>sync</code>: If set to True, the call will block while waiting for the asynchronous batch job to complete.</li>
-</ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: The bigquery_source and bigquery_destination_prefix must be in the same region</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>PREDICTION_RESULTS_DATASET_ID <span class="ot">=</span> f<span class="st">"{PROJECT_ID}.{RESULTS_DATASET_ID}"</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>batch_predict_job <span class="ot">=</span> <span class="fu">model.batch_predict</span>(</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">job_display_name=</span><span class="st">"tabular_regression_batch_predict_job"</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bigquery_source=</span>f<span class="st">"bq://{PREDICTION_INPUT_TABLE_ID}"</span>,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">instances_format=</span><span class="st">"bigquery"</span>,</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">predictions_format=</span><span class="st">"bigquery"</span>,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">bigquery_destination_prefix=</span>f<span class="st">"bq://{PREDICTION_RESULTS_DATASET_ID}"</span>,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="section level5">
+<h5 id="set-constants">set constants<a class="anchor" aria-label="anchor" href="#set-constants"></a>
+</h5>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">bq_source_uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"bq//%s.california_housing.batch_01"</span>, <span class="va">projectId</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "bq//gc-vertex-ai-r.california_housing.batch_01"</span></span></code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">bq_destination_prefix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"bq://%s.california_housing"</span>, <span class="va">projectId</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "bq://gc-vertex-ai-r.california_housing"</span></span></code></pre>
+</div>
+<div class="section level5">
+<h5 id="execute-request">execute request<a class="anchor" aria-label="anchor" href="#execute-request"></a>
+</h5>
+<p><a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create</a></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">batch_prediction_job</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_batch_predict.html">gcva_batch_predict</a></span><span class="op">(</span></span>
+<span>  jobDisplayName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span>,</span>
+<span>  model <span class="op">=</span> <span class="va">model</span>, <span class="co">#modelName</span></span>
+<span>  bigquerySource<span class="op">=</span> <span class="va">bq_source_uri</span>,</span>
+<span>  instancesFormat <span class="op">=</span> <span class="st">"bigquery"</span>,</span>
+<span>  predictionsFormat <span class="op">=</span> <span class="st">"bigquery"</span>,</span>
+<span>  bigqueryDestinationPrefix <span class="op">=</span> <span class="va">bq_destination_prefix</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">batch_prediction_job</span></span></code></pre></div>
+<pre><code><span><span class="co">## $displayName</span></span>
+<span><span class="co">## [1] "california-housing-20221211135814"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $model</span></span>
+<span><span class="co">## [1] "projects/442003009360/locations/us-central1/models/2734102788232445952"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $inputConfig</span></span>
+<span><span class="co">## $inputConfig$instancesFormat</span></span>
+<span><span class="co">## [1] "bigquery"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $inputConfig$bigquerySource</span></span>
+<span><span class="co">## [1] "bq//gc-vertex-ai-r.california_housing.batch_01"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $outputConfig</span></span>
+<span><span class="co">## $outputConfig$predictionsFormat</span></span>
+<span><span class="co">## [1] "bigquery"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $outputConfig$bigqueryDestination</span></span>
+<span><span class="co">## [1] "bq://gc-vertex-ai-r.california_housing"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "gcva_batchPredictionJob" "list"</span></span></code></pre>
+</div>
 </div>
 <div class="section level4">
 <h4 id="wait-for-completion-of-batch-prediction-job">Wait for completion of batch prediction job<a class="anchor" aria-label="anchor" href="#wait-for-completion-of-batch-prediction-job"></a>
@@ -338,15 +356,35 @@
 <div class="section level3">
 <h3 id="cleaning-up">Cleaning up<a class="anchor" aria-label="anchor" href="#cleaning-up"></a>
 </h3>
+<p>TODO</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">gcva_delete_job</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">gcva_delete_model</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_delete_dataset.html">gcva_delete_dataset</a></span><span class="op">(</span>displayName <span class="op">=</span> <span class="va">dataset</span><span class="op">$</span><span class="va">displayName</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2022-12-11 13:58:18&gt; Dataset successfully deleted.</span></span></code></pre>
 </div>
 <div class="section level3">
-<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<h3 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
 </h3>
 <ul>
-<li>
-<a href="https://cloud.google.com/vertex-ai/docs/pipelines/vertex-automl-component" class="external-link">Vertex AI (aiplatform) AutoML components  |  Google Cloud</a>
+<li>Create training pipeline
 <ul>
-<li><a href="https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/pipelines/automl_tabular_classification_beans.ipynb" class="external-link">vertex-ai-samples/automl_tabular_classification_beans.ipynb at main · GoogleCloudPlatform/vertex-ai-samples</a></li>
+<li><a href="https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest" class="external-link">Vertex
+AI</a></li>
+<li><a href="https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.AutoMLTabularTrainingJob" class="external-link">Python
+SDK - Google Cloud</a></li>
+<li><a href="https://googleapis.dev/python/aiplatform/latest/aiplatform/services.html#google.cloud.aiplatform.AutoMLTabularTrainingJob" class="external-link">Python
+SDK - GitHub</a></li>
+<li><a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines" class="external-link">REST
+API</a></li>
+</ul>
+</li>
+<li>Batch Prediction
+<ul>
+<li><a href="https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python" class="external-link uri">https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python</a></li>
+<li><a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs</a></li>
+<li><a href="https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb" class="external-link uri">https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/official/automl/sdk_automl_tabular_regression_batch_bq.ipynb</a></li>
 </ul>
 </li>
 </ul>

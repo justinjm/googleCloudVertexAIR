@@ -1,11 +1,15 @@
-pandoc: 2.14.0.3
+pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   automl_tabluar_classification_batch: automl_tabluar_classification_batch.html
+  batch_prediction_jobs: batch_prediction_jobs.html
+  custom_tabular_online: custom_tabular_online.html
   datasets: datasets.html
   models: models.html
-last_built: 2022-11-13T21:46Z
+  testing_sh: testing_sh.html
+  training_pipeline_jobs: training_pipeline_jobs.html
+last_built: 2022-12-11T18:58Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles

@@ -41,10 +41,22 @@
       <a href="../articles/automl_tabluar_classification_batch.html">Training a tabuluar AutoML model and performing batch prediction</a>
     </li>
     <li>
+      <a href="../articles/batch_prediction_jobs.html">Performing batch prediction</a>
+    </li>
+    <li>
+      <a href="../articles/custom_tabular_online.html">Training and deploying a custom model</a>
+    </li>
+    <li>
       <a href="../articles/datasets.html">Datasets</a>
     </li>
     <li>
       <a href="../articles/models.html">Models</a>
+    </li>
+    <li>
+      <a href="../articles/testing_sh.html">testing sh</a>
+    </li>
+    <li>
+      <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
@@ -74,13 +86,27 @@
         </td>
         <td><p>Constructs an AutoML Tabular Training Job</p></td>
       </tr><tr><td>
+          <p><code><a href="gcva_batch_predict.html">gcva_batch_predict()</a></code> </p>
+        </td>
+        <td><p>Submit a Batch Prediction Job</p></td>
+      </tr><tr><td>
           <p><code><a href="gcva_create_tabluar_dataset.html">gcva_create_tabluar_dataset()</a></code> </p>
         </td>
         <td><p>Creates a tabluar dataset</p></td>
       </tr><tr><td>
+          <p><code><a href="gcva_dataset.html">gcva_dataset()</a></code> </p>
+        </td>
+        <td><p>Get a dataset object
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.datasets/get</p></td>
+      </tr><tr><td>
           <p><code><a href="gcva_delete_dataset.html">gcva_delete_dataset()</a></code> </p>
         </td>
         <td><p>Deletes a dataset</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_get_op.html">gcva_get_op()</a></code> </p>
+        </td>
+        <td><p>Poll an operationId
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.operations/get</p></td>
       </tr><tr><td>
           <p><code><a href="gcva_list_datasets.html">gcva_list_datasets()</a></code> </p>
         </td>
@@ -89,6 +115,11 @@
           <p><code><a href="gcva_list_models.html">gcva_list_models()</a></code> </p>
         </td>
         <td><p>Lists models in a project.</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_model.html">gcva_model()</a></code> </p>
+        </td>
+        <td><p>Get a Model object
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.models/get</p></td>
       </tr><tr><td>
           <p><code><a href="gcva_project_get.html">gcva_project_get()</a></code> </p>
         </td>
@@ -108,7 +139,21 @@
       </tr><tr><td>
           <p><code><a href="gcva_run_job.html">gcva_run_job()</a></code> </p>
         </td>
-        <td><p>Executes an training job</p></td>
+        <td><p>Executes an training job
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_trainingPipeline.html">gcva_trainingPipeline()</a></code> </p>
+        </td>
+        <td><p>Get a Training Pipeline object
+https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/get</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_wait_for_op.html">gcva_wait_for_op()</a></code> </p>
+        </td>
+        <td><p>Wait for an Operation</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_wait_for_training_pipeline.html">gcva_wait_for_training_pipeline()</a></code> </p>
+        </td>
+        <td><p>Wait for a training pipeline operation</p></td>
       </tr><tr><td>
           <p><code><a href="googleCloudVertexAIR.html">googleCloudVertexAIR</a></code> </p>
         </td>

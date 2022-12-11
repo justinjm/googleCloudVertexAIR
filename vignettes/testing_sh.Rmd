@@ -48,6 +48,6 @@ gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 ```{r}
 sh("gcloud config set project {gcva_project_get()}")
 ```
-```{r}
+```{r results='hide'}
 sh("gcloud config list")
 ```
