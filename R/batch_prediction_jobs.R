@@ -4,7 +4,8 @@
 #' @param locationId location of GCP resources
 #' @param jobDisplayName STRING Required. The user-defined name of this BatchPredictionJob.
 #' @param model STRING The name of the Model resource that produces the predictions via this job,
-#' must share the same ancestor Location. Starting this job has no impact on any existing deployments of the Model and their resources.
+#' must share the same ancestor Location. Format: `projects/{project}/locations/{location}/models/{model}`
+#' Starting this job has no impact on any existing deployments of the Model and their resources.
 #' Exactly one of model and unmanagedContainerModel must be set.
 #' The model resource name may contain version id or version alias to specify the version,
 #' if no version is specified, the default version will be used.
@@ -18,6 +19,10 @@
 #' @param predictionsFormat STRING and one of the following: "bigquery"
 #' @param bigqueryDestinationPrefix BigQuery path. For example: bq://projectId or bq://projectId.bqDatasetId or bq://projectId.bqDatasetId.bqTableId.
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs#BatchPredictionJob
+#' @param sync If set to TRUE, the call will block while waiting for the asynchronous batch job to complete.
+#'
+#' @returns \href{https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobse}{BatchPredictionJob} object
+#'
 #' @export
 gcva_batch_predict <- function(projectId = gcva_project_get(),
                                locationId = gcva_region_get(),
@@ -28,7 +33,8 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
                                instancesFormat = c("jsonl", "csv", "bigquery", "file-list"),
                                predictionsFormat = c("jsonl","csv","bigquery"),
                                gcsDestinationPrefix = NULL,
-                               bigqueryDestinationPrefix = NULL) {
+                               bigqueryDestinationPrefix = NULL,
+                               sync=TRUE) {
 
   # align inputs with required
   instancesFormat <- match.arg(instancesFormat)
@@ -73,7 +79,60 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
   # batchPredictionJob <- f(the_body = batchPredictionJob)
 
   # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState
-
-
+  # if(sync == FALSE) {
+  #   #return right away
+  #   out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  #   out
+  # }  else if(sync == TRUE) {
+  #   #wait until completed
+  #   trainingPipeline <- gcva_wait_for_training_pipeline(
+  #     trainingPipelineName = trainingPipeline$name)
+  #   out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  #   out
+  # }
 
 }
+
+
+#' Wait for a BatchPredctionJob operation
+#'https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState
+#'
+#' @export
+# gcva_wait_for_batch_prediction_job <- function(){
+#
+# }
+
+
+#' Get a BatchPrediction object
+#' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/get
+#'
+#' @param locationId locationId of training pipeline
+#' @param batchPredictionJob string Required. The name of the BatchPredictionJob resource.
+#' Format: `projects/{project}/locations/{location}/batchPredictionJobs/{batchPredictionJob}`
+#'
+#' @return `BatchPredictionJob` object https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs
+#'
+#' @export
+gcva_batch_prediction_job <- function(locationId = gcva_region_get(),
+                                      batchPredictionJob){
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+                 locationId,
+                 batchPredictionJob)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "GET",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  response <- f()
+
+  out <- structure(response, class = "gcva_batchPredictionJob")
+
+  out
+
+}
+
+
+
+

@@ -53,7 +53,7 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.bat
 ```{r}
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = "california-housing-batch-01",
-  model = model, #modelName
+  model = model, 
   bigquerySource = bq_source_uri,
   instancesFormat = "bigquery",
   predictionsFormat = "bigquery",
@@ -61,7 +61,8 @@ batch_prediction_job <- gcva_batch_predict(
 )
 # batch_prediction_job
 
-jsonlite::toJSON(batch_prediction_job, pretty = TRUE, auto_unbox = TRUE) # for dev 
+# show raw JSON body submitted to API for debugging while developing package
+jsonlite::toJSON(batch_prediction_job, pretty = TRUE, auto_unbox = TRUE) 
 ```
 
 
