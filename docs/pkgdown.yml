@@ -9,7 +9,7 @@ articles:
   models: models.html
   testing_sh: testing_sh.html
   training_pipeline_jobs: training_pipeline_jobs.html
-last_built: 2022-12-11T18:58Z
+last_built: 2022-12-11T19:06Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles
