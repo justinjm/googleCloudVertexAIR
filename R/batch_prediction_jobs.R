@@ -81,13 +81,12 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
   # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState
   # if(sync == FALSE) {
   #   #return right away
-  #   out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  #   out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
   #   out
   # }  else if(sync == TRUE) {
   #   #wait until completed
-  #   trainingPipeline <- gcva_wait_for_training_pipeline(
-  #     trainingPipelineName = trainingPipeline$name)
-  #   out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  #   batchPredictionJo <- gcva_wait_for_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
+  #   out <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob$name)
   #   out
   # }
 

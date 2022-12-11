@@ -122,8 +122,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
     out
   }  else if(sync == TRUE) {
     #wait until completed
-    trainingPipeline <- gcva_wait_for_training_pipeline(
-      trainingPipelineName = trainingPipeline$name)
+    trainingPipeline <- gcva_wait_for_training_pipeline(trainingPipelineName = trainingPipeline$name)
     out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
     out
   }
