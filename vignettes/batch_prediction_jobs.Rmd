@@ -70,3 +70,15 @@ batch_prediction_job
 
 example url: 
 https://console.cloud.google.com/vertex-ai/locations/us-central1/batch-predictions/7283609362524798976/properties?project=gc-vertex-ai-r
+
+
+```{r eval=FALSE, include=FALSE, echo=FALSE, results='hide'}
+saveRDS(batch_prediction_job, 
+        file = here::here(
+          "vignettes",sprintf("batch_prediction_job-response-%s.rds",
+                              "california-housing-batch-01")
+        )
+)
+```
+```
+

@@ -78,7 +78,6 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
                                       checkTrailingSlash = FALSE)
 
   stopifnot(inherits(batchPredictionJob, "gcva_batchPredictionJob"))
-  batchPredictionJob
 
   batchPredictionJob <- f(the_body = batchPredictionJob)
 
@@ -113,7 +112,6 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
   # console_url <- sprintf(
   #   "https://console.cloud.google.com/vertex-ai/locations/%s/training/%s?project=%s",
   #   locationId, trainingPipelineId, projectId)
-  #
   # myMessage("view job: ", console_url, level = 3)
   myMessage("job state: ", job$state, level = 3)
 
@@ -121,6 +119,7 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
 
   while(!status){
     Sys.sleep(wait)
+    job <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob)
 
     # myMessage("view job: ", console_url, level = 3)
     myMessage("job state: ", job$state, level = 3)
@@ -133,6 +132,7 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
       status <- FALSE
     }
   }
+  job
 
 }
 
