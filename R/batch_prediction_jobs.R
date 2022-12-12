@@ -109,9 +109,12 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
                                                wait=300){
 
   job <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob)
+
+  # TODO - add url to printed message, untested draft below
+  # batchPredictionJobId <- unlist(strsplit(job$name, "/"))[6]
   # console_url <- sprintf(
-  #   "https://console.cloud.google.com/vertex-ai/locations/%s/training/%s?project=%s",
-  #   locationId, trainingPipelineId, projectId)
+  #   "https://console.cloud.google.com/vertex-ai/locations/%s/batch-predictions/%s/properties?project=%s",
+  #   locationId, batchPredictionJobId, projectId)
   # myMessage("view job: ", console_url, level = 3)
   myMessage("job state: ", job$state, level = 3)
 
