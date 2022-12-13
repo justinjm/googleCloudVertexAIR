@@ -127,13 +127,6 @@ gcva_run_job <- function(projectId = gcva_project_get(),
     out
   }
 
-  # TODO - add get model name from training pipeline
-  # want:
-  # -> if sync = FALSE / return right away => empty / model placeholder
-  # -> if sync = TRUE / wait until completed => model name
-  # out$modelToUpload$name ?
-  # gcva_model() ?
-
 }
 
 
