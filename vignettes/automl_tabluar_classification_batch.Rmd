@@ -34,10 +34,6 @@ if(length(missing_packages)) install.packages(missing_packages)
 # remotes::install_github("justinjm/googleCloudVertexAIR") # run first time 
 ```
 
-```{r include=FALSE, echo=FALSE, results='hide'}
-# options(googleAuthR.verbose = 0) # set when debugging  
-``` 
-
 ### .Renviron
 
 Create a file called `.Renviron` in your project's working directory and use the following environemtn arguments: 
@@ -181,7 +177,7 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.bat
 
 ```{r batch-prediction-job}
 # hard code #modelName for testing purposes, model state = completed 
-model <- "projects/442003009360/locations/us-central1/models/2734102788232445952"
+modelName <- "projects/442003009360/locations/us-central1/models/2734102788232445952"
 
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = sprintf("california-housing-%s", timestamp),
