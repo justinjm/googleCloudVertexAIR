@@ -141,9 +141,16 @@ trainingPipelineJob <- gcva_run_job(
   targetColumn = "median_house_value",
   modelDisplayName = sprintf("model-%s", datasetDisplayName))
 
-model <- trainingPipelineJob$modelToUpload$name
-model 
+trainingPipelineJob
 ```
+
+After model completes training, extract `modelName` to a variable for batch prediction
+
+```r
+modelName <- trainingPipelineJob$modelToUpload$name
+modelName 
+```
+
 
 ## Make a batch prediction request
 
@@ -178,7 +185,7 @@ model <- "projects/442003009360/locations/us-central1/models/2734102788232445952
 
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = sprintf("california-housing-%s", timestamp),
-  model = model, #modelName
+  model = modelName, #modelName
   bigquerySource= bq_source_uri,
   instancesFormat = "bigquery",
   predictionsFormat = "bigquery",
