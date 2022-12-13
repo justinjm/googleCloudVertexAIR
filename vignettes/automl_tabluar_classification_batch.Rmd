@@ -145,15 +145,6 @@ model <- trainingPipelineJob$modelToUpload$name
 model 
 ```
 
-```{r eval=FALSE, include=FALSE, echo=FALSE, results='hide'}
-saveRDS(trainingPipelineJob, 
-        file = here::here(
-          "vignettes",sprintf("trainingPipelineJob-response-%s.rds",
-                              datasetDisplayName)
-        )
-)
-```
-
 ## Make a batch prediction request
 
 * Doc: https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
