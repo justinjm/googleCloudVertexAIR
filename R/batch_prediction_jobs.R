@@ -170,6 +170,3 @@ gcva_batch_prediction_job <- function(locationId = gcva_region_get(),
 
 }
 
-
-
-

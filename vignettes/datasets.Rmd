@@ -72,7 +72,7 @@ datasets_list
 # Delete dataset
 
 ```{r}
-gcva_delete_dataset(displayName = datasetDisplayName)
+gcva_delete_dataset(dataset = dataset)
 ```
 
 
