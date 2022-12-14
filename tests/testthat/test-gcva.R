@@ -111,7 +111,18 @@ test_that("We can delete a dataset", {
 #   expect_s3_class(p, "gcva_trainingPipeline")
 #   expect_true(
 #     all(
-#       # TODO
+#       names(p) %in% c("name",
+#                       "displayName",
+#                       "inputDataConfig",
+#                       "trainingTaskDefinition",
+#                       "trainingTaskInputs",
+#                       "trainingTaskMetadata",
+#                       "modelToUpload",
+#                       "state",
+#                       "createTime",
+#                       "startTime",
+#                       "endTime",
+#                       "updateTime")
 #     )
 #   )
 # }
@@ -175,3 +186,6 @@ test_that("We can get a Model", {
     )
   )
 })
+
+#  to get list of names easily copy/paste-able from R console, use:
+# cat(names(OBJECT), sep=", ")
