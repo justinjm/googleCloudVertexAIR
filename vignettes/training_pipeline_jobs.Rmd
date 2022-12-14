@@ -35,7 +35,8 @@ gcva_project_set(projectId)
 
 ```{r}
 training_pipeline <- gcva_trainingPipeline(
-  trainingPipelineName = "projects/442003009360/locations/us-central1/trainingPipelines/2601571779788931072")
+  trainingPipelineName = Sys.getenv("GCVA_TRAINING_PIPELINE")
+    )
 training_pipeline
 ```
 

@@ -67,6 +67,11 @@ dataset
 datasets_list <- gcva_list_datasets()
 datasets_list
 ```
+# Get a dataset 
+
+```{r}
+gcva_dataset(datasetName = datasets_list[1,2])
+```
 
 
 # Delete dataset

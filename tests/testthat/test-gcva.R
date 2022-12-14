@@ -74,7 +74,8 @@ test_that("We can get a dataset", {
   expect_true(
     all(
       names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
-                      "updateTime", "etag", "labels", "metadata")
+                      "updateTime", "etag", "labels", "metadata",
+                      "metadataArtifact")
     )
   )
 })
@@ -88,11 +89,33 @@ test_that("We can delete a dataset", {
   expect_true(projectId != "")
   expect_true(locationId != "")
   r <- gcva_delete_dataset(projectId, locationId,
-                                displayName = "test_gcva_dataset")
+                           displayName = "test_gcva_dataset")
 
   expect_null(r)
 
 })
+
+# context("trainingPipelineJobs")
+#
+# test_that("We can get a trainingPipelineJob", {
+#   skip_if_no_token()
+#
+#   projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+#   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+#   trainingPipelineName <- Sys.getenv("GCVA_TRAINING_PIPELINE")
+#   expect_true(projectId != "")
+#   expect_true(locationId != "")
+#   expect_true(trainingPipelineName != "")
+#   p <- gcva_trainingPipeline(trainingPipelineName = trainingPipelineName)
+#
+#   expect_s3_class(p, "gcva_trainingPipeline")
+#   expect_true(
+#     all(
+#       # TODO
+#     )
+#   )
+# }
+# )
 
 context("Models")
 
