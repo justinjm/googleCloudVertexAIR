@@ -47,8 +47,8 @@ e.g. your `.Renviron` should look like:
 ```
 # .Renviron
 GAR_SERVICE_JSON="/Users/me/auth/auth.json"
-GCAT_DEFAULT_PROJECT_ID="my-project"
-GCAT_DEFAULT_REGION="us-central1"
+GCVA_DEFAULT_PROJECT_ID="my-project"
+GCVA_DEFAULT_REGION="us-central1"
 ```
 
 ## Setup Google Cloud Project
@@ -85,10 +85,7 @@ datasetDisplayName
 
 ## Create a Cloud Storage bucket
 
-TODO 
-
-(unncessary if not using Cloud Storage for batch prediction input)
-
+TODO (unncessary if not using Cloud Storage for batch prediction input)
 
 # Tutorial
 
@@ -108,7 +105,7 @@ dataset
 ### Create training pipeline
 
 * Doc: https://cloud.google.com/vertex-ai/docs/training/automl-api#aiplatform_create_training_pipeline_tabular_classification_sample-drest
-* API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines)
+* API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines
 
 ```{r create-automl-tabular-training-job}
 job <- gcva_automl_tabluar_training_job(
@@ -147,27 +144,26 @@ modelName <- trainingPipelineJob$modelToUpload$name
 modelName 
 ```
 
-
 ## Make a batch prediction request
 
 * Doc: https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#aiplatform_create_batch_prediction_job_bigquery_sample-python
 * API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs
 
-### Make test items
+### Make test items for batch input 
 
-TODO 
+TODO - create BQ dataset then create BQ table from the source dataset in GCS `california-housing-tabular-regression.csv`
 
-### Make batch input file
-
-TODO 
+1. Create BQ dataset `california_housing`
+2. Create BQ external table from GCS file `california_housing.source_data`
+3. Create BQ table `batch01` from BQ table `california_housing.source_data` 
 
 ### Make the batch prediction request
 
 #### set constants
 
 ```{r set-constants-for-batch-prediction}
-(bq_source_uri <- sprintf("bq://%s.california_housing.batch_01", projectId))
-(bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
+bq_source_uri <- sprintf("bq://%s.california_housing.batch_01", projectId)
+bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId)
 ```
 
 #### execute request
@@ -177,7 +173,7 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.bat
 
 ```{r batch-prediction-job}
 # hard code #modelName for testing purposes, model state = completed 
-modelName <- "projects/442003009360/locations/us-central1/models/2734102788232445952"
+modelName <- Sys.getenv("GCVA_TEST_MODEL_NAME")
 
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = sprintf("california-housing-%s", timestamp),
@@ -196,16 +192,24 @@ Once the batch prediction job has completed, you can then view and use the predi
 
 ### Get predictions
 
-TODO 
+TODO - add R code and example SQL to make more easily reproducible 
+
+Open BigQuery console and navigate to the dataset where the predictions were saved, then modify and run the query below: 
+
+```sql 
+SELECT 
+  predicted_TARGET_COLUMN_NAME.value,
+  predicted_TARGET_COLUMN_NAME.lower_bound,
+  predicted_TARGET_COLUMN_NAME.upper_bound
+FROM BQ_DATASET_NAME.BQ_PREDICTIONS_TABLE_NAME
+```
+
+See more details here: https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#retrieve-batch-results
+
+* If you are using BigQuery, the output of batch prediction is stored in an output dataset. If you had provided a dataset to Vertex AI, the name of the dataset (BQ\_DATASET\_NAME) is the name you had provided earlier. If you did not provide an output dataset, Vertex AI created one for you.
+* The name of the table (BQ\_PREDICTIONS\_TABLE\_NAME) is formed by appending \`predictions\_\` with the timestamp of when the batch prediction job started: `predictions_TIMESTAMP`
 
 ## Cleaning up
-
-TODO
-
-```r
-gcva_delete_job()
-gcva_delete_model()
-```
 
 ```{r cleanup-delete-dataset}
 gcva_delete_dataset(dataset = dataset)

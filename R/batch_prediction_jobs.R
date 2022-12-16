@@ -40,6 +40,10 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
   instancesFormat <- match.arg(instancesFormat)
   predictionsFormat <- match.arg(predictionsFormat)
 
+  # TODO - change to accept trainingPipelineJob object
+  # get model name from input
+  # model <- model$modelToUpload$name
+
   # merge into request body
   batchPredictionJob <- structure(
     rmNullObs(
