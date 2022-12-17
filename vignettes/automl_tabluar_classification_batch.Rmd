@@ -169,7 +169,7 @@ bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId)
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
 
 
-```{r batch-prediction-job}
+```r
 # hard code #modelName for testing purposes, model state = completed 
 modelName <- Sys.getenv("GCVA_TEST_MODEL_NAME")
 
