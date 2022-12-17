@@ -18,9 +18,15 @@ library(bigrquery)
 library(googleCloudVertexAIR)
 # library(googleCloudRunner) # TODO
 
-
-
 options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
 
 gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 ```
+
+
+## TODO
+
+Test workflows running authentication with multiple Google services and  R packages including:
+
+* creating GCS buckets and BQ datasets/tables
+* downloading/uploading data from GCS and BQ 

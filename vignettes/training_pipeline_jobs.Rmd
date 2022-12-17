@@ -31,6 +31,7 @@ projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
 gcva_region_set("us-central1")
 gcva_project_set(projectId)
 ```
+
 # Get training pipeline 
 
 ```{r}

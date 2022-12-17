@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-```{r}
+```{r warning=FALSE}
 library(withr)
 library(glue)
 
@@ -38,16 +38,14 @@ options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-pla
 gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 ```
 
-```{r}
-# https://stackoverflow.com/a/64381848/1812363 
-# with_path(path.expand("~/google-cloud-sdk/bin/"), {
-#    sh("gcloud config set project {gcva_project_get()}")
-# })
-```
+Set `gcloud` project: 
 
 ```{r}
 sh("gcloud config set project {gcva_project_get()}")
 ```
+
+List `gcloud` configuration to verify: 
+
 ```{r results='hide'}
 sh("gcloud config list")
 ```
