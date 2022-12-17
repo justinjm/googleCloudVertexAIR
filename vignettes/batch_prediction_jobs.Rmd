@@ -41,7 +41,7 @@ model <- "projects/442003009360/locations/us-central1/models/2734102788232445952
 #### set constants
 
 ```{r}
-(bq_source_uri <- sprintf("bq://%s.california_housing.batch_01", projectId))
+(bq_source_uri <- sprintf("bq://%s.california_housing.batch_02", projectId))
 (bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId))
 ```
 
@@ -62,12 +62,3 @@ batch_prediction_job <- gcva_batch_predict(
 
 batch_prediction_job
 ```
-
-```{r}
-# show raw JSON body submitted to API for debugging while developing package
-# jsonlite::toJSON(batch_prediction_job, pretty = TRUE, auto_unbox = TRUE) 
-```
-
-example url: 
-https://console.cloud.google.com/vertex-ai/locations/us-central1/batch-predictions/7283609362524798976/properties?project=gc-vertex-ai-r
-
