@@ -112,14 +112,16 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
                                                batchPredictionJob,
                                                wait=300){
 
+  myMessage("Submitting batch prediction job...", level = 3)
+
   job <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob)
 
-  # TODO - add url to printed message, untested draft below
-  # batchPredictionJobId <- unlist(strsplit(job$name, "/"))[6]
-  # console_url <- sprintf(
-  #   "https://console.cloud.google.com/vertex-ai/locations/%s/batch-predictions/%s/properties?project=%s",
-  #   locationId, batchPredictionJobId, projectId)
-  # myMessage("view job: ", console_url, level = 3)
+  myMessage("Batch prediction job submitted", level = 3)
+  batchPredictionJobId <- unlist(strsplit(job$name, "/"))[6]
+  console_url <- sprintf(
+    "https://console.cloud.google.com/vertex-ai/locations/%s/batch-predictions/%s/properties?project=%s",
+    locationId, batchPredictionJobId, projectId)
+  myMessage("view job: ", console_url, level = 3)
   myMessage("job state: ", job$state, level = 3)
 
   status <- FALSE
@@ -140,6 +142,7 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
     }
   }
   job
+  # TODO - returning NULL
 
 }
 
@@ -151,7 +154,8 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
 #' @param batchPredictionJob string Required. The name of the BatchPredictionJob resource.
 #' Format: `projects/{project}/locations/{location}/batchPredictionJobs/{batchPredictionJob}`
 #'
-#' @return `BatchPredictionJob` object https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs
+#' @return `BatchPredictionJob` object
+#' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs
 #'
 #' @export
 gcva_batch_prediction_job <- function(locationId = gcva_region_get(),
