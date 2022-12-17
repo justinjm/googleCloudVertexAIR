@@ -130,7 +130,7 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
     Sys.sleep(wait)
     job <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJob)
 
-    # myMessage("view job: ", console_url, level = 3)
+    myMessage("view job: ", console_url, level = 3)
     myMessage("job state: ", job$state, level = 3)
 
     if(job$state == "JOB_STATE_SUCCEEDED" |
@@ -142,8 +142,6 @@ gcva_wait_for_batch_prediction_job <- function(locationId = gcva_region_get(),
     }
   }
   job
-  # TODO - returning NULL
-
 }
 
 
