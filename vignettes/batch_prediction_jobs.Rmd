@@ -50,7 +50,7 @@ model <- "projects/442003009360/locations/us-central1/models/2734102788232445952
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
 
 
-```{r}
+```r
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = "california-housing-batch-02",
   model = model, 

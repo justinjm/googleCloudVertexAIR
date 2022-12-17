@@ -36,7 +36,7 @@ if(length(missing_packages)) install.packages(missing_packages)
 # options(googleAuthR.verbose = 0) # set when debugging
 ```
 
-```{r}
+```{r warning=FALSE}
 library(withr) # for gcloud sdk: https://stackoverflow.com/a/64381848/1812363 
 library(glue) 
 
@@ -362,3 +362,9 @@ local directory
 unlink("src", recursive = TRUE) # will delete directory called 'mydir'
 ```
 
+GCS bucket 
+
+```{r}
+delete_bucket <- TRUE 
+if (delete_bucket == TRUE) sh("gsutil -m rm -r {bucket_uri}")
+```
