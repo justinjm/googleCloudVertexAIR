@@ -7,7 +7,8 @@
 gcva_delete_dataset(
   projectId = gcva_project_get(),
   locationId = gcva_region_get(),
-  displayName
+  displayName = NULL,
+  dataset
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ gcva_delete_dataset(
 \item{locationId}{location of GCP resources}
 
 \item{displayName}{the name of the dataset that is shown in the interface.}
+
+\item{dataset}{dataset object returned by gcva_dataset function}
 }
 \description{
 Deletes a dataset

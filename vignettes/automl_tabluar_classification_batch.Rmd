@@ -83,10 +83,6 @@ datasetDisplayName <- sprintf("california-housing-%s", timestamp)
 datasetDisplayName
 ```
 
-## Create a Cloud Storage bucket
-
-TODO (unncessary if not using Cloud Storage for batch prediction input)
-
 # Tutorial
 
 ## Create Dataset

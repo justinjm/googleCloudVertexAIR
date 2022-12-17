@@ -52,7 +52,7 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.bat
 
 ```{r}
 batch_prediction_job <- gcva_batch_predict(
-  jobDisplayName = "california-housing-batch-01",
+  jobDisplayName = "california-housing-batch-02",
   model = model, 
   bigquerySource = bq_source_uri,
   instancesFormat = "bigquery",

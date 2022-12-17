@@ -5,22 +5,34 @@
 \title{Submit a Batch Prediction Job}
 \usage{
 gcva_batch_predict(
+  projectId = gcva_project_get(),
+  locationId = gcva_region_get(),
   jobDisplayName,
   model,
-  bigquerySource,
-  instancesFormat = c("bigquery"),
-  predictionsFormat = c("bigquery"),
-  bigqueryDestinationPrefix
+  gcsSource = NULL,
+  bigquerySource = NULL,
+  instancesFormat = c("jsonl", "csv", "bigquery", "file-list"),
+  predictionsFormat = c("jsonl", "csv", "bigquery"),
+  gcsDestinationPrefix = NULL,
+  bigqueryDestinationPrefix = NULL,
+  sync = TRUE
 )
 }
 \arguments{
+\item{projectId}{GCP project id}
+
+\item{locationId}{location of GCP resources}
+
 \item{jobDisplayName}{STRING Required. The user-defined name of this BatchPredictionJob.}
 
 \item{model}{STRING The name of the Model resource that produces the predictions via this job,
-must share the same ancestor Location. Starting this job has no impact on any existing deployments of the Model and their resources.
+must share the same ancestor Location. Format: `projects/{project}/locations/{location}/models/{model}`
+Starting this job has no impact on any existing deployments of the Model and their resources.
 Exactly one of model and unmanagedContainerModel must be set.
 The model resource name may contain version id or version alias to specify the version,
 if no version is specified, the default version will be used.}
+
+\item{gcsSource}{string Required. Google Cloud Storage URI(-s) to the input file(s). May contain wildcards. For more information on wildcards, see https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames.}
 
 \item{bigquerySource}{string Required. BigQuery URI to a project or table, up to 2000 characters long.
 When only the project is specified, the Dataset and Table is created. When the full table reference is specified,
@@ -32,6 +44,11 @@ Accepted forms: "bq://projectId.bqDatasetId.bqTableId"}
 
 \item{bigqueryDestinationPrefix}{BigQuery path. For example: bq://projectId or bq://projectId.bqDatasetId or bq://projectId.bqDatasetId.bqTableId.
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs#BatchPredictionJob}
+
+\item{sync}{If set to TRUE, the call will block while waiting for the asynchronous batch job to complete.}
+}
+\value{
+\href{https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobse}{BatchPredictionJob} object
 }
 \description{
 Submit a Batch Prediction Job
