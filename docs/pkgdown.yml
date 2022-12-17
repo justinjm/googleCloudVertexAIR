@@ -7,9 +7,10 @@ articles:
   custom_tabular_online: custom_tabular_online.html
   datasets: datasets.html
   models: models.html
+  multi-auth: multi-auth.html
   testing_sh: testing_sh.html
   training_pipeline_jobs: training_pipeline_jobs.html
-last_built: 2022-12-11T19:06Z
+last_built: 2022-12-17T16:34Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles

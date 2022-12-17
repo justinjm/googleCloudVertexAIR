@@ -71,6 +71,9 @@
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
+      <a href="../articles/multi-auth.html">multi-auth</a>
+    </li>
+    <li>
       <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
@@ -101,7 +104,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>testing sh</h1>
             
-            <h4 data-toc-skip class="date">2022-12-11</h4>
+            <h4 data-toc-skip class="date">2022-12-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/testing_sh.Rmd" class="external-link"><code>vignettes/testing_sh.Rmd</code></a></small>
       <div class="hidden name"><code>testing_sh.Rmd</code></div>
@@ -111,13 +114,10 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://withr.r-lib.org" class="external-link">withr</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: package 'withr' was built under R version 4.0.5</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue" class="external-link">glue</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: package 'glue' was built under R version 4.0.5</span></span></code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sh</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">intern</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://withr.r-lib.org" class="external-link">withr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue" class="external-link">glue</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sh</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">intern</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://withr.r-lib.org/reference/with_path.html" class="external-link">with_path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~/google-cloud-sdk/bin/"</span><span class="op">)</span>, <span class="op">{</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">args</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">)</span></span>
@@ -129,22 +129,19 @@
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="st">"errmsg"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">ret</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">names</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">ret</span>, <span class="st">"errmsg"</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="va">intern</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ret</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">ret</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://code.markedmondson.me/googleAuthR/" class="external-link">googleAuthR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/justinjm/googleCloudVertexAIR" class="external-link">googleCloudVertexAIR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>googleAuthR.scopes.selected <span class="op">=</span> <span class="st">"https://www.googleapis.com/auth/cloud-platform"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html" class="external-link">gar_auth_service</a></span><span class="op">(</span>json_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GAR_SERVICE_JSON"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># https://stackoverflow.com/a/64381848/1812363 </span></span>
-<span><span class="co"># with_path(path.expand("~/google-cloud-sdk/bin/"), {</span></span>
-<span><span class="co">#    sh("gcloud config set project {gcva_project_get()}")</span></span>
-<span><span class="co"># })</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Set <code>gcloud</code> project:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sh</span><span class="op">(</span><span class="st">"gcloud config set project {gcva_project_get()}"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Updated property [core/project].</span></span></code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>List <code>gcloud</code> configuration to verify:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sh</span><span class="op">(</span><span class="st">"gcloud config list"</span><span class="op">)</span></span></code></pre></div>
   </div>
 

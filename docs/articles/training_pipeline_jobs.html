@@ -71,6 +71,9 @@
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
+      <a href="../articles/multi-auth.html">multi-auth</a>
+    </li>
+    <li>
       <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
@@ -101,7 +104,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Training Pipeline Jobs</h1>
             
-            <h4 data-toc-skip class="date">2022-12-11</h4>
+            <h4 data-toc-skip class="date">2022-12-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/training_pipeline_jobs.Rmd" class="external-link"><code>vignettes/training_pipeline_jobs.Rmd</code></a></small>
       <div class="hidden name"><code>training_pipeline_jobs.Rmd</code></div>
@@ -127,17 +130,18 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span><span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-11 14:07:06&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-12-17 11:35:46&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span><span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-11 14:07:06&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-12-17 11:35:46&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="get-training-pipeline">Get training pipeline<a class="anchor" aria-label="anchor" href="#get-training-pipeline"></a>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">training_pipeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_trainingPipeline.html">gcva_trainingPipeline</a></span><span class="op">(</span></span>
-<span>  trainingPipelineName <span class="op">=</span> <span class="st">"projects/442003009360/locations/us-central1/trainingPipelines/2601571779788931072"</span><span class="op">)</span></span>
+<span>  trainingPipelineName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_TRAINING_PIPELINE"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span><span class="va">training_pipeline</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI TrainingPipeline Job==</span></span>
 <span><span class="co">## console:              https://console.cloud.google.com/vertex-ai/locations/us-central1/training/2601571779788931072?project=442003009360 </span></span>
@@ -165,10 +169,10 @@
 <span><span class="co">## </span></span>
 <span><span class="co">## $predictSchemata</span></span>
 <span><span class="co">## $predictSchemata$instanceSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1670789227&amp;Signature=OawAkdkeNri1SVPpryqqA40eDTRKLtYssagAcmeqGAQZcvMZwpzx%252FWyqKqftv0sN7rstwIDPsjNrQdc4WzsE4Tqk%252BjACXb%252B0TG6Qmrrt7KmiROqqp6vxiiylDsfOZ%252F17GFiHccV3914vxqupJdpbpojbo5DMO7SlZx1C%252B8fXD4XthJwWj9fxzH2ds0vmmNQK0uhnqPloovE%252ByeC7Ysk7vobJO1hMf5ZudoqPlerhQhe8iijmH5VFTsj%252F1QgmK99oWqL30hGdq3XfOpu%252BkHcZxWdiW%252FBcHnApLRuSfJDZAF4ljRY%252FyqWwLPbkwDyiyE21S4Qvgcal8zPZLV7IAXnx0A%253D%253D"</span></span>
+<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298547&amp;Signature=KFKSM%252Fz60RtOrE3AZLJ6u1ujzCM4TzoAYcBnIPUcCbp1dqbP%252Bcxr8MINg8nsxUbaQ0CQknk0bvdChUOn3DVNThccCwEcw1traKp8M3HCReWu5187BHg3c8Ot0P5NoNXnXx8VrAcVKHVnEMaNevqyE3CN%252FBt0aqOw%252BzMm0yf0bMQTfaDDRG92L6kRddSfbOFXxkNIxmV03L8hmISdduas12F1f517DIASzTPeGdYalTlefQs762hpixECIjBqaqRXd%252B2g0N%252BUAWd0Zmz7DKZMQfdm%252FvAfKshUEG1YDgl5sX%252BS8OdhzZO%252FTT8wXbIujVs2kwhjaMb7MY240MCKVw6wEw%253D%253D"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $predictSchemata$predictionSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1670789227&amp;Signature=mQxLET5ePuEnu42N3Lo6tMmV5FOeozdMPpDmK1rW3mY9PPs30AuYVFQobe0587eU%252BFgqi%252FWm0Lgw6o3z01T9kS8%252FC8F7nYYBSYaeAO0q2T8vU%252FmBI2dE%252B27mTKN4XAZDKABhr98siWNQbQnU7RamtVkIJjSXjL8ID7llqwKW1S8GgUybwYTeaEj0pOjnpXGn%252B7EGibpxV6DJxTjxePSzf5MqXTbxSDKLug9S%252FJq0TP%252FdAJ8bBHpagRcEKJ6utIkFyNJ0orv2cfBn2gf%252Fo0LlrckOSNhuMzWFLcPP3%252F66ojriHiLGtBzhJXAlJpbO2cncO6z2CqYm9JBiJvrbdHqiXA%253D%253D"</span></span>
+<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298547&amp;Signature=iPBpS5IC0q%252FQMP2LlGw4bD%252B7auizt54B5WhY7k%252BDq%252F0D2bVkr%252F5O2liQn0LES1kmAh17fHlS2b2VXmxppvLSfAeMiT334trZKPMyqAORke6%252BBq2hH1gE%252BQsRlPnz9BXEWlZkyVF9UhDb7G0W3eiwm8RmJ5HJFM0VQlvqcvHxPzVCuTEcJ2ai05Xl24exZu0k02RPf6aakhY4US9xLYVIILFGefjQlBxGo4f%252FOne49TU6%252FUjXejblduPqELAELY1f8yrwTEi94x%252BLUJuxPvcdsji%252BDdaubcoRKHi2QD3dhX2B25QtBjrkyqapB91j3qbWj83MzRiC%252F8pMDN5MWdvgzg%253D%253D"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $metadataSchemaUri</span></span>
@@ -196,7 +200,7 @@
 <span><span class="co">## [1] "2022-11-13T23:33:13.942890Z"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $etag</span></span>
-<span><span class="co">## [1] "AMEw9yNLOaWcdUb2TrTUVm2IyKdk8BDJen4eTkz03ruLZCrpZWesk8pkL7UYTx5Ul5px"</span></span>
+<span><span class="co">## [1] "AMEw9yNVKGUr20OJSp3Ig_ehiAJKLk9Y2isPaAHvUkam9DMqJXSw3sjmR-S1PnFiv3n3"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $supportedExportFormats</span></span>
 <span><span class="co">##               id exportableContents</span></span>
@@ -259,7 +263,7 @@
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $explanationSpec$metadata$featureAttributionsSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1670789227&amp;Signature=p867Q%252Ff4oLOzoeAUUv95P2o0if%252Fndom0UxCafQ3QWJFsFCwZmmhMqrIJX5pnfJdO3l5%252B%252BtseP5ebgldeHt587UVZRw4uQhPN9FIX89c%252B7%252BS8iRp4XIuHjARdkhuSLcsTI4V15y6Q8OItD%252BV3X93bdH3vJygewPqcg79ROApdaFVfJ8fmKpW3JRqgdNdv7cyiGJol9dloCMlgcszh66WdkEItGs09Kqses4Hkd3j6rno6YJN83QpYhugqE39sBrL1QcjG90F8VMQpZcKAvpF%252BnFt0XjM2uRHh%252FzctMaaat%252B2C7XzRVJ%252BJWyzkVEVJVY3yb0vOjAPqlzYBI%252F%252BIKPGObQ%253D%253D"</span></span>
+<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298547&amp;Signature=ibD7HhQEVJSiy%252FJ2YpIPlS2fsfkDnLaT7tCykG2T5LiHlGdsHfcnis%252BhhDpPzifHDiyFC02vg%252BoqQrdHSwqsKCDLH5CAYqd1jX5b14skAYFfyxfpTwT0AYm9X%252FUa8hvZqAr%252FO8Lb%252B%252BCoRzropRkG9pGvjlOTe1k8OtELH56cC%252Ff3SA8mNEscH%252F63CIDqpr67kfnEtqHA%252B%252FojAscW1pRZa4uvd2AlrwwtE9ngqv0n8eMnWcwIhF23NowHZI2G6D8zdQ5IxHHW4HKDy7y0kXgp5xQOSuJigOVSzzG%252BEu7kSFQc0gE%252FpdwGfIjlCKBgVHub2IoAICttMwhhxCWH4NTgxQ%253D%253D"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>

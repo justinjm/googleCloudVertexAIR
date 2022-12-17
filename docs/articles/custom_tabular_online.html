@@ -71,6 +71,9 @@
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
+      <a href="../articles/multi-auth.html">multi-auth</a>
+    </li>
+    <li>
       <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
@@ -101,7 +104,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Training and deploying a custom model</h1>
             
-            <h4 data-toc-skip class="date">2022-12-11</h4>
+            <h4 data-toc-skip class="date">2022-12-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/custom_tabular_online.Rmd" class="external-link"><code>vignettes/custom_tabular_online.Rmd</code></a></small>
       <div class="hidden name"><code>custom_tabular_online.Rmd</code></div>
@@ -143,13 +146,10 @@ see if they are installed first and only install if not already):</p>
 <span><span class="co"># remotes::install_github("justinjm/googleCloudVertexAIR") # run first time</span></span>
 <span><span class="co"># options(googleAuthR.verbose = 0) # set when debugging</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://withr.r-lib.org" class="external-link">withr</a></span><span class="op">)</span> <span class="co"># for gcloud sdk: https://stackoverflow.com/a/64381848/1812363 </span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: package 'withr' was built under R version 4.0.5</span></span></code></pre>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue" class="external-link">glue</a></span><span class="op">)</span> </span></code></pre></div>
-<pre><code><span><span class="co">## Warning: package 'glue' was built under R version 4.0.5</span></span></code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sh</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">intern</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://withr.r-lib.org" class="external-link">withr</a></span><span class="op">)</span> <span class="co"># for gcloud sdk: https://stackoverflow.com/a/64381848/1812363 </span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue" class="external-link">glue</a></span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">sh</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">intern</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://withr.r-lib.org/reference/with_path.html" class="external-link">with_path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~/google-cloud-sdk/bin/"</span><span class="op">)</span>, <span class="op">{</span></span>
 <span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">args</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">)</span></span>
@@ -196,7 +196,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="section level3">
 <h3 id="authenticate-your-google-cloud-account">Authenticate your Google Cloud Account<a class="anchor" aria-label="anchor" href="#authenticate-your-google-cloud-account"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://code.markedmondson.me/googleAuthR/" class="external-link">googleAuthR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/justinjm/googleCloudVertexAIR" class="external-link">googleCloudVertexAIR</a></span><span class="op">)</span></span>
 <span></span>
@@ -207,30 +207,30 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="section level3">
 <h3 id="set-global-arguements">Set global arguements<a class="anchor" aria-label="anchor" href="#set-global-arguements"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-11 14:06:37&gt; Region set to 'us-central1'</span></span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## 2022-12-17 11:35:12&gt; Region set to 'us-central1'</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-11 14:06:37&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## 2022-12-17 11:35:12&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d%H%M%S"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"timestamp: "</span>, <span class="va">timestamp</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "timestamp: 20221211140637"</span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## [1] "timestamp: 20221217113512"</span></span></code></pre>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datasetDisplayName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"datasetDisplayName: "</span>, <span class="va">datasetDisplayName</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "datasetDisplayName: california-housing-20221211140637"</span></span></code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## [1] "datasetDisplayName: california-housing-20221217113512"</span></span></code></pre>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bucket_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="../reference/gcva_project_get.html">gcva_project_get</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"-aip-"</span>, <span class="va">timestamp</span><span class="op">)</span></span>
 <span><span class="va">bucket_uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"gs://"</span>, <span class="va">bucket_name</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"bucket_name: "</span>, <span class="va">bucket_name</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "bucket_name: gc-vertex-ai-r-aip-20221211140637"</span></span></code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## [1] "bucket_name: gc-vertex-ai-r-aip-20221217113512"</span></span></code></pre>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"bucket_uri: "</span>, <span class="va">bucket_uri</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "bucket_uri: gs://gc-vertex-ai-r-aip-20221211140637"</span></span></code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## [1] "bucket_uri: gs://gc-vertex-ai-r-aip-20221217113512"</span></span></code></pre>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># TODO - add </span></span>
 <span><span class="va">private_repo</span> <span class="op">&lt;-</span> <span class="st">"my-docker-repo"</span></span>
 <span><span class="va">image_name</span> <span class="op">&lt;-</span> <span class="st">"vertex-r"</span>  <span class="co"># @param {type:"string"}</span></span>
@@ -244,20 +244,20 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="section level3">
 <h3 id="create-cloud-storage-bucket">Create cloud storage bucket<a class="anchor" aria-label="anchor" href="#create-cloud-storage-bucket"></a>
 </h3>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sh</span><span class="op">(</span><span class="st">"gcloud config set project {gcva_project_get()}"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Updated property [core/project].</span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sh</span><span class="op">(</span><span class="st">"gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Creating gs://gc-vertex-ai-r-aip-20221211140637/...</span></span></code></pre>
+<pre><code><span><span class="co">## Creating gs://gc-vertex-ai-r-aip-20221217113512/...</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="create-dockerfile">Create Dockerfile<a class="anchor" aria-label="anchor" href="#create-dockerfile"></a>
 </h3>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">"src"</span>, showWarnings<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><code>.src/Dockerfile</code></p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Dockerfile</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"</span></span>
 <span><span class="st"># filename: Dockerfile - container specifications for using R in Vertex AI</span></span>
 <span><span class="st">FROM gcr.io/deeplearning-platform-release/r-cpu.4-1:latest</span></span>
@@ -282,7 +282,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <h3 id="create-training-script">Create training script<a class="anchor" aria-label="anchor" href="#create-training-script"></a>
 </h3>
 <p><code>.src/train.R</code></p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'</span></span>
 <span><span class="st">#!/usr/bin/env Rscript</span></span>
 <span><span class="st"># filename: train.R - train a Random Forest model on Vertex AI Managed Dataset</span></span>
@@ -327,7 +327,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <h3 id="create-serving-script">Create serving script<a class="anchor" aria-label="anchor" href="#create-serving-script"></a>
 </h3>
 <p><code>.src/serve.R</code></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'</span></span>
 <span><span class="st">#!/usr/bin/env Rscript</span></span>
 <span><span class="st"># filename: serve.R - serve predictions from a Random Forest model</span></span>
@@ -358,9 +358,9 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="section level3">
 <h3 id="build-container-and-push-to-artifact-registry">Build container and push to artifact registry<a class="anchor" aria-label="anchor" href="#build-container-and-push-to-artifact-registry"></a>
 </h3>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sh</span><span class="op">(</span><span class="st">"gcloud services enable artifactregistry.googleapis.com"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># TODO @justinjm - can i use googleCloudRunner ? </span></span>
 <span><span class="co"># https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_docker.html</span></span>
 <span><span class="co"># sh("cd src &amp;&amp; gcloud builds submit --region={REGION} --tag={IMAGE_URI} --timeout=1h")</span></span></code></pre></div>
@@ -368,27 +368,26 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="section level3">
 <h3 id="create-dataset">Create Dataset<a class="anchor" aria-label="anchor" href="#create-dataset"></a>
 </h3>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_uri</span> <span class="op">&lt;-</span> <span class="st">"gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"</span></span>
 <span></span>
 <span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_create_tabluar_dataset.html">gcva_create_tabluar_dataset</a></span><span class="op">(</span></span>
 <span>  displayName <span class="op">=</span> <span class="va">datasetDisplayName</span>,</span>
 <span>  gcsSource <span class="op">=</span> <span class="va">data_uri</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-11 14:06:44&gt; Waiting for operation...</span></span></code></pre>
-<pre><code><span><span class="co">## 2022-12-11 14:06:44&gt; Timer: 2.005402 secs</span></span></code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## 2022-12-17 11:35:18&gt; Waiting 2 seconds...</span></span></code></pre>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI Dataset==</span></span>
-<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/4727875810180988928 </span></span>
-<span><span class="co">## displayName:          california-housing-20221211140637 </span></span>
-<span><span class="co">## createTime:           2022-12-11 19:06:42 </span></span>
+<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/1132595932655779840 </span></span>
+<span><span class="co">## displayName:          california-housing-20221217113512 </span></span>
+<span><span class="co">## createTime:           2022-12-17 16:35:16 </span></span>
 <span><span class="co">## gcsSource:            gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="create-custom-training-job">Create custom training job<a class="anchor" aria-label="anchor" href="#create-custom-training-job"></a>
 </h3>
 <p><a href="https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline#custom-container" class="external-link uri">https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline#custom-container</a></p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">job</span> <span class="op">&lt;-</span> <span class="fu">gcva_custom_container_training_job</span><span class="op">(</span></span>
 <span>  displayName <span class="op">=</span> ,</span>
 <span>  containerUri <span class="op">=</span> ,</span>
@@ -399,7 +398,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="section level3">
 <h3 id="execute-custom-training-job">Execute custom training job<a class="anchor" aria-label="anchor" href="#execute-custom-training-job"></a>
 </h3>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu">gcva_job_run</span><span class="op">(</span></span>
 <span>  job <span class="op">=</span> <span class="va">job</span>,</span>
 <span>  dataset <span class="op">=</span> <span class="va">dataset</span>,</span>
@@ -416,7 +415,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 </h3>
 <p><a href="https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment" class="external-link">Overview
 of getting predictions on Vertex AI | Google Cloud</a></p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">endpoint</span> <span class="op">&lt;-</span> <span class="fu">gcva_create_endpoint</span><span class="op">(</span></span>
 <span>    display_name <span class="op">=</span> <span class="st">"California Housing Endpoint"</span>,</span>
 <span>    project <span class="op">=</span> <span class="va">PROJECT_ID</span>,</span>
@@ -427,7 +426,7 @@ of getting predictions on Vertex AI | Google Cloud</a></p>
 <div class="section level3">
 <h3 id="deploy-model-to-endpoint">Deploy Model to Endpoint<a class="anchor" aria-label="anchor" href="#deploy-model-to-endpoint"></a>
 </h3>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gcva_deploy</span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">model</span>,</span>
 <span>  endpoint <span class="op">=</span> <span class="va">endpoint</span>, </span>
@@ -440,7 +439,7 @@ of getting predictions on Vertex AI | Google Cloud</a></p>
 <div class="section level4">
 <h4 id="create-sample-input-data">Create sample input data<a class="anchor" aria-label="anchor" href="#create-sample-input-data"></a>
 </h4>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://arxiv.org/abs/1403.2805" class="external-link">jsonlite</a></span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>text<span class="op">=</span><span class="fu">sh</span><span class="op">(</span><span class="st">"gsutil cat {data_uri}"</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
@@ -456,7 +455,7 @@ of getting predictions on Vertex AI | Google Cloud</a></p>
 <span><span class="co">## 3        177        7.2574             352100</span></span>
 <span><span class="co">## 4        219        5.6431             341300</span></span>
 <span><span class="co">## 5        259        3.8462             342200</span></span></code></pre>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">instances</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>instances<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"median_house_value"</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">instances</span></span></code></pre></div>
 <pre><code><span><span class="co">## $instances</span></span>
@@ -472,7 +471,7 @@ of getting predictions on Vertex AI | Google Cloud</a></p>
 <span><span class="co">## 3        177        7.2574</span></span>
 <span><span class="co">## 4        219        5.6431</span></span>
 <span><span class="co">## 5        259        3.8462</span></span></code></pre>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">json_instances</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">toJSON</a></span><span class="op">(</span><span class="va">instances</span><span class="op">)</span></span>
 <span><span class="va">json_instances</span></span></code></pre></div>
 <pre><code><span><span class="co">## {"instances":[{"longitude":-122.23,"latitude":37.88,"housing_median_age":41,"total_rooms":880,"total_bedrooms":129,"population":322,"households":126,"median_income":8.3252},{"longitude":-122.22,"latitude":37.86,"housing_median_age":21,"total_rooms":7099,"total_bedrooms":1106,"population":2401,"households":1138,"median_income":8.3014},{"longitude":-122.24,"latitude":37.85,"housing_median_age":52,"total_rooms":1467,"total_bedrooms":190,"population":496,"households":177,"median_income":7.2574},{"longitude":-122.25,"latitude":37.85,"housing_median_age":52,"total_rooms":1274,"total_bedrooms":235,"population":558,"households":219,"median_income":5.6431},{"longitude":-122.25,"latitude":37.85,"housing_median_age":52,"total_rooms":1627,"total_bedrooms":280,"population":565,"households":259,"median_income":3.8462}]}</span></span></code></pre>
@@ -480,7 +479,7 @@ of getting predictions on Vertex AI | Google Cloud</a></p>
 <div class="section level4">
 <h4 id="submit-request">submit request<a class="anchor" aria-label="anchor" href="#submit-request"></a>
 </h4>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gcva_predict</span><span class="op">(</span></span>
 <span>  instances <span class="op">=</span> <span class="va">json_instances</span> </span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -493,21 +492,28 @@ of getting predictions on Vertex AI | Google Cloud</a></p>
 <div class="section level4">
 <h4 id="undeploy">Undeploy<a class="anchor" aria-label="anchor" href="#undeploy"></a>
 </h4>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gcva_undeploy_all</span><span class="op">(</span>endpoint <span class="op">=</span> <span class="va">endpoint</span><span class="op">)</span></span>
 <span><span class="fu">gcva_delete_endpoint</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="deletes">Deletes<a class="anchor" aria-label="anchor" href="#deletes"></a>
 </h4>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gcva_delete_job</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_delete_dataset.html">gcva_delete_dataset</a></span><span class="op">(</span>displayName <span class="op">=</span> <span class="va">datasetDisplayName</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-11 14:06:47&gt; Dataset successfully deleted.</span></span></code></pre>
+<pre><code><span><span class="co">## 2022-12-17 11:35:22&gt; Dataset successfully deleted.</span></span></code></pre>
 <p>local directory</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"src"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># will delete directory called 'mydir'</span></span></code></pre></div>
+<p>GCS bucket</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">delete_bucket</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span> </span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">delete_bucket</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="fu">sh</span><span class="op">(</span><span class="st">"gsutil -m rm -r {bucket_uri}"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## If you experience problems with multiprocessing on MacOS, they might be related to https://bugs.python.org/issue33725. You can disable multiprocessing by editing your .boto config or by adding the following flag to your command: `-o "GSUtil:parallel_process_count=1"`. Note that multithreading is still available even if you disable multiprocessing.</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Removing gs://gc-vertex-ai-r-aip-20221217113512/...</span></span></code></pre>
 </div>
 </div>
 </div>

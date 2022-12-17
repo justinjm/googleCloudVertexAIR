@@ -53,6 +53,9 @@
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
+      <a href="../articles/multi-auth.html">multi-auth</a>
+    </li>
+    <li>
       <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
@@ -87,7 +90,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gcva_delete_dataset</span><span class="op">(</span></span>
 <span>  projectId <span class="op">=</span> <span class="fu"><a href="gcva_project_get.html">gcva_project_get</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  locationId <span class="op">=</span> <span class="fu"><a href="gcva_region_get.html">gcva_region_get</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  <span class="va">displayName</span></span>
+<span>  displayName <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">dataset</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -103,6 +107,10 @@
 
 <dt>displayName</dt>
 <dd><p>the name of the dataset that is shown in the interface.</p></dd>
+
+
+<dt>dataset</dt>
+<dd><p>dataset object returned by gcva_dataset function</p></dd>
 
 </dl></div>
 

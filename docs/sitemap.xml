@@ -25,6 +25,9 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/models.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/multi-auth.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/test_dir_create_delete.html</loc>
   </url>
   <url>
@@ -44,6 +47,9 @@
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_batch_predict.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_batch_prediction_job.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_create_tabluar_dataset.html</loc>
@@ -83,6 +89,9 @@
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_trainingPipeline.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_wait_for_batch_prediction_job.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_wait_for_op.html</loc>
