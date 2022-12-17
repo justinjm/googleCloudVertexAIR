@@ -162,7 +162,7 @@ TODO - create BQ dataset then create BQ table from the source dataset in GCS `ca
 #### set constants
 
 ```{r set-constants-for-batch-prediction}
-bq_source_uri <- sprintf("bq://%s.california_housing.batch_01", projectId)
+bq_source_uri <- sprintf("bq://%s.california_housing.batch_02", projectId)
 bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId)
 ```
 

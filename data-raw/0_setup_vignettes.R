@@ -41,12 +41,23 @@ bqr_query(projectId = projectId,
 # Create BQ external table
 # https://cloud.google.com/bigquery/docs/external-data-cloud-storage#sql
 query_bq_table <- glue("
-#standardSQL
-CREATE EXTERNAL TABLE california_housing.source_data
-OPTIONS(
-  format = 'CSV',
-  uris = ['gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv']
+standardSQL
+CREATE EXTERNAL TABLE california_housing.source_data2 (
+  longitude STRING,
+  latitude STRING,
+  housing_median_age STRING,
+  total_rooms STRING,
+  total_bedrooms STRING,
+  population STRING,
+  households STRING,
+  median_income STRING,
+  median_house_value STRING
 )
+  OPTIONS (
+    format = 'CSV',
+    uris = ['gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv'],
+    skip_leading_rows = 1
+  )
 ")
 
 bqr_query(projectId = projectId,
@@ -58,11 +69,10 @@ bqr_query(projectId = projectId,
 # https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement
 query_bq_table2 <- glue("
 #standardSQL
-CREATE TABLE `california_housing.data` AS (
-    SELECT * FROM `california_housing.source_data`
+CREATE TABLE `california_housing.data2` AS (
+    SELECT * FROM `california_housing.source_data2`
   )
 ")
-
 
 bqr_query(projectId = projectId,
           datasetId = bq_dataset_name,
@@ -74,8 +84,8 @@ bqr_query(projectId = projectId,
 
 query_bq_table2 <- glue("
 #standardSQL
-CREATE TABLE `california_housing.batch_01` AS (
-    SELECT * FROM `california_housing.source_data` LIMIT 10
+CREATE TABLE `california_housing.batch_02` AS (
+    SELECT * FROM `california_housing.source_data2` LIMIT 10
   )
 ")
 
