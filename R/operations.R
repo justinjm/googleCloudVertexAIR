@@ -17,10 +17,7 @@ gcva_wait_for_op <- function(locationId = gcva_region_get(),
 
   while(!status){
     Sys.sleep(wait)
-    myMessage("Waiting for operation...", level = 3)
-    myMessage("Timer: ",
-              format(difftime(Sys.time(),time), format = "%H:%M:%S"),
-              level = 3)
+    myMessage("Waiting ", wait, " seconds...", level = 3)
 
     operation <- gcva_get_op(locationId, operationId = operation)
 
