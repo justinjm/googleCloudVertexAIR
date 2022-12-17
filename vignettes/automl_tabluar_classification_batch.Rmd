@@ -149,7 +149,7 @@ modelName
 
 ### Make test items for batch input 
 
-TODO - create BQ dataset then create BQ table from the source dataset in GCS `california-housing-tabular-regression.csv`
+TODO - move setup script  `data-raw/0_setup_vignettes.R` to here to create BQ dataset then create BQ table from the source dataset in GCS `california-housing-tabular-regression.csv`
 
 1. Create BQ dataset `california_housing`
 2. Create BQ external table from GCS file `california_housing.source_data`
