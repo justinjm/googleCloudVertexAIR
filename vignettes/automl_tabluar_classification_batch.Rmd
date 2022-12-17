@@ -135,6 +135,8 @@ trainingPipelineJob
 
 After model completes training, extract `modelName` to a variable for batch prediction
 
+TODO - move this to `batch_prediction_job()`
+
 ```r
 modelName <- trainingPipelineJob$modelToUpload$name
 modelName 
