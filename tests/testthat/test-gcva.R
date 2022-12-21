@@ -95,6 +95,7 @@ test_that("We can delete a dataset", {
 
 })
 
+
 # context("trainingPipelineJobs")
 #
 # test_that("We can get a trainingPipelineJob", {
@@ -127,6 +128,7 @@ test_that("We can delete a dataset", {
 #   )
 # }
 # )
+
 
 context("Models")
 
@@ -187,5 +189,42 @@ test_that("We can get a Model", {
   )
 })
 
+
+context("Batch Prediction Jobs")
+
+test_that("We can get a batchPredictionJob", {
+  skip_if_no_token()
+
+  projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+  locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+  batchPredictionJobName <- Sys.getenv("GCVA_BATCH_PREDICTION")
+  expect_true(projectId != "")
+  expect_true(locationId != "")
+  expect_true(batchPredictionJobName != "")
+  p <- gcva_batch_prediction_job(batchPredictionJob = batchPredictionJobName)
+
+  expect_s3_class(p, "gcva_batchPredictionJob")
+  expect_true(
+    all(
+      names(p) %in% c("name",
+                      "displayName",
+                      "model",
+                      "inputConfig",
+                      "outputConfig",
+                      "dedicatedResources",
+                      "manualBatchTuningParameters",
+                      "outputInfo",
+                      "state",
+                      "completionStats",
+                      "createTime",
+                      "startTime",
+                      "endTime",
+                      "updateTime",
+                      "labels",
+                      "modelVersionId")
+    )
+  )
+}
+)
 #  to get list of names easily copy/paste-able from R console, use:
 # cat(names(OBJECT), sep=", ")

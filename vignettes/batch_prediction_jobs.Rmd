@@ -62,3 +62,15 @@ batch_prediction_job <- gcva_batch_predict(
 
 batch_prediction_job
 ```
+
+
+### Get a batch prediction job
+
+To view more details and current state.
+
+```{r}
+gcva_batch_prediction_job(
+  batchPredictionJob = Sys.getenv("GCVA_BATCH_PREDICTION")
+  )
+```
+
