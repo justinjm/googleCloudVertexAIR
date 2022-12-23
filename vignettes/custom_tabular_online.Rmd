@@ -69,8 +69,8 @@ e.g. your `.Renviron` should look like:
 ```
 # .Renviron
 GAR_SERVICE_JSON="/Users/me/auth/auth.json"
-GCAT_DEFAULT_PROJECT_ID="my-project"
-GCAT_DEFAULT_REGION="us-central1"
+GCVA_DEFAULT_PROJECT_ID="my-project"
+GCVA_DEFAULT_REGION="us-central1"
 ```
 
 ## Setup Google Cloud Project
@@ -106,10 +106,9 @@ bucket_uri <- paste0("gs://", bucket_name)
 paste0("bucket_name: ", bucket_name)
 paste0("bucket_uri: ", bucket_uri)
 
-# TODO - add 
 private_repo <- "my-docker-repo"
-image_name <- "vertex-r"  # @param {type:"string"}
-image_tag <- "latest"  # @param {type:"string"}
+image_name <- "vertex-r"  
+image_tag <- "latest"
 image_uri <- glue(
   "{gcva_region_get()}-docker.pkg.dev/{gcva_project_get()}/{private_repo}/{image_name}:{image_tag}"
 )
@@ -238,7 +237,6 @@ pr() %>%
 
 ## Build container and push to artifact registry 
 
-
 ```{r}
 sh("gcloud services enable artifactregistry.googleapis.com")
 ```
@@ -277,8 +275,6 @@ job <- gcva_custom_container_training_job(
 ```
 
 ## Execute custom training job 
-
-
 
 ```r
 model <- gcva_job_run(
