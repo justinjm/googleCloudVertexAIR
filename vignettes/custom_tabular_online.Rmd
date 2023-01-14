@@ -267,10 +267,11 @@ dataset
 
 ```r
 job <- gcva_custom_container_training_job(
-  displayName = ,
-  containerUri = ,
+  displayName = image_name,
+  containerUri = image_uri
   command = c("Rscript", "train.R"),
-  model_serving_container_image_uri = IMAGE_URI
+  model_serving_container_command = c("Rscript", "serve.R"),
+  model_serving_container_image_uri = image_uri
 )
 ```
 
