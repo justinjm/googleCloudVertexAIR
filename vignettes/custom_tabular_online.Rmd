@@ -125,6 +125,33 @@ sh("gcloud config set project {gcva_project_get()}")
 sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
 ```
 
+## Create a private docker repository 
+
+Your first step is to create your own Docker repository in Google Artifact Registry.
+
+Run the gcloud artifacts repositories create command to create a new Docker repository with your region with the description "docker repository".
+
+Run the gcloud artifacts repositories list command to verify that your repository was created.
+
+```{r}
+sh('gcloud artifacts repositories create {private_repo} --repository-format=docker --location={gcva_project_get()} --description="Docker repository"')
+```
+
+
+```{r}
+sh("gcloud artifacts repositories list")
+```
+
+### Configure authentication to your private repo
+
+Before you push or pull container images, configure Docker to use the `gcloud` command-line tool to authenticate requests to `Artifact Registry` for your region.
+
+
+```{r}
+sh("gcloud auth configure-docker {gcva_project_get()}-docker.pkg.dev --quiet")
+```
+
+
 ## Create Dockerfile 
 
 ```{r}
@@ -135,9 +162,8 @@ dir.create("src", showWarnings=FALSE)
 `.src/Dockerfile`
 
 ```{r}
-Dockerfile = cat("
-# filename: Dockerfile - container specifications for using R in Vertex AI
-FROM gcr.io/deeplearning-platform-release/r-cpu.4-1:latest
+Dockerfile = cat(
+"FROM gcr.io/deeplearning-platform-release/r-cpu.4-1:latest
 
 WORKDIR /root
 
@@ -161,9 +187,8 @@ EXPOSE 8080
 `.src/train.R`
 
 ```{r}
-cat('
-#!/usr/bin/env Rscript
-# filename: train.R - train a Random Forest model on Vertex AI Managed Dataset
+cat(
+'#!/usr/bin/env Rscript
 library(tidyverse)
 library(data.table)
 library(randomForest)
@@ -207,9 +232,8 @@ system2("gsutil", c("cp", "rf.rds", model_dir))
 `.src/serve.R`
 
 ```{r}
-cat('
-#!/usr/bin/env Rscript
-# filename: serve.R - serve predictions from a Random Forest model
+cat(
+'#!/usr/bin/env Rscript
 Sys.getenv()
 library(plumber)
 
@@ -242,9 +266,8 @@ sh("gcloud services enable artifactregistry.googleapis.com")
 ```
 
 ```{r}
-# TODO @justinjm - can i use googleCloudRunner ? 
-# https://code.markedmondson.me/googleCloudRunner/reference/cr_deploy_docker.html
-# sh("cd src && gcloud builds submit --region={REGION} --tag={IMAGE_URI} --timeout=1h")
+
+sh("cd src && gcloud builds submit --region={gcva_region_get()} --tag={image_uri} --timeout=1h")
 ```
 
 ## Create Dataset 
@@ -265,13 +288,13 @@ dataset
 * API [REST Resource: projects.locations.customJobs  |  Vertex AI  |  Google Cloud](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.customJobs)
 
 
-```r
+```{r}
 job <- gcva_custom_container_training_job(
   displayName = image_name,
-  containerUri = image_uri
+  containerUri = image_uri,
   command = c("Rscript", "train.R"),
-  model_serving_container_command = c("Rscript", "serve.R"),
-  model_serving_container_image_uri = image_uri
+  modelServingContainerCommand = c("Rscript", "serve.R"),
+  modelServingContainerImageUri = image_uri
 )
 ```
 

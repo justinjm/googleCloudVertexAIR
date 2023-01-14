@@ -1,4 +1,5 @@
-#'
+
+#' Create custom container training job
 #' @param projectId
 #' @param locationId
 #' @param displayName
@@ -15,8 +16,9 @@ gcva_custom_container_training_job <- function(
     displayName,
     containerUri,
     command,
-    model_serving_container_image_uri,
-    model_serving_container_command) {
+    modelServingContainerCommand,
+    modelServingContainerImageUri,
+    serviceAccount = NULL) {
 
   # projects.locations.customJobs
   # TODO - change function name to camelCase `gcvaCustomContainerTrainingJob`
@@ -35,14 +37,23 @@ gcva_custom_container_training_job <- function(
         displayName = displayName,
         jobSpec = list(
           workerPoolSpecs = list(
-
-          )
+            containerSpec = list(
+              imageUri = imageUri,
+              command = command,
+            )
+          ),
+          serviceAccount = serviceAccount
         )
-
       )
     ), class = c("gcva_customContainerTrainingJob", "list")
   )
 
+  customContainerTrainingJob
+
+}
+
+#'
+gcva_runCustomContainerJob <- function( {
   parent <- sprintf("projects/%s/locations/%s",
                     projectId,
                     locationId)
@@ -56,11 +67,17 @@ gcva_custom_container_training_job <- function(
                                       data_parse_function = function(x) x,
                                       checkTrailingSlash = FALSE)
 
-  stopifnot(inherits(batchPredictionJob, "gcva_customContainerTrainingJob"))
+  stopifnot(inherits(customContainerTrainingJob, "gcva_customContainerTrainingJob"))
 
-  batchPredictionJob <- f(the_body = customContainerTrainingJob)
-
-
+  # response <- f(the_body = customContainerTrainingJob)
+  # response
 }
 
+
+
+#' OBJECT
+# CustomJobSpec -
+
+# ' OBJECT
+# WorkerPoolSpec - https://cloud.google.com/vertex-ai/docs/reference/rest/v1/CustomJobSpec#WorkerPoolSpec
 
