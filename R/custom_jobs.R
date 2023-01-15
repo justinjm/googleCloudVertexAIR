@@ -52,8 +52,24 @@ gcva_custom_container_training_job <- function(
 
 }
 
+#' run customContainerTrainingJob
 #'
-gcva_runCustomContainerJob <- function() {
+#'
+#'
+gcva_job_run <- function(job,
+                         dataset,
+                         modelDisplayName,
+                         machineType) {
+
+  # check if job object
+  stopifnot(inherits(dataset, "gcva_customContainerTrainingJob"))
+
+  jobConfig <- structure(
+    list(
+
+    )
+  )
+  customContainerTrainingJob <- c(job, jobConfig)
 
   parent <- sprintf("projects/%s/locations/%s",
                     projectId,
