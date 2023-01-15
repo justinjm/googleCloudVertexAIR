@@ -1,56 +1,68 @@
-json_obj <- structure(list(
+json_obj <- list(
   displayName = "TRAINING_PIPELINE_NAME",
-  inputDataConfig = structure(list(
+  inputDataConfig = list(
     datasetId = "DATASET_ID",
     annotationsFilter = "ANNOTATIONS_FILTER",
     annotationSchemaUri = "ANNOTATION_SCHEMA_URI",
-    fractionSplit = structure(list(
+    fractionSplit = list(
       trainingFraction = "TRAINING_FRACTION",
       validationFraction = "VALIDATION_FRACTION",
       testFraction = "TEST_FRACTION"
-    ), class = "fractionSplit"),
-    filterSplit = structure(list(
+    ),
+    filterSplit = list(
       trainingFilter = "TRAINING_FILTER",
       validationFilter = "VALIDATION_FILTER",
       testFilter = "TEST_FILTER"
-    ), class = "filterSplit"),
-    predefinedSplit = structure(list(
+    ),
+    predefinedSplit = list(
       key = "PREDEFINED_SPLIT_KEY"
-    ), class = "predefinedSplit"),
-    timestampSplit = structure(list(
+    ),
+    timestampSplit = list(
       trainingFraction = "TIMESTAMP_TRAINING_FRACTION",
       validationFraction = "TIMESTAMP_VALIDATION_FRACTION",
       testFraction = "TIMESTAMP_TEST_FRACTION",
       key = "TIMESTAMP_SPLIT_KEY"
-    ), class = "timestampSplit"),
-    gcsDestination = structure(list(
+    ),
+    gcsDestination = list(
       outputUriPrefix = "OUTPUT_URI_PREFIX"
-    ), class = "gcsDestination")
-  ), class = "inputDataConfig"),
+    )
+  ),
   trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/custom_task_1.0.0.yaml",
-  trainingTaskInputs = structure(list(
+  trainingTaskInputs = list(
     workerPoolSpecs = list(
-      structure(list(
-        machineSpec = structure(list(
+      list(
+        machineSpec = list(
           machineType = "MACHINE_TYPE",
           acceleratorType = "ACCELERATOR_TYPE",
           acceleratorCount = "ACCELERATOR_COUNT"
-        ), class = "machineSpec"),
+        ),
         replicaCount = "REPLICA_COUNT",
-        containerSpec = structure(list(
+        containerSpec = list(
           imageUri = "CUSTOM_CONTAINER_IMAGE_URI",
           command = list("CUSTOM_CONTAINER_COMMAND"),
           args = list("CUSTOM_CONTAINER_ARGS")
-        ), class = "containerSpec"),
-        pythonPackageSpec = structure(list(
+        ),
+        pythonPackageSpec = list(
           executorImageUri = "PYTHON_PACKAGE_EXECUTOR_IMAGE_URI",
           packageUris = list("PYTHON_PACKAGE_URIS"),
           pythonModule = "PYTHON_MODULE",
           args = list("PYTHON_PACKAGE_ARGS")
-        ), class = "pythonPackageSpec")
-      ), class = "workerPoolSpecs")
+        )
+      )
     ),
-    scheduling = structure(list(
+    scheduling = list(
       TIMEOUT = "TIMEOUT"
-    ), class = "scheduling")
-  ), class = "trainingTaskInputs")))
+    )
+  ),
+  modelToUpload = list(
+    displayName = "MODEL_NAME",
+    predictSchemata = list(),
+    containerSpec = list(
+      imageUri = "IMAGE_URI"
+    )
+  ),
+  labels = list(
+    LABEL_NAME_1 = "LABEL_VALUE_1",
+    LABEL_NAME_2 = "LABEL_VALUE_2"
+  )
+)
