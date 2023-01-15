@@ -49,6 +49,7 @@ gcva_automl_tabluar_training_job <- function(
 
 #' @title
 #' Create custom container training job
+#'
 #' @param projectId
 #' @param locationId
 #' @param displayName
@@ -80,24 +81,17 @@ gcva_custom_container_training_job <- function(
 
 
   # merge into request body
-  customContainerTrainingJob <- structure(
+  request_body <- structure(
     rmNullObs(
       list(
         displayName = displayName,
-        jobSpec = list(
-          workerPoolSpecs = list(
-            containerSpec = list(
-              imageUri = containerUri,
-              command = command
-            )
-          ),
-          serviceAccount = serviceAccount
-        )
+        trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/custom_task_1.0.0.yaml",
+
       )
     ), class = c("gcva_customContainerTrainingJob", "list")
   )
 
-  customContainerTrainingJob
+  request_body
 
 }
 
