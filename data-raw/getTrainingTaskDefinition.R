@@ -26,5 +26,3 @@ sh("gcloud config set project {gcva_project_get()}")
 sh("pwd")
 
 sh("gsutil cp -r gs://google-cloud-aiplatform/schema/trainingjob/definition/ ./data-raw")
-
-

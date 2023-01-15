@@ -25,10 +25,6 @@ gcva_automl_tabluar_training_job <- function(
   # set prediction type from available list
   optimizationPredictionType <- match.arg(optimizationPredictionType)
 
-  # TODO - documentation of trainingTaskDefinition
-  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines#TrainingPipeline.FIELDS.training_task_definition
-  # command to download specs locally:
-  # gsutil cp -r gs://google-cloud-aiplatform/schema/trainingjob/definition/ ./definition
 
   request_body <- structure(
     rmNullObs(list(
