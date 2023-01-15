@@ -50,6 +50,73 @@ gcva_automl_tabluar_training_job <- function(
 }
 
 
+
+#' @title
+#' Create custom container training job
+#' @param projectId
+#' @param locationId
+#' @param displayName
+#' @param containerUri
+#' @param command
+#' @param model_serving_container_image_uri
+#' @param model_serving_container_command
+#'
+#'
+#'
+gcva_custom_container_training_job <- function(
+    projectId = gcva_project_get(),
+    locationId = gcva_region_get(),
+    displayName,
+    containerUri,
+    command,
+    modelServingContainerCommand,
+    modelServingContainerImageUri,
+    serviceAccount = NULL) {
+
+  # projects.locations.customJobs
+  # TODO - change function name to camelCase `gcvaCustomContainerTrainingJob`
+  # https://{service-endpoint}/v1/{parent}/customJobs
+  # parent
+  # string
+  # Required. The resource name of the Location to create the CustomJob in.
+  # Format: projects/{project}/locations/{location}
+  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.customJobs/create
+
+
+  # merge into request body
+  customContainerTrainingJob <- structure(
+    rmNullObs(
+      list(
+        displayName = displayName,
+        jobSpec = list(
+          workerPoolSpecs = list(
+            containerSpec = list(
+              imageUri = containerUri,
+              command = command
+            )
+          ),
+          serviceAccount = serviceAccount
+        )
+      )
+    ), class = c("gcva_customContainerTrainingJob", "list")
+  )
+
+  customContainerTrainingJob
+
+}
+
+
+
+
+#' OBJECT
+# CustomJobSpec -
+
+# ' OBJECT
+# WorkerPoolSpec - https://cloud.google.com/vertex-ai/docs/reference/rest/v1/CustomJobSpec#WorkerPoolSpec
+
+
+
+
 #' Executes an training job
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create
 #'
@@ -72,7 +139,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          locationId = gcva_region_get(),
                          job,
                          dataset,
-                         targetColumn,
+                         targetColumn=NULL,
                          trainingFractionSplit=0.8,
                          validationFractionSplit=0.1,
                          testFractionSplit=0.1,
@@ -100,8 +167,11 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## create response body for API call
   TrainingPipeline <- c(job, request_body_partial)
 
-  TrainingPipeline <- structure(TrainingPipeline,
-                                class = c("gcva_job", "list"))
+  TrainingPipeline <- structure(
+    rmNullObs(TrainingPipeline,
+              class = c("gcva_job", "list")
+    )
+  )
 
   ## set target column value
   TrainingPipeline[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
