@@ -134,7 +134,7 @@ Run the gcloud artifacts repositories create command to create a new Docker repo
 Run the gcloud artifacts repositories list command to verify that your repository was created.
 
 ```{r}
-sh('gcloud artifacts repositories create {private_repo} --repository-format=docker --location={gcva_project_get()} --description="Docker repository"')
+sh('gcloud artifacts repositories create {private_repo} --repository-format=docker --location={gcva_region_get()} --description="Docker repository"')
 ```
 
 
@@ -266,7 +266,6 @@ sh("gcloud services enable artifactregistry.googleapis.com")
 ```
 
 ```{r}
-
 sh("cd src && gcloud builds submit --region={gcva_region_get()} --tag={image_uri} --timeout=1h")
 ```
 

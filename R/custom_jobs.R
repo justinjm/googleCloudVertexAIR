@@ -38,8 +38,8 @@ gcva_custom_container_training_job <- function(
         jobSpec = list(
           workerPoolSpecs = list(
             containerSpec = list(
-              imageUri = imageUri,
-              command = command,
+              imageUri = containerUri,
+              command = command
             )
           ),
           serviceAccount = serviceAccount
@@ -53,7 +53,8 @@ gcva_custom_container_training_job <- function(
 }
 
 #'
-gcva_runCustomContainerJob <- function( {
+gcva_runCustomContainerJob <- function() {
+
   parent <- sprintf("projects/%s/locations/%s",
                     projectId,
                     locationId)
