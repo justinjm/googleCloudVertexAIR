@@ -15,12 +15,12 @@
 #'
 #' @export
 gcva_automl_tabluar_training_job <- function(
-  displayName,
-  weightColumn=NULL,
-  optimizationPredictionType = c("regression", "classification"),
-  budgetMilliNodeHours=1000,
-  optimizationObjective=NULL,
-  column_transformations=NULL) {
+    displayName,
+    weightColumn=NULL,
+    optimizationPredictionType = c("regression", "classification"),
+    budgetMilliNodeHours=1000,
+    optimizationObjective=NULL,
+    column_transformations=NULL) {
 
   # set prediction type from available list
   optimizationPredictionType <- match.arg(optimizationPredictionType)
@@ -46,9 +46,11 @@ gcva_automl_tabluar_training_job <- function(
 }
 
 
-
 #' @title
 #' Create custom container training job
+#'
+#' @description
+#' constructs a custom training job for running
 #'
 #' @param projectId
 #' @param locationId
@@ -59,34 +61,55 @@ gcva_automl_tabluar_training_job <- function(
 #' @param model_serving_container_command
 #'
 #'
-#'
+#' @export
 gcva_custom_container_training_job <- function(
     projectId = gcva_project_get(),
     locationId = gcva_region_get(),
     displayName,
-    containerUri,
-    command,
-    modelServingContainerCommand,
-    modelServingContainerImageUri,
-    serviceAccount = NULL) {
+    containerUri, #imageUri
+    command, # trainingTaskInputs.workerPoolSpecs.containerspec.command
+    serviceAccount=NULL,
+    machineType=NULL,
+    acceleratorType=NULL,
+    acceleratorCount=NULL,
+    replicaCount=NULL,
+    args=NULL,
+    modelDisplayName=NULL,
+    predictSchemata=NULL,
+    modelServingContainerImageUri=NULL,
+    modelServingContainerCommand=NULL) {
 
-  # projects.locations.customJobs
-  # TODO - change function name to camelCase `gcvaCustomContainerTrainingJob`
-  # https://{service-endpoint}/v1/{parent}/customJobs
-  # parent
-  # string
-  # Required. The resource name of the Location to create the CustomJob in.
-  # Format: projects/{project}/locations/{location}
-  # https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.customJobs/create
-
-
-  # merge into request body
+  # build request body
   request_body <- structure(
     rmNullObs(
       list(
         displayName = displayName,
         trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/custom_task_1.0.0.yaml",
-
+        trainingTaskInputs = list(
+          workerPoolSpecs = list(
+            list(
+              machineSpec = list(
+                machineType = machineType,
+                acceleratorType = acceleratorType,
+                acceleratorCount = acceleratorCount
+              ),
+              replicaCount = replicaCount,
+              containerSpec = list(
+                imageUri = containerUri,
+                command = command,
+                args = args
+              )
+            )
+          )
+        ),
+        modelToUpload = list(
+          displayName = modelDisplayName,
+          predictSchemata = predictSchemata, #list(),
+          containerSpec = list(
+            imageUri = modelServingContainerImageUri,
+            command = modelServingContainerCommand
+          )
+        )
       )
     ), class = c("gcva_customContainerTrainingJob", "list")
   )
@@ -94,17 +117,6 @@ gcva_custom_container_training_job <- function(
   request_body
 
 }
-
-
-
-
-#' OBJECT
-# CustomJobSpec -
-
-# ' OBJECT
-# WorkerPoolSpec - https://cloud.google.com/vertex-ai/docs/reference/rest/v1/CustomJobSpec#WorkerPoolSpec
-
-
 
 
 #' Executes an training job

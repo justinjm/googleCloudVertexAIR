@@ -50,8 +50,32 @@ training_pipeline$modelToUpload$name
 
 # Get model from training pipeline 
 
-
 ```{r}
 m <- gcva_model(modelName = training_pipeline$modelToUpload$name)
 m
 ```
+
+# Create custom container training job
+
+First, 1) [create](https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline) a `TrainingPipeline` that runs a `CustomJob` and then 2) import the resulting artifacts as a `Model`
+
+
+```{r}
+job <- gcva_custom_container_training_job(
+  displayName = "vertex-r",
+  containerUri = "us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest",
+  command = c("Rscript", "train.R"),
+  modelServingContainerCommand = c("Rscript", "serve.R"),
+  modelServingContainerImageUri = image_uri,
+  machineType = "machine-here",
+  acceleratorType = "acceletor-value-here"
+)
+```
+
+## print API request body [dev]
+
+```{r}
+library(jsonlite)
+toJSON(job, pretty = TRUE, auto_unbox = TRUE)
+```
+
