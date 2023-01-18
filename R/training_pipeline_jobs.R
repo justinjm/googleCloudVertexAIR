@@ -37,7 +37,14 @@ gcva_automl_tabluar_training_job <- function(
         trainBudgetMilliNodeHours = budgetMilliNodeHours,
         optimizationObjective = optimizationObjective,
         transformations = column_transformations
-      )
+        )
+      # TODO - placeholders to align with custom_container_training
+      # ,modelToUpload = list(
+      #     displayName = ""
+      # ),
+      # inputDataConfig = list(
+      #   datasetId = ""
+      # )
     )), class = c("gcva_automlTabularTrainingJob", "list")
   )
 
@@ -110,6 +117,10 @@ gcva_custom_container_training_job <- function(
             command = modelServingContainerCommand
           )
         )
+        # TODO - add placeholders to aling with auotml 
+        # inputDataConfig = list(
+        #   datasetId = ""
+        # )
       )
     ), class = c("gcva_customContainerTrainingJob", "list")
   )
@@ -175,7 +186,9 @@ gcva_run_job <- function(projectId = gcva_project_get(),
     )
   )
 
-  ## set target column value
+  ## set values
+  # TrainingPipeline[["modelToUpload"]][["displayName"]] <-  modelDisplayName
+  # TrainingPipeline[["inputDataConfig"]][["datasetId"]] <-  dataset_id
   TrainingPipeline[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
 
   parent <- gsub("/datasets/.*" , "", dataset$name)

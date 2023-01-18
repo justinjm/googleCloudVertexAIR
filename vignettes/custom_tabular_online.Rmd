@@ -284,7 +284,7 @@ dataset
 
 * Doc: [Create training pipelines > Custom Container > REST | Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline#aiplatform_create_training_pipeline_custom_job_sample-drest)
 * Python SDK: [Class CustomContainerTrainingJob | Python client library | Google Cloud](https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.CustomContainerTrainingJob)
-* API [REST Resource: projects.locations.customJobs  |  Vertex AI  |  Google Cloud](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.customJobs)
+* API: [REST Resource: projects.locations.trainingPipelines | Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines#TrainingPipeline)
 
 
 ```{r}
