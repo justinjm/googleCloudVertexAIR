@@ -156,7 +156,6 @@ Before you push or pull container images, configure Docker to use the `gcloud` c
 sh("gcloud auth configure-docker {gcva_project_get()}-docker.pkg.dev --quiet")
 ```
 
-
 ## Create Dockerfile 
 
 ```{r}
@@ -315,6 +314,7 @@ model <- gcva_run_job(
 )
 model
 ```
+
 ```
 023-01-20 17:37:59> bucket set to 'gs://gc-vertex-ai-r-aip-20230120172747'
 2023-01-20 17:38:00> view training: https://console.cloud.google.com/vertex-ai/locations/us-central1/training/947230504279605248?project=gc-vertex-ai-r
