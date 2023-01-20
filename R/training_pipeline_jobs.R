@@ -224,7 +224,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 #' @param projectId
 #' @param locationId locationId of training pipeline
 #' @param trainingPipelineName an object representing a model training pipeline
-#' @param wait INTEGER number of seconds to wait between checks. Default is 5minutes
+#' @param wait INTEGER number of seconds to wait between checks. Default is 2minutes
 #'
 #' @return trainingPipeline object
 #'
@@ -232,7 +232,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 gcva_wait_for_training_pipeline <- function(projectId = gcva_project_get(),
                                             locationId = gcva_region_get(),
                                             trainingPipelineName,
-                                            wait=300) {
+                                            wait=120) {
 
   tp <- gcva_trainingPipeline(trainingPipelineName = trainingPipelineName)
   trainingPipelineId <- unlist(strsplit(tp$name, "/"))[6]
