@@ -303,7 +303,7 @@ job <- gcva_custom_container_training_job(
 model <- gcva_job_run(
   job = job,
   dataset = dataset,
-  modelDisplayName = modelDisplayName,
+  modelDisplayName = "vertex-r-model",
   machineType = "n1-standard-4"
 )
 

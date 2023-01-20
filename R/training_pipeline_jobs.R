@@ -37,7 +37,7 @@ gcva_automl_tabluar_training_job <- function(
         trainBudgetMilliNodeHours = budgetMilliNodeHours,
         optimizationObjective = optimizationObjective,
         transformations = column_transformations
-        )
+      )
       # TODO - placeholders to align with custom_container_training
       # ,modelToUpload = list(
       #     displayName = ""
@@ -91,6 +91,9 @@ gcva_custom_container_training_job <- function(
     rmNullObs(
       list(
         displayName = displayName,
+        inputDataConfig = list(
+          datasetId = c("")
+        ),
         trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/custom_task_1.0.0.yaml",
         trainingTaskInputs = list(
           workerPoolSpecs = list(
@@ -117,10 +120,6 @@ gcva_custom_container_training_job <- function(
             command = modelServingContainerCommand
           )
         )
-        # TODO - add placeholders to aling with auotml 
-        # inputDataConfig = list(
-        #   datasetId = ""
-        # )
       )
     ), class = c("gcva_customContainerTrainingJob", "list")
   )
@@ -158,6 +157,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                          testFractionSplit=0.1,
                          modelDisplayName,
                          disableEarlyStopping=FALSE,
+                         machineType=NULL,
                          sync=TRUE){
 
   # check if dataset object
@@ -166,29 +166,22 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   # get dataset ID from datasetBane uri
   dataset_id <- unlist(strsplit(dataset$name, "/"))[6]
 
-  request_body_partial <- structure(
-    list(
-      modelToUpload = list(
-        displayName = modelDisplayName
-      ),
-      inputDataConfig = list(
-        datasetId = dataset_id
-      )
-    )
-  )
 
-  ## create response body for API call
-  TrainingPipeline <- c(job, request_body_partial)
+  # set input job as new variable to preserve original for debugging
+  # also add structure class for checking later
+  TrainingPipeline <- structure(job,
+                                class = c("gcva_job", "list"))
 
-  TrainingPipeline <- structure(
-    rmNullObs(TrainingPipeline,
-              class = c("gcva_job", "list")
-    )
-  )
+  # TrainingPipeline <- structure(
+  #   rmNullObs(TrainingPipeline,
+  #             class = c("gcva_job", "list")
+  #   )
+  # )
 
   ## set values
-  # TrainingPipeline[["modelToUpload"]][["displayName"]] <-  modelDisplayName
-  # TrainingPipeline[["inputDataConfig"]][["datasetId"]] <-  dataset_id
+  TrainingPipeline[["trainingTaskInputs"]][["workerPoolSpecs"]][[1]][["machineSpec"]][["machineType"]] <- machineType
+  TrainingPipeline[["modelToUpload"]][["displayName"]] <-  modelDisplayName
+  TrainingPipeline[["inputDataConfig"]][["datasetId"]] <-  dataset_id
   TrainingPipeline[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
 
   parent <- gsub("/datasets/.*" , "", dataset$name)
@@ -204,18 +197,19 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
   stopifnot(inherits(TrainingPipeline, "gcva_job"))
 
-  trainingPipeline <- f(the_body = TrainingPipeline)
-
-  if(sync == FALSE) {
-    #return right away
-    out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
-    out
-  }  else if(sync == TRUE) {
-    #wait until completed
-    trainingPipeline <- gcva_wait_for_training_pipeline(trainingPipelineName = trainingPipeline$name)
-    out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
-    out
-  }
+  TrainingPipeline
+  # trainingPipeline <- f(the_body = TrainingPipeline)
+  #
+  # if(sync == FALSE) {
+  #   #return right away
+  #   out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  #   out
+  # }  else if(sync == TRUE) {
+  #   #wait until completed
+  #   trainingPipeline <- gcva_wait_for_training_pipeline(trainingPipelineName = trainingPipeline$name)
+  #   out <- gcva_trainingPipeline(trainingPipelineName = trainingPipeline$name)
+  #   out
+  # }
 
 }
 

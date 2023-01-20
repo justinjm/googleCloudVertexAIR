@@ -10,7 +10,7 @@ gcva_run_job(
   locationId = gcva_region_get(),
   job,
   dataset,
-  targetColumn,
+  targetColumn = NULL,
   trainingFractionSplit = 0.8,
   validationFractionSplit = 0.1,
   testFractionSplit = 0.1,
