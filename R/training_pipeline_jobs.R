@@ -73,6 +73,7 @@ gcva_automl_tabluar_training_job <- function(
 gcva_custom_container_training_job <- function(
     projectId = gcva_project_get(),
     locationId = gcva_region_get(),
+    stagingBucket = gcva_bucket_get(),
     displayName,
     containerUri, #imageUri
     command, # trainingTaskInputs.workerPoolSpecs.containerspec.command
@@ -93,7 +94,10 @@ gcva_custom_container_training_job <- function(
       list(
         displayName = displayName,
         inputDataConfig = list(
-          datasetId = c("")
+          datasetId = c(""),
+          gcsDestination = list(
+            outputUriPrefix = stagingBucket
+          )
         ),
         trainingTaskDefinition = "gs://google-cloud-aiplatform/schema/trainingjob/definition/custom_task_1.0.0.yaml",
         trainingTaskInputs = list(
@@ -175,6 +179,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   job[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
   ## custom
   job[["trainingTaskInputs"]][["workerPoolSpecs"]][[1]][["machineSpec"]][["machineType"]] <- machineType
+  job[["trainingTaskInputs"]][["workerPoolSpecs"]][[1]][["replicaCount"]] <- 1
 
   # also add structure class for checking later
   # removing all empty fields to properly format API request body

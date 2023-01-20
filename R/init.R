@@ -81,3 +81,37 @@ gcva_project_get <- function(){
   }
   .gcva_env$project
 }
+
+
+#' Set staging bucket prefix
+#'
+#' @param stagingBucket The The Cloud Storage location where the training data is to be written to. In the given directory a new directory is created with name: dataset-<dataset-id>-<annotation-type>-<timestamp-of-training-call> where timestamp is in YYYY-MM-DDThh:mm:ss.sssZ ISO-8601 format. All training input data is written into that directory.
+#' If the uri doesn't end with '/', a '/' will be automatically appended. The directory is created if it doesn't exist.
+#' @import assertthat
+#' @export
+gcva_bucket_set <- function(stagingBucket){
+
+  .gcva_env$bucket <- stagingBucket
+
+  myMessage("bucket set to '", .gcva_env$bucket, "'", level = 3)
+  return(invisible(.gcva_env$bucket))
+}
+
+#' Get global bucket
+#'
+#' @export
+gcva_bucket_get <- function(){
+
+  if(!is.null(.gcva_env$bucket)){
+    return(.gcva_env$bucket)
+  }
+
+  if(Sys.getenv("GCVA_DEFAULT_BUCKET") != ""){
+    .gcva_env$bucket <- Sys.getenv("GCVA_DEFAULT_BUCKET")
+  }
+  if(is.null(.gcva_env$bucket)){
+    stop("No stagingBucket set - use gcva_bucket_set() or env arg GCVA_DEFAULT_BUCKET",
+         call. = FALSE)
+  }
+  .gcva_env$bucket
+}

@@ -122,6 +122,13 @@ sh("gcloud config set project {gcva_project_get()}")
 sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
 ```
 
+### Set 
+
+Set newly created bucket as a global argument
+```{r}
+gcva_bucket_set(bucket_uri)
+```
+
 ## Create a private docker repository 
 
 Your first step is to create your own Docker repository in Google Artifact Registry.
@@ -297,13 +304,14 @@ job
 
 ## Execute custom training job 
 
-```{r}
+```r
 model <- gcva_run_job(
   job = job,
   dataset = dataset,
   modelDisplayName = "vertex-r-model",
   machineType = "n1-standard-4"
 )
+model
 ```
 
 ### Check results 
