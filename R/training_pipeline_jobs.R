@@ -154,6 +154,7 @@ gcva_custom_container_training_job <- function(
 #' @export
 gcva_run_job <- function(projectId = gcva_project_get(),
                          locationId = gcva_region_get(),
+                         # baseOutputDir = NULL,
                          job,
                          dataset,
                          targetColumn=NULL,
@@ -167,6 +168,10 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
   # check if dataset object
   stopifnot(inherits(dataset, "gcva_dataset"))
+
+  # TODO create base output dir
+  # base_output_dir <- paste0(
+  #   gcva_bucket_get(),"/", strftime(Sys.time(), "%Y%m%d%H%M%S"), "/")
 
   # get dataset ID from datasetBane uri
   dataset_id <- unlist(strsplit(dataset$name, "/"))[6]
