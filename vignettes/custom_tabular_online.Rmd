@@ -270,7 +270,7 @@ pr() %>%
 sh("gcloud services enable artifactregistry.googleapis.com")
 ```
 
-```{r}
+```r
 sh("cd src && gcloud builds submit --region={gcva_region_get()} --tag={image_uri} --timeout=1h")
 ```
 
@@ -305,7 +305,7 @@ job
 
 ## Execute custom training job 
 
-```{r}
+```r
 gcva_bucket_set(bucket_uri) # set here during testing only 
 model <- gcva_run_job(
   job = job,
@@ -315,13 +315,17 @@ model <- gcva_run_job(
 )
 model
 ```
-
-### Check results 
-
-```r
-model$display_name #python sdk
-model$resource_name  #python sdk
-model$uri  #python sdk
+```
+023-01-20 17:37:59> bucket set to 'gs://gc-vertex-ai-r-aip-20230120172747'
+2023-01-20 17:38:00> view training: https://console.cloud.google.com/vertex-ai/locations/us-central1/training/947230504279605248?project=gc-vertex-ai-r
+2023-01-20 17:38:00> pipeline state: PIPELINE_STATE_RUNNING
+2023-01-20 17:43:00> view training: https://console.cloud.google.com/vertex-ai/locations/us-central1/training/947230504279605248?project=gc-vertex-ai-r
+2023-01-20 17:43:00> pipeline state: PIPELINE_STATE_RUNNING
+2023-01-20 17:48:01> view training: https://console.cloud.google.com/vertex-ai/locations/us-central1/training/947230504279605248?project=gc-vertex-ai-r
+2023-01-20 17:48:01> pipeline state: PIPELINE_STATE_SUCCEEDED
+==Google Cloud Vertex AI TrainingPipeline Job==
+console:              https://console.cloud.google.com/vertex-ai/locations/us-central1/training/947230504279605248?project=442003009360 
+state:                PIPELINE_STATE_SUCCEEDED 
 ```
 
 ## Create Endpoint 
