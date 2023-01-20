@@ -14,12 +14,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Overview
 
-Emulation of
+Emulation of blog post [Train and deploy ML models with R and plumber on Vertex AI | Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/train-and-deploy-ml-models-with-r-and-plumber-on-vertex-ai) and related notebook: [vertex-ai-samples/get\_started\_vertex\_training\_r\_using\_r\_kernel.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/ml_ops/stage2/get_started_vertex_training_r_using_r_kernel.ipynb)
 
-* blog post: [Train and deploy ML models with R and plumber on Vertex AI | Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/train-and-deploy-ml-models-with-r-and-plumber-on-vertex-ai)
-* notebook: [vertex-ai-samples/get\_started\_vertex\_training\_r\_using\_r\_kernel.ipynb at main · GoogleCloudPlatform/vertex-ai-samples](https://github.com/GoogleCloudPlatform/vertex-ai-samples/blob/main/notebooks/community/ml_ops/stage2/get_started_vertex_training_r_using_r_kernel.ipynb)
-
-[Create](https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline) a `TrainingPipeline`  that runs a `CustomJob` and imports the resulting artifacts as a `Model`.
+Core concept: [Create](https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline) a `TrainingPipeline`  that runs a `CustomJob` and imports the resulting artifacts as a `Model`.
 
 ## Setup
 
@@ -295,18 +292,23 @@ job <- gcva_custom_container_training_job(
   modelServingContainerCommand = c("Rscript", "serve.R"),
   modelServingContainerImageUri = image_uri
 )
+job
 ```
 
 ## Execute custom training job 
 
-```r
-model <- gcva_job_run(
+```{r}
+model <- gcva_run_job(
   job = job,
   dataset = dataset,
   modelDisplayName = "vertex-r-model",
   machineType = "n1-standard-4"
 )
+```
 
+### Check results 
+
+```r
 model$display_name #python sdk
 model$resource_name  #python sdk
 model$uri  #python sdk

@@ -16,6 +16,7 @@ gcva_run_job(
   testFractionSplit = 0.1,
   modelDisplayName,
   disableEarlyStopping = FALSE,
+  machineType = NULL,
   sync = TRUE
 )
 }
