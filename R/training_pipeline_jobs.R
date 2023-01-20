@@ -115,6 +115,9 @@ gcva_custom_container_training_job <- function(
                 args = args
               )
             )
+          ),
+          baseOutputDirectory = list(
+            outputUriPrefix = c("")
           )
         ),
         modelToUpload = list(
@@ -154,7 +157,7 @@ gcva_custom_container_training_job <- function(
 #' @export
 gcva_run_job <- function(projectId = gcva_project_get(),
                          locationId = gcva_region_get(),
-                         # baseOutputDir = NULL,
+                         baseOutputDir = gcva_bucket_get(),
                          job,
                          dataset,
                          targetColumn=NULL,
@@ -169,9 +172,12 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   # check if dataset object
   stopifnot(inherits(dataset, "gcva_dataset"))
 
-  # TODO create base output dir
-  # base_output_dir <- paste0(
-  #   gcva_bucket_get(),"/", strftime(Sys.time(), "%Y%m%d%H%M%S"), "/")
+  # TODO
+  # stopifnot(baseOutputDir) empty
+
+
+  base_output_dir <- paste0(
+    baseOutputDir,"/", strftime(Sys.time(), "%Y%m%d%H%M%S"), "/")
 
   # get dataset ID from datasetBane uri
   dataset_id <- unlist(strsplit(dataset$name, "/"))[6]
@@ -183,8 +189,10 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## automl
   job[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
   ## custom
+  outputUriPrefix
   job[["trainingTaskInputs"]][["workerPoolSpecs"]][[1]][["machineSpec"]][["machineType"]] <- machineType
   job[["trainingTaskInputs"]][["workerPoolSpecs"]][[1]][["replicaCount"]] <- 1
+  job[["trainingTaskInputs"]][["baseOutputDirectory"]][[1]][["outputUriPrefix"]] <- base_output_dir
 
   # also add structure class for checking later
   # removing all empty fields to properly format API request body

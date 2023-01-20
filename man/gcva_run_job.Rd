@@ -8,6 +8,7 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.tra
 gcva_run_job(
   projectId = gcva_project_get(),
   locationId = gcva_region_get(),
+  baseOutputDir = gcva_bucket_get(),
   job,
   dataset,
   targetColumn = NULL,

@@ -7,6 +7,7 @@
 gcva_custom_container_training_job(
   projectId = gcva_project_get(),
   locationId = gcva_region_get(),
+  stagingBucket = gcva_bucket_get(),
   displayName,
   containerUri,
   command,
