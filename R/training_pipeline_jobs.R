@@ -59,9 +59,7 @@ gcva_automl_tabluar_training_job <- function(
 #'
 #' @description
 #' constructs a custom training job for running
-#'
-#' @param projectId
-#' @param locationId
+#' @param stagingBucket
 #' @param displayName
 #' @param containerUri
 #' @param command
@@ -71,8 +69,6 @@ gcva_automl_tabluar_training_job <- function(
 #'
 #' @export
 gcva_custom_container_training_job <- function(
-    projectId = gcva_project_get(),
-    locationId = gcva_region_get(),
     stagingBucket = gcva_bucket_get(),
     displayName,
     containerUri, #imageUri
@@ -172,10 +168,6 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   # check if dataset object
   stopifnot(inherits(dataset, "gcva_dataset"))
 
-  # TODO
-  # stopifnot(baseOutputDir) empty
-
-
   base_output_dir <- paste0(
     baseOutputDir,"/", strftime(Sys.time(), "%Y%m%d%H%M%S"), "/")
 
@@ -189,10 +181,9 @@ gcva_run_job <- function(projectId = gcva_project_get(),
   ## automl
   job[["trainingTaskInputs"]][["targetColumn"]] <- targetColumn
   ## custom
-  outputUriPrefix
   job[["trainingTaskInputs"]][["workerPoolSpecs"]][[1]][["machineSpec"]][["machineType"]] <- machineType
   job[["trainingTaskInputs"]][["workerPoolSpecs"]][[1]][["replicaCount"]] <- 1
-  job[["trainingTaskInputs"]][["baseOutputDirectory"]][[1]][["outputUriPrefix"]] <- base_output_dir
+  job[["trainingTaskInputs"]][["baseOutputDirectory"]][["outputUriPrefix"]] <- base_output_dir
 
   # also add structure class for checking later
   # removing all empty fields to properly format API request body
@@ -230,6 +221,7 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 
 #' Wait for a training pipeline operation
 #'
+#' @param projectId
 #' @param locationId locationId of training pipeline
 #' @param trainingPipelineName an object representing a model training pipeline
 #' @param wait INTEGER number of seconds to wait between checks. Default is 5minutes
@@ -237,7 +229,8 @@ gcva_run_job <- function(projectId = gcva_project_get(),
 #' @return trainingPipeline object
 #'
 #' @export
-gcva_wait_for_training_pipeline <- function(locationId = gcva_region_get(),
+gcva_wait_for_training_pipeline <- function(projectId = gcva_project_get(),
+                                            locationId = gcva_region_get(),
                                             trainingPipelineName,
                                             wait=300) {
 

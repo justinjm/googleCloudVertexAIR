@@ -124,7 +124,8 @@ sh("gsutil mb -l {gcva_region_get()} -p {gcva_project_get()} {bucket_uri}")
 
 ### Set 
 
-Set newly created bucket as a global argument
+Set newly created bucket as a global argument:
+
 ```{r}
 gcva_bucket_set(bucket_uri)
 ```
@@ -304,7 +305,8 @@ job
 
 ## Execute custom training job 
 
-```r
+```{r}
+gcva_bucket_set(bucket_uri) # set here during testing only 
 model <- gcva_run_job(
   job = job,
   dataset = dataset,
