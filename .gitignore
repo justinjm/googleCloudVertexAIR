@@ -1,4 +1,4 @@
-# R project files 
+# R project files
 .Rproj.user
 .Rhistory
 .RData
@@ -6,10 +6,13 @@
 
 inst/doc
 
-# R project files - user generated 
+# R project files - user generated
 .Renviron
 
-# R auth files 
+# R auth files
 *.oauth
-*.rds 
-*.json 
+*.rds
+*.json
+
+# macos alias
+logs alias
