@@ -47,6 +47,9 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.tra
       <a href="../articles/batch_prediction_jobs.html">Performing batch prediction</a>
     </li>
     <li>
+      <a href="../articles/custom_sh.html">Custom sh</a>
+    </li>
+    <li>
       <a href="../articles/custom_tabular_online.html">Training and deploying a custom model</a>
     </li>
     <li>
@@ -57,9 +60,6 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.tra
     </li>
     <li>
       <a href="../articles/multi-auth.html">multi-auth</a>
-    </li>
-    <li>
-      <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -95,14 +95,16 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.tra
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gcva_run_job</span><span class="op">(</span></span>
 <span>  projectId <span class="op">=</span> <span class="fu"><a href="gcva_project_get.html">gcva_project_get</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  locationId <span class="op">=</span> <span class="fu"><a href="gcva_region_get.html">gcva_region_get</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  baseOutputDir <span class="op">=</span> <span class="fu"><a href="gcva_bucket_get.html">gcva_bucket_get</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">job</span>,</span>
 <span>  <span class="va">dataset</span>,</span>
-<span>  <span class="va">targetColumn</span>,</span>
+<span>  targetColumn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  trainingFractionSplit <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>  validationFractionSplit <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  testFractionSplit <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  <span class="va">modelDisplayName</span>,</span>
 <span>  disableEarlyStopping <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  machineType <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  sync <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>

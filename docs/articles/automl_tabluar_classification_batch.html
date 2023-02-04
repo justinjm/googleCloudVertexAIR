@@ -62,6 +62,9 @@
       <a href="../articles/batch_prediction_jobs.html">Performing batch prediction</a>
     </li>
     <li>
+      <a href="../articles/custom_sh.html">Custom sh</a>
+    </li>
+    <li>
       <a href="../articles/custom_tabular_online.html">Training and deploying a custom model</a>
     </li>
     <li>
@@ -72,9 +75,6 @@
     </li>
     <li>
       <a href="../articles/multi-auth.html">multi-auth</a>
-    </li>
-    <li>
-      <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -105,7 +105,7 @@
       <h1 data-toc-skip>Training a tabuluar AutoML model and performing
 batch prediction</h1>
             
-            <h4 data-toc-skip class="date">2022-12-17</h4>
+            <h4 data-toc-skip class="date">2023-02-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/automl_tabluar_classification_batch.Rmd" class="external-link"><code>vignettes/automl_tabluar_classification_batch.Rmd</code></a></small>
       <div class="hidden name"><code>automl_tabluar_classification_batch.Rmd</code></div>
@@ -169,7 +169,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="section level3">
 <h3 id="setup-google-cloud-project">Setup Google Cloud Project<a class="anchor" aria-label="anchor" href="#setup-google-cloud-project"></a>
 </h3>
-<p>TODO</p>
+<p>TODO: <a href="https://github.com/justinjm/googleCloudVertexAIR/issues/26" class="external-link uri">https://github.com/justinjm/googleCloudVertexAIR/issues/26</a></p>
 </div>
 <div class="section level3">
 <h3 id="authenticate-your-google-cloud-account">Authenticate your Google Cloud Account<a class="anchor" aria-label="anchor" href="#authenticate-your-google-cloud-account"></a>
@@ -188,14 +188,14 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:01&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:01:26&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:01&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:01:26&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d%H%M%S"</span><span class="op">)</span></span>
 <span><span class="va">timestamp</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "20221217113501"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "20230204130126"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="set-vertex-ai-managed-dataset-display-name">Set Vertex AI managed dataset display name<a class="anchor" aria-label="anchor" href="#set-vertex-ai-managed-dataset-display-name"></a>
@@ -203,7 +203,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datasetDisplayName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span></span>
 <span><span class="va">datasetDisplayName</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "california-housing-20221217113501"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "california-housing-20230204130126"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -218,13 +218,13 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <code class="sourceCode R"><span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_create_tabluar_dataset.html">gcva_create_tabluar_dataset</a></span><span class="op">(</span></span>
 <span>  displayName <span class="op">=</span> <span class="va">datasetDisplayName</span>,</span>
 <span>  gcsSource <span class="op">=</span> <span class="st">"gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:04&gt; Waiting 2 seconds...</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:01:29&gt; Waiting 2 seconds...</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI Dataset==</span></span>
-<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/5909050365575168000 </span></span>
-<span><span class="co">## displayName:          california-housing-20221217113501 </span></span>
-<span><span class="co">## createTime:           2022-12-17 16:35:02 </span></span>
+<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/6675102106879262720 </span></span>
+<span><span class="co">## displayName:          california-housing-20230204130126 </span></span>
+<span><span class="co">## createTime:           2023-02-04 18:01:27 </span></span>
 <span><span class="co">## gcsSource:            gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -268,7 +268,6 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <span><span class="va">trainingPipelineJob</span></span></code></pre></div>
 <p>After model completes training, extract <code>modelName</code> to a
 variable for batch prediction</p>
-<p>TODO - move this to <code>batch_prediction_job()</code></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">modelName</span> <span class="op">&lt;-</span> <span class="va">trainingPipelineJob</span><span class="op">$</span><span class="va">modelToUpload</span><span class="op">$</span><span class="va">name</span></span>
 <span><span class="va">modelName</span> </span></code></pre></div>
@@ -286,16 +285,13 @@ variable for batch prediction</p>
 <div class="section level4">
 <h4 id="make-test-items-for-batch-input">Make test items for batch input<a class="anchor" aria-label="anchor" href="#make-test-items-for-batch-input"></a>
 </h4>
-<p>TODO - move setup script <code>data-raw/0_setup_vignettes.R</code> to
-here to create BQ dataset then create BQ table from the source dataset
-in GCS <code>california-housing-tabular-regression.csv</code></p>
 <ol style="list-style-type: decimal">
 <li>Create BQ dataset <code>california_housing</code>
 </li>
 <li>Create BQ external table from GCS file
 <code>california_housing.source_data</code>
 </li>
-<li>Create BQ table <code>batch01</code> from BQ table
+<li>Create BQ table <code>batch02</code> from BQ table
 <code>california_housing.source_data</code>
 </li>
 </ol>
@@ -313,7 +309,11 @@ in GCS <code>california-housing-tabular-regression.csv</code></p>
 <div class="section level5">
 <h5 id="execute-request">execute request<a class="anchor" aria-label="anchor" href="#execute-request"></a>
 </h5>
-<p><a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create</a></p>
+<ul>
+<li>Doc:</li>
+<li>API: <a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create</a>
+</li>
+</ul>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># hard code #modelName for testing purposes, model state = completed </span></span>
 <span><span class="va">modelName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_TEST_MODEL_NAME"</span><span class="op">)</span></span>
@@ -338,8 +338,6 @@ use the predictions</p>
 <div class="section level4">
 <h4 id="get-predictions">Get predictions<a class="anchor" aria-label="anchor" href="#get-predictions"></a>
 </h4>
-<p>TODO - add R code and example SQL to make more easily
-reproducible</p>
 <p>Open BigQuery console and navigate to the dataset where the
 predictions were saved, then modify and run the query below:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
@@ -366,7 +364,7 @@ job started: <code>predictions_TIMESTAMP</code>
 </h3>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_delete_dataset.html">gcva_delete_dataset</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">dataset</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:05&gt; Dataset successfully deleted.</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:01:30&gt; Dataset successfully deleted.</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>

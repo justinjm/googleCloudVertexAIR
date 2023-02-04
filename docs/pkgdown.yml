@@ -4,13 +4,13 @@ pkgdown_sha: ~
 articles:
   automl_tabluar_classification_batch: automl_tabluar_classification_batch.html
   batch_prediction_jobs: batch_prediction_jobs.html
+  custom_sh: custom_sh.html
   custom_tabular_online: custom_tabular_online.html
   datasets: datasets.html
   models: models.html
   multi-auth: multi-auth.html
-  testing_sh: testing_sh.html
   training_pipeline_jobs: training_pipeline_jobs.html
-last_built: 2022-12-17T16:34Z
+last_built: 2023-02-04T18:01Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles

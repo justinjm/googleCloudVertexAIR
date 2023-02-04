@@ -62,6 +62,9 @@
       <a href="../articles/batch_prediction_jobs.html">Performing batch prediction</a>
     </li>
     <li>
+      <a href="../articles/custom_sh.html">Custom sh</a>
+    </li>
+    <li>
       <a href="../articles/custom_tabular_online.html">Training and deploying a custom model</a>
     </li>
     <li>
@@ -72,9 +75,6 @@
     </li>
     <li>
       <a href="../articles/multi-auth.html">multi-auth</a>
-    </li>
-    <li>
-      <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -104,7 +104,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Training Pipeline Jobs</h1>
             
-            <h4 data-toc-skip class="date">2022-12-17</h4>
+            <h4 data-toc-skip class="date">2023-02-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/training_pipeline_jobs.Rmd" class="external-link"><code>vignettes/training_pipeline_jobs.Rmd</code></a></small>
       <div class="hidden name"><code>training_pipeline_jobs.Rmd</code></div>
@@ -130,10 +130,10 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span><span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:46&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:02:23&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span><span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:46&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:02:23&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="get-training-pipeline">Get training pipeline<a class="anchor" aria-label="anchor" href="#get-training-pipeline"></a>
@@ -169,10 +169,10 @@
 <span><span class="co">## </span></span>
 <span><span class="co">## $predictSchemata</span></span>
 <span><span class="co">## $predictSchemata$instanceSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298547&amp;Signature=KFKSM%252Fz60RtOrE3AZLJ6u1ujzCM4TzoAYcBnIPUcCbp1dqbP%252Bcxr8MINg8nsxUbaQ0CQknk0bvdChUOn3DVNThccCwEcw1traKp8M3HCReWu5187BHg3c8Ot0P5NoNXnXx8VrAcVKHVnEMaNevqyE3CN%252FBt0aqOw%252BzMm0yf0bMQTfaDDRG92L6kRddSfbOFXxkNIxmV03L8hmISdduas12F1f517DIASzTPeGdYalTlefQs762hpixECIjBqaqRXd%252B2g0N%252BUAWd0Zmz7DKZMQfdm%252FvAfKshUEG1YDgl5sX%252BS8OdhzZO%252FTT8wXbIujVs2kwhjaMb7MY240MCKVw6wEw%253D%253D"</span></span>
+<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537343&amp;Signature=LstGUnQRwvYhiHHFxQs4O42fRiV1jRrC6g4qoHRW92Kf0%252FHX9dx8lQlFpR2OWFTisGZypVJ%252F5imz6DhO0TVtZEd0Br8Mzu9LIxqTPzMy0qzjRjNePEwtHKDoEi2yGCSqDmdwk2hUE2CvR81M4lIRSACJtkeqm031sdmPn6DXevIPqgMkKj8vsWcE%252FnYXfSbAW3DY%252BlOjHuU9aff8FeMgrS7CNvvhakXo2uBYVAToqIy3%252FLZZ4JJbNuNmGJrD5OYs1HXUq%252BtMSzp1Yf22Kk%252FjDhiKid81zokG30FF45ZQ0DGhHvWr5Ae%252FoWHwr%252Bqe0RP3Da5e4NNYUnca825NL5r9YQ%253D%253D"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $predictSchemata$predictionSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298547&amp;Signature=iPBpS5IC0q%252FQMP2LlGw4bD%252B7auizt54B5WhY7k%252BDq%252F0D2bVkr%252F5O2liQn0LES1kmAh17fHlS2b2VXmxppvLSfAeMiT334trZKPMyqAORke6%252BBq2hH1gE%252BQsRlPnz9BXEWlZkyVF9UhDb7G0W3eiwm8RmJ5HJFM0VQlvqcvHxPzVCuTEcJ2ai05Xl24exZu0k02RPf6aakhY4US9xLYVIILFGefjQlBxGo4f%252FOne49TU6%252FUjXejblduPqELAELY1f8yrwTEi94x%252BLUJuxPvcdsji%252BDdaubcoRKHi2QD3dhX2B25QtBjrkyqapB91j3qbWj83MzRiC%252F8pMDN5MWdvgzg%253D%253D"</span></span>
+<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537343&amp;Signature=ofWKTZWueBF1Xx8IrQsm1s9SnFx0f2Rpoijb7cp8%252FWchRGH8iaXGXv4nYZ4RzvEOi7CqqFKP38Zz5REwnyi3JIGhiWURN7VrTwBOUfitSkfQvsUmBd7t%252BCyWIAKk8gnyEvadgkk%252BUpv1iVmeCF7X9oc8hLHYv4lVP4VwWBCKafyJcYDAalo2MpgslvTBnsmQQ%252Ff6FBQd3u0prU5mmkrwDWBz9d%252BYzj4mnlhKjxVFnK6Y3zjXhW5mN7Rg8jBY0%252FqhaEn8QwkgJFOEQpShWHgKz9LUO7NM79fIQEE9xfX4EffEn2tMlS%252FumacHVa%252FoyOpgHjxYOSbIulILnIo8mvFHXQ%253D%253D"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $metadataSchemaUri</span></span>
@@ -200,7 +200,7 @@
 <span><span class="co">## [1] "2022-11-13T23:33:13.942890Z"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $etag</span></span>
-<span><span class="co">## [1] "AMEw9yNVKGUr20OJSp3Ig_ehiAJKLk9Y2isPaAHvUkam9DMqJXSw3sjmR-S1PnFiv3n3"</span></span>
+<span><span class="co">## [1] "AMEw9yNXzed_NoIPXTjblZq_UH8D2TfDWnTZnMwmhqzXruC5Z9BgnaI4d9sLxctDBZmk"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $supportedExportFormats</span></span>
 <span><span class="co">##               id exportableContents</span></span>
@@ -263,7 +263,7 @@
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $explanationSpec$metadata$featureAttributionsSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298547&amp;Signature=ibD7HhQEVJSiy%252FJ2YpIPlS2fsfkDnLaT7tCykG2T5LiHlGdsHfcnis%252BhhDpPzifHDiyFC02vg%252BoqQrdHSwqsKCDLH5CAYqd1jX5b14skAYFfyxfpTwT0AYm9X%252FUa8hvZqAr%252FO8Lb%252B%252BCoRzropRkG9pGvjlOTe1k8OtELH56cC%252Ff3SA8mNEscH%252F63CIDqpr67kfnEtqHA%252B%252FojAscW1pRZa4uvd2AlrwwtE9ngqv0n8eMnWcwIhF23NowHZI2G6D8zdQ5IxHHW4HKDy7y0kXgp5xQOSuJigOVSzzG%252BEu7kSFQc0gE%252FpdwGfIjlCKBgVHub2IoAICttMwhhxCWH4NTgxQ%253D%253D"</span></span>
+<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537343&amp;Signature=ASvj40BCx5kY5%252F%252FDP9tf7DHPtAUwe4ysu1raky2BaLoH4yVLQoH%252BiuVfKEs0RPLnrMi%252FvTPlglDhr8hEX4nd0gK8t1rnvNQq5ACPx1dOGJvcfXpPzhNoFqFm1lE%252BC%252BoUnHIDzQcIXLSydDmYGO5ac7ufSLR9nGH%252FdJV1XYJE9qo1XesSA5ESBxLuahO5JLDJ8flzWI53JxGNTYsel5sJwLdKv4bvPJJNpatszv%252FJL2rZSuvtQxQ%252FQ8v3qwP9vtBqWSTm0JiWcC6a8T7XrySuy6lLPlLbkaKvBsf%252BALL%252FsvIKAMsemHxsHgL481QvAtpOfWTzWfZmCJsZ0FDZI4p4%252FA%253D%253D"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
@@ -286,6 +286,73 @@
 <span><span class="co">## </span></span>
 <span><span class="co">## attr(,"class")</span></span>
 <span><span class="co">## [1] "gcva_model"</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="create-custom-container-training-job">Create custom container training job<a class="anchor" aria-label="anchor" href="#create-custom-container-training-job"></a>
+</h2>
+<p>First, 1) <a href="https://cloud.google.com/vertex-ai/docs/training/create-training-pipeline" class="external-link">create</a>
+a <code>TrainingPipeline</code> that runs a <code>CustomJob</code> and
+then 2) import the resulting artifacts as a <code>Model</code></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">job</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_custom_container_training_job.html">gcva_custom_container_training_job</a></span><span class="op">(</span></span>
+<span>  stagingBucket <span class="op">=</span> <span class="st">"gs://my-bucket-name"</span>, </span>
+<span>  displayName <span class="op">=</span> <span class="st">"vertex-r"</span>,</span>
+<span>  containerUri <span class="op">=</span> <span class="st">"us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest"</span>,</span>
+<span>  command <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rscript"</span>, <span class="st">"train.R"</span><span class="op">)</span>,</span>
+<span>  modelServingContainerCommand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rscript"</span>, <span class="st">"serve.R"</span><span class="op">)</span>,</span>
+<span>  modelServingContainerImageUri <span class="op">=</span> <span class="st">"us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest"</span>,</span>
+<span>  machineType <span class="op">=</span> <span class="st">"n1-standard-4"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># job</span></span>
+<span><span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">toJSON</a></span><span class="op">(</span><span class="va">job</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span>, auto_unbox <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># pretty print</span></span></code></pre></div>
+<pre><code><span><span class="co">## {</span></span>
+<span><span class="co">##   "displayName": "vertex-r",</span></span>
+<span><span class="co">##   "inputDataConfig": {</span></span>
+<span><span class="co">##     "datasetId": "",</span></span>
+<span><span class="co">##     "gcsDestination": {</span></span>
+<span><span class="co">##       "outputUriPrefix": "gs://my-bucket-name"</span></span>
+<span><span class="co">##     }</span></span>
+<span><span class="co">##   },</span></span>
+<span><span class="co">##   "trainingTaskDefinition": "gs://google-cloud-aiplatform/schema/trainingjob/definition/custom_task_1.0.0.yaml",</span></span>
+<span><span class="co">##   "trainingTaskInputs": {</span></span>
+<span><span class="co">##     "workerPoolSpecs": [</span></span>
+<span><span class="co">##       {</span></span>
+<span><span class="co">##         "machineSpec": {</span></span>
+<span><span class="co">##           "machineType": "n1-standard-4"</span></span>
+<span><span class="co">##         },</span></span>
+<span><span class="co">##         "containerSpec": {</span></span>
+<span><span class="co">##           "imageUri": "us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest",</span></span>
+<span><span class="co">##           "command": ["Rscript", "train.R"]</span></span>
+<span><span class="co">##         }</span></span>
+<span><span class="co">##       }</span></span>
+<span><span class="co">##     ],</span></span>
+<span><span class="co">##     "baseOutputDirectory": {</span></span>
+<span><span class="co">##       "outputUriPrefix": ""</span></span>
+<span><span class="co">##     }</span></span>
+<span><span class="co">##   },</span></span>
+<span><span class="co">##   "modelToUpload": {</span></span>
+<span><span class="co">##     "containerSpec": {</span></span>
+<span><span class="co">##       "imageUri": "us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest",</span></span>
+<span><span class="co">##       "command": ["Rscript", "serve.R"]</span></span>
+<span><span class="co">##     }</span></span>
+<span><span class="co">##   }</span></span>
+<span><span class="co">## }</span></span></code></pre>
+<div class="section level3">
+<h3 id="execute-custom-training-job">Execute custom training job<a class="anchor" aria-label="anchor" href="#execute-custom-training-job"></a>
+</h3>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># get dataset for next api call TESTING</span></span>
+<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_dataset.html">gcva_dataset</a></span><span class="op">(</span>datasetName <span class="op">=</span> <span class="fu"><a href="../reference/gcva_list_datasets.html">gcva_list_datasets</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_run_job.html">gcva_run_job</a></span><span class="op">(</span></span>
+<span>  job <span class="op">=</span> <span class="va">job</span>,</span>
+<span>  dataset <span class="op">=</span> <span class="va">dataset</span>,</span>
+<span>  modelDisplayName <span class="op">=</span> <span class="st">"vertex-r-model"</span>,</span>
+<span>  machineType <span class="op">=</span> <span class="st">"n1-standard-4"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">model</span></span></code></pre></div>
+</div>
 </div>
   </div>
 

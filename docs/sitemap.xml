@@ -13,6 +13,9 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/batch_prediction_jobs.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/custom_sh.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/custom_tabular_online.html</loc>
   </url>
   <url>
@@ -52,13 +55,25 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_batch_prediction_job.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_bucket_get.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_bucket_set.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_create_tabluar_dataset.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_custom_container_training_job.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_dataset.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_delete_dataset.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_endpoint_create.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_get_op.html</loc>

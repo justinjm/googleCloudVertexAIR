@@ -62,6 +62,9 @@
       <a href="../articles/batch_prediction_jobs.html">Performing batch prediction</a>
     </li>
     <li>
+      <a href="../articles/custom_sh.html">Custom sh</a>
+    </li>
+    <li>
       <a href="../articles/custom_tabular_online.html">Training and deploying a custom model</a>
     </li>
     <li>
@@ -72,9 +75,6 @@
     </li>
     <li>
       <a href="../articles/multi-auth.html">multi-auth</a>
-    </li>
-    <li>
-      <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -104,7 +104,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Performing batch prediction</h1>
             
-            <h4 data-toc-skip class="date">2022-12-17</h4>
+            <h4 data-toc-skip class="date">2023-02-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/batch_prediction_jobs.Rmd" class="external-link"><code>vignettes/batch_prediction_jobs.Rmd</code></a></small>
       <div class="hidden name"><code>batch_prediction_jobs.Rmd</code></div>
@@ -126,10 +126,10 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:09&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:01:33&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:09&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:01:33&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># hard code model that we know has a state = completed for demonstration purposes.</span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="st">"projects/442003009360/locations/us-central1/models/2734102788232445952"</span></span></code></pre></div>
@@ -149,7 +149,6 @@
 <div class="section level4">
 <h4 id="execute-request">execute request<a class="anchor" aria-label="anchor" href="#execute-request"></a>
 </h4>
-<p><a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create</a></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">batch_prediction_job</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_batch_predict.html">gcva_batch_predict</a></span><span class="op">(</span></span>
 <span>  jobDisplayName <span class="op">=</span> <span class="st">"california-housing-batch-02"</span>,</span>
@@ -162,6 +161,100 @@
 <span></span>
 <span><span class="va">batch_prediction_job</span></span></code></pre></div>
 </div>
+</div>
+<div class="section level3">
+<h3 id="get-a-batch-prediction-job">Get a batch prediction job<a class="anchor" aria-label="anchor" href="#get-a-batch-prediction-job"></a>
+</h3>
+<p>To view more details and current state.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_batch_prediction_job.html">gcva_batch_prediction_job</a></span><span class="op">(</span></span>
+<span>  batchPredictionJob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_BATCH_PREDICTION"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## $name</span></span>
+<span><span class="co">## [1] "projects/442003009360/locations/us-central1/batchPredictionJobs/1215288140596510720"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $displayName</span></span>
+<span><span class="co">## [1] "california-housing-batch-02"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $model</span></span>
+<span><span class="co">## [1] "projects/442003009360/locations/us-central1/models/2734102788232445952"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $inputConfig</span></span>
+<span><span class="co">## $inputConfig$instancesFormat</span></span>
+<span><span class="co">## [1] "bigquery"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $inputConfig$bigquerySource</span></span>
+<span><span class="co">## $inputConfig$bigquerySource$inputUri</span></span>
+<span><span class="co">## [1] "bq://gc-vertex-ai-r.california_housing.batch_02"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $outputConfig</span></span>
+<span><span class="co">## $outputConfig$predictionsFormat</span></span>
+<span><span class="co">## [1] "bigquery"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $outputConfig$bigqueryDestination</span></span>
+<span><span class="co">## $outputConfig$bigqueryDestination$outputUri</span></span>
+<span><span class="co">## [1] "bq://gc-vertex-ai-r.california_housing"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $dedicatedResources</span></span>
+<span><span class="co">## $dedicatedResources$machineSpec</span></span>
+<span><span class="co">## $dedicatedResources$machineSpec$machineType</span></span>
+<span><span class="co">## [1] "n1-highmem-8"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $dedicatedResources$startingReplicaCount</span></span>
+<span><span class="co">## [1] 40</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $dedicatedResources$maxReplicaCount</span></span>
+<span><span class="co">## [1] 40</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $manualBatchTuningParameters</span></span>
+<span><span class="co">## $manualBatchTuningParameters$batchSize</span></span>
+<span><span class="co">## [1] 1000</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $outputInfo</span></span>
+<span><span class="co">## $outputInfo$bigqueryOutputDataset</span></span>
+<span><span class="co">## [1] "bq://gc-vertex-ai-r.california_housing"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $outputInfo$bigqueryOutputTable</span></span>
+<span><span class="co">## [1] "predictions_2022_12_17T06_43_18_132Z_951"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $state</span></span>
+<span><span class="co">## [1] "JOB_STATE_SUCCEEDED"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $completionStats</span></span>
+<span><span class="co">## $completionStats$successfulCount</span></span>
+<span><span class="co">## [1] "10"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $createTime</span></span>
+<span><span class="co">## [1] "2022-12-17T14:43:18.157716Z"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $startTime</span></span>
+<span><span class="co">## [1] "2022-12-17T14:43:18.215815Z"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $endTime</span></span>
+<span><span class="co">## [1] "2022-12-17T15:03:39Z"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $updateTime</span></span>
+<span><span class="co">## [1] "2022-12-17T15:07:01.161203Z"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $labels</span></span>
+<span><span class="co">## $labels$vertex_product_name</span></span>
+<span><span class="co">## [1] "vertex_tabular"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $modelVersionId</span></span>
+<span><span class="co">## [1] "1"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attr(,"class")</span></span>
+<span><span class="co">## [1] "gcva_batchPredictionJob"</span></span></code></pre>
 </div>
 </div>
   </div>

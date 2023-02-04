@@ -62,6 +62,9 @@
       <a href="../articles/batch_prediction_jobs.html">Performing batch prediction</a>
     </li>
     <li>
+      <a href="../articles/custom_sh.html">Custom sh</a>
+    </li>
+    <li>
       <a href="../articles/custom_tabular_online.html">Training and deploying a custom model</a>
     </li>
     <li>
@@ -72,9 +75,6 @@
     </li>
     <li>
       <a href="../articles/multi-auth.html">multi-auth</a>
-    </li>
-    <li>
-      <a href="../articles/testing_sh.html">testing sh</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -104,7 +104,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Models</h1>
             
-            <h4 data-toc-skip class="date">2022-12-17</h4>
+            <h4 data-toc-skip class="date">2023-02-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/models.Rmd" class="external-link"><code>vignettes/models.Rmd</code></a></small>
       <div class="hidden name"><code>models.Rmd</code></div>
@@ -130,10 +130,10 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span><span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:36&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:02:15&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span><span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2022-12-17 11:35:36&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-02-04 13:02:15&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="list-models">List Models<a class="anchor" aria-label="anchor" href="#list-models"></a>
@@ -142,71 +142,130 @@
 <code class="sourceCode R"><span><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_list_models.html">gcva_list_models</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">models</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                                                     name</span></span>
-<span><span class="co">## 1 projects/442003009360/locations/us-central1/models/2734102788232445952</span></span>
-<span><span class="co">## 2 projects/442003009360/locations/us-central1/models/2964912269135183872</span></span>
+<span><span class="co">## 1 projects/442003009360/locations/us-central1/models/6818469627048230912</span></span>
+<span><span class="co">## 2 projects/442003009360/locations/us-central1/models/8383417721001345024</span></span>
+<span><span class="co">## 3 projects/442003009360/locations/us-central1/models/2734102788232445952</span></span>
+<span><span class="co">## 4 projects/442003009360/locations/us-central1/models/2964912269135183872</span></span>
 <span><span class="co">##                               displayName</span></span>
-<span><span class="co">## 1 model-california-housing-20221113163728</span></span>
-<span><span class="co">## 2 model-california-housing-20221113133926</span></span>
+<span><span class="co">## 1                          vertex-r-model</span></span>
+<span><span class="co">## 2                          vertex-r-model</span></span>
+<span><span class="co">## 3 model-california-housing-20221113163728</span></span>
+<span><span class="co">## 4 model-california-housing-20221113133926</span></span>
 <span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  predictSchemata.instanceSchemaUri</span></span>
-<span><span class="co">## 1 https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298536&amp;Signature=ndT66tsgJw%252BHRxLXwybez%252BDdtej1ISLCKtutYNRRNLyiJhQxO7HkDX7yXDS7%252Bp65iiZW2axk1sKcPBgkWtsdeS4EAYIBikN1kwcTPYZLyGfv%252FyKuMo2tdt3zpcAD%252Frn3TM9bYhVX2TfBB4889SciGOjhuYQ2j3Rm7ZGlfDiYEoGHw3lqFAUEvsWKT1XsxO2UIWeY9pRmA3sSaSWqyGU4GJJFTMW2EO63%252BHJ4mo%252Fko11vdhGjjOCcOmKFtsqs5ynr16POI4oPMjme5yFq%252F4%252BTXmTbI1nGF%252B%252FXsjLO%252Fw3bHrG3%252FYykWw7M78fEiwECSjZcf%252B5m8QWf41S8sqyqHa6eMg%253D%253D</span></span>
-<span><span class="co">## 2                 https://storage.googleapis.com/caip-tenant-ae36e64e-83e5-4731-aae8-26eeaf01c180/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298536&amp;Signature=ZNWbJC7WlrEE4miNjITar6q%252Bpw0Rzmbu11kcLs0K4KeaBNXIv9TDL0K9NhVP4K4HfNRbY%252F03TIki3fedV04KDnG%252BgLn%252BlzaZh8X3mnbvYT4A8hpKJ7GvX2D6GxD7EqKI1UqpOteXphWl1ASmJdYsWDMfJCHIEYs5NmzGtXViYiYLJuOMt5h2QzlWvS2uZIzeZZAPKCM8TbZ6a4eloRBqJKYur%252FSPGR95WjzkScNczMe9pCKGhRbmF%252BiZyyDfMOksbcjXfXUAVStuj2QyDNH9IeExA2aM3CzTB%252BpZLm%252B2sWdN4ZYLvJ84CD49%252BWX6VQkh6sZRuXhwnv1OcYAV%252BL17RQ%253D%253D</span></span>
-<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          predictSchemata.predictionSchemaUri</span></span>
-<span><span class="co">## 1 https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298536&amp;Signature=soWXbXCwe292eeT2dCbedFypKd2vWazLWYWtgxtPtOytPO%252B1t%252BJ7pLLlbBmV%252F%252BSiurkyMlb1HDpRYisLldIKk1zfods%252FNS%252FP%252FB8WYtoLdfqq6d74VDqcj3lu4QrUIZuILYdjrO7Iv4JNgcvOqR10yIe2dS%252FE8QklkfqRKB62Z4B%252F3CB5yzhEfteTmp1Z0mXnblGK4MY7c1TzZB13uPHoYbdSyUYkn%252FUIJ1dFI9DvPT3fUbbBGgLa3dnnOROTGxWkEu525fvzaPSADxVJbDF6qzH9PETFa6sV7F0HcCQ3wwtQTYE9LAQ6kDwghrwzgfHCH0lTXG8UhOI%252Bpr9CBw%252FbYg%253D%253D</span></span>
-<span><span class="co">## 2     https://storage.googleapis.com/caip-tenant-ae36e64e-83e5-4731-aae8-26eeaf01c180/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298536&amp;Signature=AkIUaqwDyN2YTI5fV%252BAKFW%252B1VnLLnhzMcA47W2pCYFlolFwWRl89WM1KKJO8u%252FjmNM%252Bx%252BeBQiDtWPo8MtI1Wdkbn0mt2ZrQ6g6Pg99hBwd60tDSNSuujkVi45rgifDRCNffZSguxcO1PrRjZgQjoFBiYEeQtCYBfKDAAr4BxAMViWdyQ04XaAKcf0BkA%252Fekfom8aEE4NxEXu319gEF94SJQQ%252FemijBg8vmpCQIG%252BG4XW3ifdjdlRFrBgjdqgah23ykX348Ja2bkl%252F%252BQuNxSU2U7AZX3se6ElFPESIYxor6wCCgLF%252BbYEx04exmSMMalyWUgfns7GKvLmW943CERfrQ%253D%253D</span></span>
-<span><span class="co">##                                                                                        metadataSchemaUri</span></span>
-<span><span class="co">## 1 https://storage.googleapis.com/google-cloud-aiplatform/schema/model/metadata/automl_tabular_1.0.0.yaml</span></span>
-<span><span class="co">## 2 https://storage.googleapis.com/google-cloud-aiplatform/schema/model/metadata/automl_tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 3             https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537336&amp;Signature=qShq%252BnrPH9olgtox6wkSME7vcYM00HxQJEr5DqPPtpqMfJvbzhndjOMdE5cxNC4bu0NM5sJLbsCcPAUIHfpeMShrsRv4JsoPcVMqSgYMEWnkqyxt2NGfEi%252F5qalnKd3jpX1bLm9aq5qvQlOL5oagQcOV6EeJHS3kPZdZghcV%252F5Dzr6X4nlKUIydzcxs2V96RvsfwGUZjqqUP0krlzaDCGa%252BOr78gp6UWGbAmBP%252FQKtaVClozHJQMBbkVNkRnPlYo%252FkC1y0eoZ1b2hBsK3VPJ3lHfKgRvs%252Ba8Jb0y5PuiPw8YoVP%252BsFBJe3kx%252B%252FoFK3m9XSMc27wZs7%252BR3UDwfi1QKg%253D%253D</span></span>
+<span><span class="co">## 4 https://storage.googleapis.com/caip-tenant-ae36e64e-83e5-4731-aae8-26eeaf01c180/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537336&amp;Signature=Zk%252F6AZ9uh5brJ%252F5SHeGFqVPnaVN0G5PDoVwoQe3%252FergrOC%252FNAcIZx2gQMbsrskERStXZtq7TJJhs2KmiEJxmlO6nrWG9mud39Y27hT5UrywUxZpNYYqRE2eLowmHwNGlN8FE6GCXTW%252BMOqFsyflDaxFY3bT%252Fw02yQo8SaBgdnDZfCT6bDOQYs80n9zw5fp4srf%252BqpN%252BszxVwn%252BV69tY5GaGbNXgPCyxlGX%252BPVxIEhNOMtrNDpqJS8BWPaS5lpuiZnqJ1%252FNmeIbUBHG5YRVwX6eW5%252FXFoB9XbkEVQVNVLUS6LGs8s4UJeJRDGsuxRtFDhc%252FxSyYEvGX%252FBKvN4LRkFSw%253D%253D</span></span>
+<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              predictSchemata.predictionSchemaUri</span></span>
+<span><span class="co">## 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           &lt;NA&gt;</span></span>
+<span><span class="co">## 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           &lt;NA&gt;</span></span>
+<span><span class="co">## 3 https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537336&amp;Signature=mGzrZw1dRzb%252BgGT9elwjkcyFUZPwmHdkjbdCV3J9CjsH9RZYC5%252FdcxPfzs4ElnI4QwJb1AZ%252FhnkWNoLVTzhIo5q0iXqhOSgdPzFOO2Ut0Y3qJRlJXNoNiuM3f1mEeIohCcQoOPJSbxKPOOFTY2DdJQxpscI6B6B%252FkC7kNGQHmpM7uGLtDJwf4lxYNl%252BwaN9w8hBxZTgUWiaFh7xwZaIXXpJfBgpEmh6kvlhv4KoZUYLpoN09USs6%252FORy6J9VK0tubufkYT4cdWLEQyiKPoyorPdq3WMJxD%252BKlxcLUMsG3VM4D9BM%252F2ppbSrRIgNf%252FtGSMFYAP85qCwXCxD9yCYRXag%253D%253D</span></span>
+<span><span class="co">## 4 https://storage.googleapis.com/caip-tenant-ae36e64e-83e5-4731-aae8-26eeaf01c180/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537336&amp;Signature=rAtC76tB4fDr1aJFeuKEANgwm3pZyBlilr73PT0Aj7uPUvx47FDGAHhux%252BSyFQyTtHIaWZ7xWg9dBlcrEVBl0ZrDNx1WUfWfe3PXT%252FJ%252FFyr%252BNVkvuvrFGLrY%252FpIIDWd5D9Gi6tA7F%252FdXAL1FTsap5LSWO8EaF9gXtD08t2VEn1twWvmFR3OENvV8sTeWTWSkcZ5J2XJoLgJGWyegb83UdqxCWZW3fMTN8nEpmMRw%252BLTnGadFnny4INGwiyhNWUGQV1uCSLgBz9kfDnIcF3Wcdv6Lb%252BCzHVDaVXZHovVPq5AzN%252ByrOL4Q6EAwkSWlpouDb1l6UhpWVtf7J6pfU3PiYg%253D%253D</span></span>
 <span><span class="co">##                                                                    trainingPipeline</span></span>
-<span><span class="co">## 1 projects/442003009360/locations/us-central1/trainingPipelines/2601571779788931072</span></span>
-<span><span class="co">## 2  projects/442003009360/locations/us-central1/trainingPipelines/422955460048453632</span></span>
-<span><span class="co">##   supportedDeploymentResourcesTypes    supportedInputStorageFormats</span></span>
-<span><span class="co">## 1               DEDICATED_RESOURCES bigquery, csv, jsonl, tf-record</span></span>
-<span><span class="co">## 2               DEDICATED_RESOURCES bigquery, csv, jsonl, tf-record</span></span>
+<span><span class="co">## 1  projects/442003009360/locations/us-central1/trainingPipelines/947230504279605248</span></span>
+<span><span class="co">## 2 projects/442003009360/locations/us-central1/trainingPipelines/4909272276458799104</span></span>
+<span><span class="co">## 3 projects/442003009360/locations/us-central1/trainingPipelines/2601571779788931072</span></span>
+<span><span class="co">## 4  projects/442003009360/locations/us-central1/trainingPipelines/422955460048453632</span></span>
+<span><span class="co">##                                                     containerSpec.imageUri</span></span>
+<span><span class="co">## 1 us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest</span></span>
+<span><span class="co">## 2 us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest</span></span>
+<span><span class="co">## 3                                                                     &lt;NA&gt;</span></span>
+<span><span class="co">## 4                                                                     &lt;NA&gt;</span></span>
+<span><span class="co">##   containerSpec.command supportedDeploymentResourcesTypes</span></span>
+<span><span class="co">## 1      Rscript, serve.R               DEDICATED_RESOURCES</span></span>
+<span><span class="co">## 2      Rscript, serve.R               DEDICATED_RESOURCES</span></span>
+<span><span class="co">## 3                  NULL               DEDICATED_RESOURCES</span></span>
+<span><span class="co">## 4                  NULL               DEDICATED_RESOURCES</span></span>
+<span><span class="co">##                                 supportedInputStorageFormats</span></span>
+<span><span class="co">## 1 jsonl, bigquery, csv, tf-record, tf-record-gzip, file-list</span></span>
+<span><span class="co">## 2 jsonl, bigquery, csv, tf-record, tf-record-gzip, file-list</span></span>
+<span><span class="co">## 3                            bigquery, csv, jsonl, tf-record</span></span>
+<span><span class="co">## 4                            bigquery, csv, jsonl, tf-record</span></span>
 <span><span class="co">##     supportedOutputStorageFormats          createTime</span></span>
-<span><span class="co">## 1 bigquery, csv, tf-record, jsonl 2022-11-13 21:38:14</span></span>
-<span><span class="co">## 2 bigquery, csv, tf-record, jsonl 2022-11-13 18:43:54</span></span>
+<span><span class="co">## 1                 jsonl, bigquery 2023-01-20 22:38:00</span></span>
+<span><span class="co">## 2                 jsonl, bigquery 2023-01-20 22:28:06</span></span>
+<span><span class="co">## 3 bigquery, csv, tf-record, jsonl 2022-11-13 21:38:14</span></span>
+<span><span class="co">## 4 bigquery, csv, tf-record, jsonl 2022-11-13 18:43:54</span></span>
 <span><span class="co">##                    updateTime</span></span>
-<span><span class="co">## 1 2022-11-13T23:33:13.942890Z</span></span>
-<span><span class="co">## 2 2022-11-13T20:54:04.169546Z</span></span>
+<span><span class="co">## 1 2023-01-20T22:44:49.072684Z</span></span>
+<span><span class="co">## 2 2023-01-20T22:35:36.741432Z</span></span>
+<span><span class="co">## 3 2022-11-13T23:33:13.942890Z</span></span>
+<span><span class="co">## 4 2022-11-13T20:54:04.169546Z</span></span>
 <span><span class="co">##                                                                   etag</span></span>
-<span><span class="co">## 1 AMEw9yNxGe4J27-8g9nvIKDjLgbugVcvAaFn8VJJ1sd-maZLXPus7f9DroDR4XbP4SDy</span></span>
-<span><span class="co">## 2 AMEw9yOHGofcdCdNA8vXK-Vllya2RIZDOCUzQFAQmqNS_jZM60NRiYJdhLinS9XuHlI=</span></span>
-<span><span class="co">##     supportedExportFormats explanationSpec.pathCount</span></span>
-<span><span class="co">## 1 tf-saved-model, ARTIFACT                        16</span></span>
-<span><span class="co">## 2 tf-saved-model, ARTIFACT                        16</span></span>
+<span><span class="co">## 1 AMEw9yMYzX82YySmxOEIygsybwOVb2nTYUldyyb_YWNw0hS5Ess__sAiHRgzd87hpqE=</span></span>
+<span><span class="co">## 2 AMEw9yNG2Ia05ekc8_TCW5jQquOUsBhDeRG3PONspuX679O-slvuJyiemv2_kJPZCo9q</span></span>
+<span><span class="co">## 3 AMEw9yNO8uZrQ9dqFJjLunYY59RUADNASNw1DWo_adPyo401nRIyPdwzGdimOaMEqngb</span></span>
+<span><span class="co">## 4 AMEw9yP0NGTTddstTokodO840GucBc-UQybsAILGSkTSUDwU--_l4ZfqlCjbu1LEQrg=</span></span>
+<span><span class="co">##            supportedExportFormats</span></span>
+<span><span class="co">## 1 custom-trained, ARTIFACT, IMAGE</span></span>
+<span><span class="co">## 2 custom-trained, ARTIFACT, IMAGE</span></span>
+<span><span class="co">## 3        tf-saved-model, ARTIFACT</span></span>
+<span><span class="co">## 4        tf-saved-model, ARTIFACT</span></span>
+<span><span class="co">##                                                   artifactUri versionId</span></span>
+<span><span class="co">## 1 gs://gc-vertex-ai-r-aip-20230120172747/20230120173759/model         1</span></span>
+<span><span class="co">## 2 gs://gc-vertex-ai-r-aip-20230120172747/20230120172806/model         1</span></span>
+<span><span class="co">## 3                                                        &lt;NA&gt;         1</span></span>
+<span><span class="co">## 4                                                        &lt;NA&gt;         1</span></span>
+<span><span class="co">##   versionAliases           versionCreateTime           versionUpdateTime</span></span>
+<span><span class="co">## 1        default 2023-01-20T22:38:00.055628Z 2023-01-20T22:44:49.072684Z</span></span>
+<span><span class="co">## 2        default 2023-01-20T22:28:06.707955Z 2023-01-20T22:35:36.741432Z</span></span>
+<span><span class="co">## 3        default 2022-11-13T21:38:14.348002Z 2022-11-13T23:33:13.942890Z</span></span>
+<span><span class="co">## 4        default 2022-11-13T18:43:54.580925Z 2022-11-13T20:54:04.169546Z</span></span>
+<span><span class="co">##   sourceType</span></span>
+<span><span class="co">## 1     CUSTOM</span></span>
+<span><span class="co">## 2     CUSTOM</span></span>
+<span><span class="co">## 3     AUTOML</span></span>
+<span><span class="co">## 4     AUTOML</span></span>
+<span><span class="co">##                                                                                        metadataSchemaUri</span></span>
+<span><span class="co">## 1                                                                                                   &lt;NA&gt;</span></span>
+<span><span class="co">## 2                                                                                                   &lt;NA&gt;</span></span>
+<span><span class="co">## 3 https://storage.googleapis.com/google-cloud-aiplatform/schema/model/metadata/automl_tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 4 https://storage.googleapis.com/google-cloud-aiplatform/schema/model/metadata/automl_tabular_1.0.0.yaml</span></span>
+<span><span class="co">##   explanationSpec.pathCount explanationSpec.metadata.inputs.inputBaselines</span></span>
+<span><span class="co">## 1                        NA                                           NULL</span></span>
+<span><span class="co">## 2                        NA                                           NULL</span></span>
+<span><span class="co">## 3                        16                                        -118.49</span></span>
+<span><span class="co">## 4                        16                                        -118.31</span></span>
 <span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                        -118.49</span></span>
-<span><span class="co">## 2                                        -118.31</span></span>
+<span><span class="co">## 1                                           NULL</span></span>
+<span><span class="co">## 2                                           NULL</span></span>
+<span><span class="co">## 3                                          34.26</span></span>
+<span><span class="co">## 4                                          34.06</span></span>
 <span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                          34.26</span></span>
-<span><span class="co">## 2                                          34.06</span></span>
+<span><span class="co">## 1                                           NULL</span></span>
+<span><span class="co">## 2                                           NULL</span></span>
+<span><span class="co">## 3                                           29.0</span></span>
+<span><span class="co">## 4                                           29.0</span></span>
 <span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                           29.0</span></span>
-<span><span class="co">## 2                                           29.0</span></span>
+<span><span class="co">## 1                                           NULL</span></span>
+<span><span class="co">## 2                                           NULL</span></span>
+<span><span class="co">## 3                                         2127.0</span></span>
+<span><span class="co">## 4                                         2127.0</span></span>
 <span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                         2127.0</span></span>
-<span><span class="co">## 2                                         2127.0</span></span>
+<span><span class="co">## 1                                           NULL</span></span>
+<span><span class="co">## 2                                           NULL</span></span>
+<span><span class="co">## 3                                          435.0</span></span>
+<span><span class="co">## 4                                          435.0</span></span>
 <span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                          435.0</span></span>
-<span><span class="co">## 2                                          435.0</span></span>
+<span><span class="co">## 1                                           NULL</span></span>
+<span><span class="co">## 2                                           NULL</span></span>
+<span><span class="co">## 3                                         1167.0</span></span>
+<span><span class="co">## 4                                         1167.0</span></span>
 <span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                         1167.0</span></span>
-<span><span class="co">## 2                                         1167.0</span></span>
+<span><span class="co">## 1                                           NULL</span></span>
+<span><span class="co">## 2                                           NULL</span></span>
+<span><span class="co">## 3                                          410.0</span></span>
+<span><span class="co">## 4                                          410.0</span></span>
 <span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                          410.0</span></span>
-<span><span class="co">## 2                                          410.0</span></span>
-<span><span class="co">##   explanationSpec.metadata.inputs.inputBaselines</span></span>
-<span><span class="co">## 1                                         3.5388</span></span>
-<span><span class="co">## 2                                         3.5388</span></span>
+<span><span class="co">## 1                                           NULL</span></span>
+<span><span class="co">## 2                                           NULL</span></span>
+<span><span class="co">## 3                                         3.5388</span></span>
+<span><span class="co">## 4                                         3.5388</span></span>
 <span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              explanationSpec.metadata.featureAttributionsSchemaUri</span></span>
-<span><span class="co">## 1                                 https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298536&amp;Signature=efv1i7fLlv%252BnqPEOB4PgAdqG6pCMo0G9JkgTYgdM%252B%252FmzV27313G7CuMqETrXSz5svu6CgJDC7N73jo6R563olaVEF8A7JITS%252FQyQDz1uYIdPBvyZb3lNNCSbovZdReroF1np37njRpi1B6tPSrtnEKPqrtw3b04V5I0LhMYjTlD41xlpxLFU9ohQqaOUCHMJUfwvpxAwAza6FycQM1qjDDxxy7K6z86XcdTPJlWZsBMcWGADAa5xdC8JkpXddHYOlOII7Pimjih2dnPhBQxI4A%252F%252FgZ8q05491uPiZOpxFLUNz8BFc3vyTFMBjHQPvNQ1LkYacP0IFa2f5FpKk%252Fg4dw%253D%253D</span></span>
-<span><span class="co">## 2 https://storage.googleapis.com/caip-tenant-ae36e64e-83e5-4731-aae8-26eeaf01c180/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298536&amp;Signature=ceYQlVptq2AtfzTec4nlmChkYf7%252BhiiR7xVnpU%252BOw%252BvIFRf%252BDppcYUFBIvebOIWrWCmrlSzXLJW1tQj3aS3cISkRhz2YFWM4sapGjgECfZNWrRDXpDz94DIM%252Bi8dXY4xh4ufCw%252FPFgYGxxdwzRY1boTcsHXQoX%252BrThe7O2H%252Fzi%252FmZ1AVKpMxIj8F6reOO%252BsA59xUpzRLNlwqPc%252Bw7EQxwaONnFnmWIwrad5PNitn7XgV6Bh5i7%252BjDvmZ%252F7lRWChcbgwsALCyAn9tA8ZsxVQ6wEQy3OTeUJJYn2SZ3K9YhNmEu2XVoymPjdvUMvohf4LGq4jWoLq%252FP7%252FiHnJ0JT9dwQ%253D%253D</span></span>
-<span><span class="co">##   versionId versionAliases           versionCreateTime</span></span>
-<span><span class="co">## 1         1        default 2022-11-13T21:38:14.348002Z</span></span>
-<span><span class="co">## 2         1        default 2022-11-13T18:43:54.580925Z</span></span>
-<span><span class="co">##             versionUpdateTime sourceType</span></span>
-<span><span class="co">## 1 2022-11-13T23:33:13.942890Z     AUTOML</span></span>
-<span><span class="co">## 2 2022-11-13T20:54:04.169546Z     AUTOML</span></span></code></pre>
+<span><span class="co">## 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 3                                     https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537336&amp;Signature=cWLdyUI6cDOE6M9gRRsc9yUqCUafbBxvp6bqQj6PwVFBPU36%252F8Pp3OT55eL0HFVkNbL12h6D7ukkgk2xdN4cv8%252FOvW9uQcfZ17GEFOfJlULugAugSrG31ygVettT0zBGraiSGnEJ5TP7YyLcjTX%252Be1TtR40jJqOQnlJZGX1uL73o1O0OXqVah3iF3hhIzvzJW4tY9S%252B7Le%252FRx9gEc0wV4Gt7fSk23WirYWzxNYYSmRtr%252Bq9P3dkO4gC0NUbKmro8xCuIDg2eiypx63m5fmf00OeueFRr1pMeKOLjIEUEuxfqkf3gUNLwWUX8xiRuPu9MVQNYOAEsVtmCScG9KlAE8w%253D%253D</span></span>
+<span><span class="co">## 4 https://storage.googleapis.com/caip-tenant-ae36e64e-83e5-4731-aae8-26eeaf01c180/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1675537336&amp;Signature=IiA1kM3NbBazQeZvWkUuOouKoHEohZ1GubXhtANSM3wZ%252FdBWRQ%252BgKZD%252F0CpjXbH5uctMoTRvzLGoyBEprQgHDZZm2YS%252B3DelhVwc2qGAE3FoBkmpUukS874%252FFvqZMtX7jN0tg3n%252BqLGlh9LtJ1kvGbk9Eo%252FgO%252BJkC%252FOhrfIM4y0Owak%252F%252BpgUeAE%252FRsAi6GmXRwF5%252BYD06qc0sMyVabF0heDEJ8K6eoTYQIh7s0L9qbrudiiK4zsrB%252FDIZqAeEZhDs4LcPbDrBTUFn4iZNnlsIxoZq7n0Wnjn6p1Nx8zP6r8t3XqehJHco0flN5ZrGYeV9A7kQLAeQ2HhDYnnBM%252Fr0A%253D%253D</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="get-model">Get model<a class="anchor" aria-label="anchor" href="#get-model"></a>
@@ -215,110 +274,50 @@
 <code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_model.html">gcva_model</a></span><span class="op">(</span>modelName <span class="op">=</span> <span class="va">models</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">model</span></span></code></pre></div>
 <pre><code><span><span class="co">## $name</span></span>
-<span><span class="co">## [1] "projects/442003009360/locations/us-central1/models/2734102788232445952"</span></span>
+<span><span class="co">## [1] "projects/442003009360/locations/us-central1/models/6818469627048230912"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $displayName</span></span>
-<span><span class="co">## [1] "model-california-housing-20221113163728"</span></span>
+<span><span class="co">## [1] "vertex-r-model"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $predictSchemata</span></span>
-<span><span class="co">## $predictSchemata$instanceSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/instance.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298537&amp;Signature=Ok%252BirvNAHxVw3SKI52bL7zydjowrFIYu%252FUgH53SMj44m6AzNQd2NHoLk3EwXa9B9A1R6fR%252FroKg2UNWF5IncVsBQ3gKfoC7QkX4HSia23QO1cql74L2WjWVthtkvv%252BtYkh4v36P%252FfsaL2yoiLIj%252BCxLFLP%252Ff94j7nc%252BhG%252BIAUNo22YrMsvtj%252F7i0NtUajE%252BqoByFBRWx67A0uATFhV2Qxt%252BO8K51dSZetKMmGGszrHVCY29XvuB%252FPt1DtxOJKO%252Fuul71ZtA9lZrsT4CwXQA649KCL9PjEct5lxcvLsES%252FEkRZr8NRInFIK8Y1aN6m6D6VZbo7l6FQK3omHQCeRCvyw%253D%253D"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $predictSchemata$predictionSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/predict/prediction.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298537&amp;Signature=h70w7FiUvgqXU4eZtw8b0oUPg6VLA9uSATKuE7%252BegTM7O4Ug9DLoPUzxX8D5Q5Kw5PdWiamkvsunJcQGjPByUGJKa8dp0RdhH67C%252B1IC%252FTpasPR0FRnHQo%252FyEQ1BUmCBzpo7XtcO3sNRTMQYv2NsexWM3db%252BjU3WjFv9Zo5t1dl8pMEXpU8ntaTWLqoE7MW3xaeobLijxzW00tHlr5wQJAVGWmrofIKWJ%252BDUX8D4iBM0Dd%252BMrk2gaFxSM1B4LcMTM18HdMDNgXHIrRcR9xIj%252BG5AqiOmu0cHJOdSJw5N36TuJ5DhYrrmXWvfgK8iW37ZWdSlZ7voxmDeP%252BVymj5k3w%253D%253D"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $metadataSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/google-cloud-aiplatform/schema/model/metadata/automl_tabular_1.0.0.yaml"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $metadata</span></span>
 <span><span class="co">## named list()</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $trainingPipeline</span></span>
-<span><span class="co">## [1] "projects/442003009360/locations/us-central1/trainingPipelines/2601571779788931072"</span></span>
+<span><span class="co">## [1] "projects/442003009360/locations/us-central1/trainingPipelines/947230504279605248"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $containerSpec</span></span>
+<span><span class="co">## $containerSpec$imageUri</span></span>
+<span><span class="co">## [1] "us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $containerSpec$command</span></span>
+<span><span class="co">## [1] "Rscript" "serve.R"</span></span>
+<span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $supportedDeploymentResourcesTypes</span></span>
 <span><span class="co">## [1] "DEDICATED_RESOURCES"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $supportedInputStorageFormats</span></span>
-<span><span class="co">## [1] "bigquery"  "csv"       "jsonl"     "tf-record"</span></span>
+<span><span class="co">## [1] "jsonl"          "bigquery"       "csv"            "tf-record"     </span></span>
+<span><span class="co">## [5] "tf-record-gzip" "file-list"     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $supportedOutputStorageFormats</span></span>
-<span><span class="co">## [1] "bigquery"  "csv"       "tf-record" "jsonl"    </span></span>
+<span><span class="co">## [1] "jsonl"    "bigquery"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $createTime</span></span>
-<span><span class="co">## [1] "2022-11-13T21:38:14.348002Z"</span></span>
+<span><span class="co">## [1] "2023-01-20T22:38:00.055628Z"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $updateTime</span></span>
-<span><span class="co">## [1] "2022-11-13T23:33:13.942890Z"</span></span>
+<span><span class="co">## [1] "2023-01-20T22:44:49.072684Z"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $etag</span></span>
-<span><span class="co">## [1] "AMEw9yMnPSWvXcsXkMnqk2k12-wfMDUGJbeVZux5Vxo2sPtUynwqAzq9QZvlquz0AioM"</span></span>
+<span><span class="co">## [1] "AMEw9yO6T5KxbP1LQTMNGHLSOPnRhlIQHuVELyzzgju-ECK6XO4an9vFvnokUuCNanw="</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $supportedExportFormats</span></span>
 <span><span class="co">##               id exportableContents</span></span>
-<span><span class="co">## 1 tf-saved-model           ARTIFACT</span></span>
+<span><span class="co">## 1 custom-trained    ARTIFACT, IMAGE</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec</span></span>
-<span><span class="co">## $explanationSpec$parameters</span></span>
-<span><span class="co">## $explanationSpec$parameters$sampledShapleyAttribution</span></span>
-<span><span class="co">## $explanationSpec$parameters$sampledShapleyAttribution$pathCount</span></span>
-<span><span class="co">## [1] 16</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$longitude</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$longitude$inputBaselines</span></span>
-<span><span class="co">## [1] "-118.49"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$latitude</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$latitude$inputBaselines</span></span>
-<span><span class="co">## [1] "34.26"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$housing_median_age</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$housing_median_age$inputBaselines</span></span>
-<span><span class="co">## [1] "29.0"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$total_rooms</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$total_rooms$inputBaselines</span></span>
-<span><span class="co">## [1] "2127.0"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$total_bedrooms</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$total_bedrooms$inputBaselines</span></span>
-<span><span class="co">## [1] "435.0"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$population</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$population$inputBaselines</span></span>
-<span><span class="co">## [1] "1167.0"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$households</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$households$inputBaselines</span></span>
-<span><span class="co">## [1] "410.0"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$median_income</span></span>
-<span><span class="co">## $explanationSpec$metadata$inputs$median_income$inputBaselines</span></span>
-<span><span class="co">## [1] "3.5388"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$outputs</span></span>
-<span><span class="co">## $explanationSpec$metadata$outputs$value</span></span>
-<span><span class="co">## named list()</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $explanationSpec$metadata$featureAttributionsSchemaUri</span></span>
-<span><span class="co">## [1] "https://storage.googleapis.com/caip-tenant-83d09d28-0ad0-483a-86c1-98696b7a84ed/schema/explain/feature_attributions.yaml?GoogleAccessId=service-442003009360@gcp-sa-aiplatform.iam.gserviceaccount.com&amp;Expires=1671298537&amp;Signature=fGEhdc9rD6fpqPJWPKRZRiIljZGf6vA4tXt4MWxwPzqrFNIAsWO%252BqoeU3Wsyiv%252BmSmZGVqx41PBLPzhNZs%252FlBX%252BG28BeE%252FT84VCV9bboBQMPSSyH7qNQ7OS1w446rP3FhsaBBQNY0S2e1wBvmL6j4PPaxFv%252BYfN4Zdc5Axox5ksv%252BlltuLvoN2ZBPG304pAjzPMXyVkGb0tE4%252BIO5X8ACjBKMK0dX0YQmy0pGusSUr%252BgqR45eLcuJVp%252BXEt6DenvfAuNawZOTKiflnivzQK6MMfdBdNbDn0iXbtYY9lkRP%252BrtYOzR5nmcOdUGEB42VXlMFoJxMrxZwmODl%252FngmDQfg%253D%253D"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
+<span><span class="co">## $artifactUri</span></span>
+<span><span class="co">## [1] "gs://gc-vertex-ai-r-aip-20230120172747/20230120173759/model"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $versionId</span></span>
 <span><span class="co">## [1] "1"</span></span>
@@ -327,14 +326,14 @@
 <span><span class="co">## [1] "default"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $versionCreateTime</span></span>
-<span><span class="co">## [1] "2022-11-13T21:38:14.348002Z"</span></span>
+<span><span class="co">## [1] "2023-01-20T22:38:00.055628Z"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $versionUpdateTime</span></span>
-<span><span class="co">## [1] "2022-11-13T23:33:13.942890Z"</span></span>
+<span><span class="co">## [1] "2023-01-20T22:44:49.072684Z"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $modelSourceInfo</span></span>
 <span><span class="co">## $modelSourceInfo$sourceType</span></span>
-<span><span class="co">## [1] "AUTOML"</span></span>
+<span><span class="co">## [1] "CUSTOM"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## attr(,"class")</span></span>
