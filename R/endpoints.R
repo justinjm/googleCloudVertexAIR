@@ -21,7 +21,7 @@
 #' @return operation object
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/Shared.Types/ListOperationsResponse#Operation
 #' @export
-gcva_create_endpoint <- function(
+gcva_endpoint_create <- function(
     project=NULL,
     location=NULL,
     name=NULL,

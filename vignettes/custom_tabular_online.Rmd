@@ -333,7 +333,7 @@ state:                PIPELINE_STATE_SUCCEEDED
 [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
 
 ```r
-endpoint <- gcva_create_endpoint(
+endpoint <- gcva_endpoint_create(
     display_name = "California Housing Endpoint",
     project = PROJECT_ID,
     location = REGION
