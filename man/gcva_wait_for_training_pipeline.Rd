@@ -5,9 +5,10 @@
 \title{Wait for a training pipeline operation}
 \usage{
 gcva_wait_for_training_pipeline(
+  projectId = gcva_project_get(),
   locationId = gcva_region_get(),
   trainingPipelineName,
-  wait = 300
+  wait = 120
 )
 }
 \arguments{
@@ -15,7 +16,7 @@ gcva_wait_for_training_pipeline(
 
 \item{trainingPipelineName}{an object representing a model training pipeline}
 
-\item{wait}{INTEGER number of seconds to wait between checks. Default is 5minutes}
+\item{wait}{INTEGER number of seconds to wait between checks. Default is 2minutes}
 }
 \value{
 trainingPipeline object

@@ -154,7 +154,7 @@ test_that("We can fetch a list of Models", {
                       "supportedExportFormats","explanationSpec",
                       "versionId","versionAliases",
                       "versionCreateTime","versionUpdateTime",
-                      "modelSourceInfo"
+                      "modelSourceInfo","containerSpec", "artifactUri"
       )
     )
   )
