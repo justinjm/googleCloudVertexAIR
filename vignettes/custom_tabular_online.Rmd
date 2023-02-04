@@ -330,13 +330,12 @@ state:                PIPELINE_STATE_SUCCEEDED
 
 ## Create Endpoint 
 
-[Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
+Doc: [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
+API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create 
 
 ```r
-endpoint <- gcva_endpoint_create(
-    display_name = "California Housing Endpoint",
-    project = PROJECT_ID,
-    location = REGION
+endpoint <- gcva_create_endpoint(
+    displayName = "CaliforniaHousingEndpoint"
 )
 endpoint
 ```

@@ -21,11 +21,11 @@
 #' @return operation object
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/Shared.Types/ListOperationsResponse#Operation
 #' @export
-gcva_endpoint_create <- function(
-    project=NULL,
-    location=NULL,
+gcva_create_endpoint <- function(
+    projectId = gcva_project_get(),
+    locationId = gcva_region_get(),
     name=NULL,
-    display_name=NULL,
+    displayName=NULL,
     description=NULL,
     deployedModels=NULL,
     trafficSplit=NULL,
@@ -38,14 +38,14 @@ gcva_endpoint_create <- function(
     enablePrivateServiceConnect=NULL,
     modelDeploymentMonitoringJob=NULL,
     predictRequestResponseLoggingConfig=NULL
-    ){
+){
 
   # build request body
   request_body <- structure(
     rmNullObs(
       list(
         name = name,
-        displayName = display_name,
+        displayName = displayName,
         description = description,
         deployedModels = deployedModels,
         trafficSplit = trafficSplit,
@@ -59,72 +59,40 @@ gcva_endpoint_create <- function(
         modelDeploymentMonitoringJob = modelDeploymentMonitoringJob,
         predictRequestResponseLoggingConfig = predictRequestResponseLoggingConfig
       )
-
-    )
+    ),class = c("gcva_endpoint", "list")
   )
-  request_body
-
-
 
   # parent for API request
-  # parent <- sprintf("projects/%s/locations/%s",
-  #                   projectId,
-  #                   locationId)
-  #
-  # url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/endpoints",
-  #                locationId,
-  #                parent)
-  #
-  # f <- googleAuthR::gar_api_generator(url,
-  #                                     "POST",
-  #                                     data_parse_function = function(x) x,
-  #                                     checkTrailingSlash = FALSE)
+  parent <- sprintf("projects/%s/locations/%s",
+                    projectId,
+                    locationId)
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/endpoints",
+                 locationId,
+                 parent)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "POST",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
 
   # projects.locations.endpoints.create
+  response <- f(the_body = request_body)
+
+  response <- gcva_wait_for_op(operation = response$name)
+  response
 
 }
 
 
-
-
-#### Example
-# library(jsonlite)
+# gcva_list_endpoints <- function(){
 #
-# name <- "My Endpoint"
-# displayName <- "My Display Name"
-# description <- "My Endpoint Description"
-# deployedModels <- list(list(name = "Deployed Model 1"))
-# trafficSplit <- list(model1 = 50, model2 = 50)
-# etag <- "etag123"
-# labels <- list(label1 = "value1", label2 = "value2")
-# createTime <- "2023-02-03T10:00:00Z"
-# updateTime <- "2023-02-03T11:00:00Z"
-# encryptionSpec <- list(type = "EncryptionType")
-# network <- "default"
-# enablePrivateServiceConnect <- TRUE
-# modelDeploymentMonitoringJob <- "monitoring-job"
-# predictRequestResponseLoggingConfig <- list(enabled = TRUE)
+# }
+
+# gcva_endpoint_undeploy_all <- function(){
 #
-# endpoint_json <- toJSON(list(
-#   name = name,
-#   displayName = displayName,
-#   description = description,
-#   deployedModels = deployedModels,
-#   trafficSplit = trafficSplit,
-#   etag = etag,
-#   labels = labels,
-#   createTime = createTime,
-#   updateTime = updateTime,
-#   encryptionSpec = encryptionSpec,
-#   network = network,
-#   enablePrivateServiceConnect = enablePrivateServiceConnect,
-#   modelDeploymentMonitoringJob = modelDeploymentMonitoringJob,
-#   predictRequestResponseLoggingConfig = predictRequestResponseLoggingConfig
-# ), auto_unbox = TRUE,
-# pretty = TRUE)
+# }
+
+# gcva_delete_endpoint <- function(){
 #
-# # cat(endpoint_json)
-# endpoint_json
-
-
-
+# }

@@ -1,0 +1,64 @@
+---
+title: "Endpoints"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Endpoints}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+## Set global arguements
+
+```{r gcva-global-arguements}
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set(region = "us-central1")
+gcva_project_set(projectId = projectId)
+```
+
+
+## Create Endpoint 
+
+Doc: [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
+API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create 
+
+```r
+endpoint <- gcva_create_endpoint(
+    displayName = "CaliforniaHousingEndpoint"
+)
+endpoint
+```
+
+## List Endpoints 
+
+```r
+endpoints <- gcva_list_endpoints()
+endpoints
+```
+
+## Undeploy 
+
+```r
+gcva_endpoint_undeploy_all()
+```
+
+
+## Delete Endpoint
+
+```r
+gvca_delete_endpoint(endpoint = endpoints[1,1])
+```
+
