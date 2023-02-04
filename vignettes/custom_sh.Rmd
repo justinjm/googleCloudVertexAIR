@@ -1,17 +1,22 @@
 ---
-title: "testing sh"
+title: "Custom sh"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Summary 
 
+A custom function for calling `gcloud` SDK from Rmarkdown via OS command `system2()` 
 
-```{r warning=FALSE}
+## Create function
+
+Create function for calling `gcloud` SDK from Rmarkdow:
+
+```{r function, warning=FALSE}
 library(withr)
 library(glue)
 
@@ -28,6 +33,10 @@ sh <- function(cmd, args = c(), intern = FALSE) {
     if (intern) return(ret) else cat(paste(ret, collapse = "\n"))
   })}
 ```
+
+## Authenticate with Google Cloud and Vertex AI 
+
+Authenticate with Google Cloud and Vertex AI via `googleAuthR` package and `googleCloudVertexAIR`: 
 
 ```{r auth, warning=FALSE}
 library(googleAuthR)
@@ -49,3 +58,8 @@ List `gcloud` configuration to verify:
 ```{r results='hide'}
 sh("gcloud config list")
 ```
+
+
+## Acknowledgements 
+
+Special thanks to [Fabian Hirschmann](https://github.com/fhirschmann, the original author of this source code. 
