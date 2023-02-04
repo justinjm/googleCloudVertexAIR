@@ -89,9 +89,3 @@ model <- gcva_run_job(
 )
 model
 ```
-
-```r
-model$display_name #python sdk
-model$resource_name  #python sdk
-model$uri  #python sdk
-```

@@ -378,8 +378,6 @@ gcva_predict(
 
 ## Cleanup
 
-TODO
-
 ### Undeploy 
 
 ```r

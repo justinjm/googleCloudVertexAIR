@@ -53,7 +53,7 @@ GCVA_DEFAULT_REGION="us-central1"
 
 ## Setup Google Cloud Project
 
-TODO 
+TODO: <https://github.com/justinjm/googleCloudVertexAIR/issues/26>
 
 ## Authenticate your Google Cloud Account
 
@@ -135,8 +135,6 @@ trainingPipelineJob
 
 After model completes training, extract `modelName` to a variable for batch prediction
 
-TODO - move this to `batch_prediction_job()`
-
 ```r
 modelName <- trainingPipelineJob$modelToUpload$name
 modelName 
@@ -149,11 +147,9 @@ modelName
 
 ### Make test items for batch input 
 
-TODO - move setup script  `data-raw/0_setup_vignettes.R` to here to create BQ dataset then create BQ table from the source dataset in GCS `california-housing-tabular-regression.csv`
-
 1. Create BQ dataset `california_housing`
 2. Create BQ external table from GCS file `california_housing.source_data`
-3. Create BQ table `batch01` from BQ table `california_housing.source_data` 
+3. Create BQ table `batch02` from BQ table `california_housing.source_data` 
 
 ### Make the batch prediction request
 
@@ -166,8 +162,8 @@ bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId)
 
 #### execute request
 
-https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
-
+* Doc: 
+* API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create
 
 ```r
 # hard code #modelName for testing purposes, model state = completed 
@@ -189,8 +185,6 @@ batch_prediction_job
 Once the batch prediction job has completed, you can then view and use the predictions 
 
 ### Get predictions
-
-TODO - add R code and example SQL to make more easily reproducible 
 
 Open BigQuery console and navigate to the dataset where the predictions were saved, then modify and run the query below: 
 
