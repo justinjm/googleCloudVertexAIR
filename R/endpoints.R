@@ -88,24 +88,22 @@ gcva_endpoint <- function(locationId = gcva_region_get(),
 #' @family Endpoints
 #'
 #' @export
-gcva_create_endpoint <- function(
-    projectId = gcva_project_get(),
-    locationId = gcva_region_get(),
-    name=NULL,
-    displayName=NULL,
-    description=NULL,
-    deployedModels=NULL,
-    trafficSplit=NULL,
-    etag=NULL,
-    labels=NULL,
-    createTime=NULL,
-    updateTime=NULL,
-    encryptionSpec=NULL,
-    network=NULL,
-    enablePrivateServiceConnect=NULL,
-    modelDeploymentMonitoringJob=NULL,
-    predictRequestResponseLoggingConfig=NULL
-){
+gcva_create_endpoint <- function(projectId = gcva_project_get(),
+                                 locationId = gcva_region_get(),
+                                 name=NULL,
+                                 displayName=NULL,
+                                 description=NULL,
+                                 deployedModels=NULL,
+                                 trafficSplit=NULL,
+                                 etag=NULL,
+                                 labels=NULL,
+                                 createTime=NULL,
+                                 updateTime=NULL,
+                                 encryptionSpec=NULL,
+                                 network=NULL,
+                                 enablePrivateServiceConnect=NULL,
+                                 modelDeploymentMonitoringJob=NULL,
+                                 predictRequestResponseLoggingConfig=NULL){
 
   # build request body
   request_body <- structure(
@@ -156,7 +154,9 @@ gcva_create_endpoint <- function(
 
 
 
-
+# gcva_deploy <- function(){
+#
+# }
 
 
 

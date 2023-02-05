@@ -124,20 +124,13 @@ job <- gcva_automl_tabluar_training_job(
 ### Run the training pipeline
 
 ```r
-trainingPipelineJob <- gcva_run_job(
+model <- gcva_run_job(
   job = job,
   dataset = dataset,
   targetColumn = "median_house_value",
   modelDisplayName = sprintf("model-%s", datasetDisplayName))
 
-trainingPipelineJob
-```
-
-After model completes training, extract `modelName` to a variable for batch prediction
-
-```r
-modelName <- trainingPipelineJob$modelToUpload$name
-modelName 
+model
 ```
 
 ## Make a batch prediction request
@@ -167,11 +160,11 @@ bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId)
 
 ```r
 # hard code #modelName for testing purposes, model state = completed 
-modelName <- Sys.getenv("GCVA_TEST_MODEL_NAME")
+# model <- Sys.getenv("GCVA_TEST_MODEL_NAME")
 
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = sprintf("california-housing-%s", timestamp),
-  model = modelName, #modelName
+  model = model,
   bigquerySource= bq_source_uri,
   instancesFormat = "bigquery",
   predictionsFormat = "bigquery",

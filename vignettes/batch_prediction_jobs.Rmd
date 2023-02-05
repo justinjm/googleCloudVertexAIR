@@ -33,7 +33,7 @@ gcva_project_set(projectId = projectId)
 
 ```{r}
 # hard code model that we know has a state = completed for demonstration purposes.
-model <- "projects/442003009360/locations/us-central1/models/2734102788232445952"
+(model <- Sys.getenv("GCVA_TEST_MODEL_NAME"))
 ```
 
 ### Make the batch prediction request

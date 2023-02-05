@@ -41,18 +41,13 @@ training_pipeline <- gcva_trainingPipeline(
 training_pipeline
 ```
 
-## Check modelName exists
-
-```{r}
-# for gcva_model and gcva_batch_predict function 
-training_pipeline$modelToUpload$name
-```
-
 # Get model from training pipeline 
 
+The `gcva_model()` function will parse the modelName from the 
+`trainingPipelineJob` object. 
+
 ```{r}
-m <- gcva_model(modelName = training_pipeline$modelToUpload$name)
-m
+gcva_model(model = training_pipeline)
 ```
 
 # Create custom container training job
@@ -70,9 +65,9 @@ job <- gcva_custom_container_training_job(
   modelServingContainerImageUri = "us-central1-docker.pkg.dev/gc-vertex-ai-r/my-docker-repo/vertex-r:latest",
   machineType = "n1-standard-4"
 )
-
-# job
-jsonlite::toJSON(job, pretty = TRUE, auto_unbox = TRUE) # pretty print
+job
+# pretty print
+# jsonlite::toJSON(job, pretty = TRUE, auto_unbox = TRUE) 
 ```
 
 ## Execute custom training job 

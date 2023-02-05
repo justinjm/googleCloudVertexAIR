@@ -3,6 +3,8 @@
 #' @param projectId GCP project id
 #' @param locationId location of GCP resources
 #'
+#' @family Models
+#'
 #' @export
 gcva_list_models <- function(projectId = gcva_project_get(),
                              locationId = gcva_region_get()) {
@@ -39,17 +41,26 @@ gcva_list_models <- function(projectId = gcva_project_get(),
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.models/get
 #'
 #' @param locationId locationId of operation
-#' @param Model the full name of the model object to get
+#' @param model the full name of the model object to get OR
+#' a trainingPipelineJob object
 #'
 #' @return a Model object
 #'
+#' @family Models
+#'
 #' @export
 gcva_model <- function(locationId = gcva_region_get(),
-                       modelName){
+                       model){
+
+  if(inherits(model, "gcva_trainingPipeline")){
+    # if passing trainingPipeine objectm get from object
+    model <- model$modelToUpload$name
+  }
+
 
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
                  locationId,
-                 modelName)
+                 model)
 
   f <- googleAuthR::gar_api_generator(url,
                                       "GET",
