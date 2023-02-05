@@ -52,19 +52,21 @@ endpoints
 ## Undeploy 
 
 ```r
-gcva_endpoint_undeploy_all()
+gcva_endpoint_undeploy_all(endpoint = endpoint)
 ```
 
 
 ## Delete Endpoint
 
 ```{r}
-gcva_delete_endpoint(endpoint = endpoints[1,1])
+# gcva_delete_endpoint(endpoint = endpoints[1,1])
+# OR 
+gcva_delete_endpoint(endpoint = endpoint)
 ```
 
 ## List Endpoints (again)
 
-to confirm deleted 
+to confirm deleted
 
 ```{r}
 endpoints <- gcva_list_endpoints()

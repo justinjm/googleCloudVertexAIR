@@ -279,6 +279,7 @@ gcva_trainingPipeline <- function(locationId = gcva_region_get(),
                  locationId,
                  trainingPipelineName)
 
+  # projects.locations.trainingPipelines.get
   f <- googleAuthR::gar_api_generator(url,
                                       "GET",
                                       data_parse_function = function(x) x,

@@ -1,4 +1,68 @@
 #' @title
+#' Lists Vertex AI Endpoints within a specific GCP Project
+#'
+#' @family Endpoints
+#'
+#' @export
+gcva_list_endpoints <- function(projectId = gcva_project_get(),
+                                locationId = gcva_region_get()) {
+
+  parent <- sprintf("projects/%s/locations/%s",
+                    projectId,
+                    locationId)
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/endpoints",
+                 locationId,
+                 parent)
+
+  parse_ld <- function(x) {
+    x <- x$endpoints
+    x$createTime <- timestamp_to_r(x$createTime)
+
+    x
+
+  }
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "GET",
+                                      data_parse_function = parse_ld)
+  response <- f()
+
+  out <- response
+
+  out
+
+}
+
+
+#'
+#' @return a Endpoint object
+#'
+#' @family Endpoints
+#' @export
+gcva_endpoint <- function(locationId = gcva_region_get(),
+                          endpointName){
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+                 locationId,
+                 endpointName)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "GET",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  response <- f()
+
+  out <- structure(response, class = "gcva_endpoint")
+
+  out
+
+}
+
+
+
+#' @title
 #' Creates a Vertex AI Endpoint
 #'
 #' @description
@@ -13,7 +77,7 @@
 #' @param labels
 #' @param createTime
 #' @param updateTime
-#' @param encryptionSpec
+#' @param encryptionSpecs
 #' @param network
 #' @param enablePrivateServiceConnect
 #' @param modelDeploymentMonitoringJob
@@ -85,49 +149,16 @@ gcva_create_endpoint <- function(
   response <- gcva_wait_for_op(operation = response$name)
   response
 
-}
-
-
-#' @title
-#' Lists Vertex AI Endpoints within a specific GCP Project
-#'
-#' @family Endpoints
-#'
-#' @export
-gcva_list_endpoints <- function(projectId = gcva_project_get(),
-                                locationId = gcva_region_get()) {
-
-  parent <- sprintf("projects/%s/locations/%s",
-                    projectId,
-                    locationId)
-
-  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/endpoints",
-                 locationId,
-                 parent)
-
-  parse_ld <- function(x) {
-    x <- x$endpoints
-    x$createTime <- timestamp_to_r(x$createTime)
-
-    x
-
-  }
-
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = parse_ld)
-  response <- f()
-
-  out <- response
-
+  out  <- gcva_endpoint(endpointName = response$response$name)
   out
 
 }
 
 
-# gcva_endpoint <- function() {
-#
-# }
+
+
+
+
 
 
 # gcva_endpoint_undeploy_all <- function(){
@@ -142,18 +173,18 @@ gcva_list_endpoints <- function(projectId = gcva_project_get(),
 #'
 #' @export
 gcva_delete_endpoint <- function(projectId = gcva_project_get(),
-                                locationId = gcva_region_get(),
-                                displayName = NULL,
-                                endpoint) {
+                                 locationId = gcva_region_get(),
+                                 displayName = NULL,
+                                 endpoint) {
 
   # if not using display name, use endpoint object to delete
   if(is.null(displayName)) {
 
-    name <- endpoint
+    name <- endpoint$name
 
   } else {
     endpoints_list <- gcva_list_endpoints(projectId = projectId,
-                                        locationId = locationId)
+                                          locationId = locationId)
 
     endpoint_display_name <- displayName
 

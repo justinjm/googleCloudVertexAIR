@@ -328,12 +328,21 @@ console:              https://console.cloud.google.com/vertex-ai/locations/us-ce
 state:                PIPELINE_STATE_SUCCEEDED 
 ```
 
+
+After model completes training, extract `modelName` to a variable for batch prediction
+
+```r
+modelName <- trainingPipelineJob$modelToUpload$name
+modelName 
+```
+
+
 ## Create Endpoint 
 
 Doc: [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create 
 
-```r
+```{r}
 endpoint <- gcva_create_endpoint(
     displayName = "CaliforniaHousingEndpoint"
 )
@@ -379,9 +388,9 @@ gcva_predict(
 
 ### Undeploy 
 
-```r
-gcva_undeploy_all(endpoint = endpoint)
-gcva_delete_endpoint()
+```{r}
+# gcva_undeploy_all(endpoint = endpoint)
+gcva_delete_endpoint(endpoint = endpoint)
 ```
 ### Deletes 
 
