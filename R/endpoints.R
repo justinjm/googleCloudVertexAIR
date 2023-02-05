@@ -85,13 +85,46 @@ gcva_create_endpoint <- function(
 }
 
 
-# gcva_list_endpoints <- function(){
+gcva_list_endpoints <- function(projectId = gcva_project_get(),
+                                locationId = gcva_region_get()) {
+
+  parent <- sprintf("projects/%s/locations/%s",
+                    projectId,
+                    locationId)
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/endpoints",
+                 locationId,
+                 parent)
+
+  parse_ld <- function(x) {
+    x <- x$endpoints
+    x$createTime <- timestamp_to_r(x$createTime)
+
+    x
+
+  }
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "GET",
+                                      data_parse_function = parse_ld)
+  response <- f()
+
+  out <- response
+
+  out
+
+}
+
+
+# gcva_endpoint <- function() {
 #
 # }
+
 
 # gcva_endpoint_undeploy_all <- function(){
 #
 # }
+
 
 # gcva_delete_endpoint <- function(){
 #

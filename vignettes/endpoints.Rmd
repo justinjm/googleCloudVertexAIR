@@ -44,7 +44,7 @@ endpoint
 
 ## List Endpoints 
 
-```r
+```{r}
 endpoints <- gcva_list_endpoints()
 endpoints
 ```
