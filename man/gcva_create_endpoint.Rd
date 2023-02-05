@@ -36,6 +36,7 @@ Creates an Endpoint Resource. Models are deployed into it, and afterwards Endpoi
 \seealso{
 Other Endpoints: 
 \code{\link{gcva_delete_endpoint}()},
+\code{\link{gcva_endpoint}()},
 \code{\link{gcva_list_endpoints}()}
 }
 \concept{Endpoints}

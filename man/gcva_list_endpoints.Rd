@@ -15,6 +15,7 @@ Lists Vertex AI Endpoints within a specific GCP Project
 \seealso{
 Other Endpoints: 
 \code{\link{gcva_create_endpoint}()},
-\code{\link{gcva_delete_endpoint}()}
+\code{\link{gcva_delete_endpoint}()},
+\code{\link{gcva_endpoint}()}
 }
 \concept{Endpoints}

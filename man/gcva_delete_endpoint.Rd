@@ -17,6 +17,7 @@ Deletes a Vertex AI Endpoint
 \seealso{
 Other Endpoints: 
 \code{\link{gcva_create_endpoint}()},
+\code{\link{gcva_endpoint}()},
 \code{\link{gcva_list_endpoints}()}
 }
 \concept{Endpoints}

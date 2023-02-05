@@ -5,12 +5,13 @@
 \title{Get a Model object
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.models/get}
 \usage{
-gcva_model(locationId = gcva_region_get(), modelName)
+gcva_model(locationId = gcva_region_get(), model)
 }
 \arguments{
 \item{locationId}{locationId of operation}
 
-\item{Model}{the full name of the model object to get}
+\item{model}{the full name of the model object to get OR
+a trainingPipelineJob object}
 }
 \value{
 a Model object
@@ -19,3 +20,8 @@ a Model object
 Get a Model object
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.models/get
 }
+\seealso{
+Other Models: 
+\code{\link{gcva_list_models}()}
+}
+\concept{Models}
