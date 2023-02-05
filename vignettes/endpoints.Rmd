@@ -35,7 +35,7 @@ gcva_project_set(projectId = projectId)
 Doc: [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create 
 
-```r
+```{r}
 endpoint <- gcva_create_endpoint(
     displayName = "CaliforniaHousingEndpoint"
 )
@@ -58,7 +58,15 @@ gcva_endpoint_undeploy_all()
 
 ## Delete Endpoint
 
-```r
-gvca_delete_endpoint(endpoint = endpoints[1,1])
+```{r}
+gcva_delete_endpoint(endpoint = endpoints[1,1])
 ```
 
+## List Endpoints (again)
+
+to confirm deleted 
+
+```{r}
+endpoints <- gcva_list_endpoints()
+endpoints
+```

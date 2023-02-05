@@ -20,6 +20,9 @@
 #' @param predictRequestResponseLoggingConfig
 #' @return operation object
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/Shared.Types/ListOperationsResponse#Operation
+#'
+#' @family Endpoints
+#'
 #' @export
 gcva_create_endpoint <- function(
     projectId = gcva_project_get(),
@@ -85,6 +88,12 @@ gcva_create_endpoint <- function(
 }
 
 
+#' @title
+#' Lists Vertex AI Endpoints within a specific GCP Project
+#'
+#' @family Endpoints
+#'
+#' @export
 gcva_list_endpoints <- function(projectId = gcva_project_get(),
                                 locationId = gcva_region_get()) {
 
@@ -126,6 +135,57 @@ gcva_list_endpoints <- function(projectId = gcva_project_get(),
 # }
 
 
-# gcva_delete_endpoint <- function(){
-#
-# }
+#' @title
+#' Deletes a Vertex AI Endpoint
+#'
+#' @family Endpoints
+#'
+#' @export
+gcva_delete_endpoint <- function(projectId = gcva_project_get(),
+                                locationId = gcva_region_get(),
+                                displayName = NULL,
+                                endpoint) {
+
+  # if not using display name, use endpoint object to delete
+  if(is.null(displayName)) {
+
+    name <- endpoint
+
+  } else {
+    endpoints_list <- gcva_list_endpoints(projectId = projectId,
+                                        locationId = locationId)
+
+    endpoint_display_name <- displayName
+
+    name <- subset(endpoints_list,
+                   displayName == endpoint_display_name,
+                   select = c(name))
+
+    if (dim(name)[1] == 0) {
+      stop(sprintf("endpoint %s does not exist. Please check the endpoint displayname is correct and try again.",
+                   displayName))
+    }
+  }
+
+
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+                 locationId,
+                 name)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "DELETE",
+                                      data_parse_function = function(x) x)
+
+  response <- f()
+
+  out <- response
+
+  if(out$done==TRUE) {
+    myMessage("endpoint successfully deleted.", level = 3)
+
+  } else {
+    out
+  }
+
+}
