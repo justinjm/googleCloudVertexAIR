@@ -158,31 +158,33 @@ gcva_create_endpoint <- function(projectId = gcva_project_get(),
 #' @param endpoint Endpoint object
 #' @param machineType STRING
 
-gcva_deploy <- function(model=NULL,
+gcva_deploy <- function(projectId = gcva_project_get(),
+                        locationId = gcva_region_get(),
+                        model=NULL,
                         endpoint=NULL,
                         machineType="n1-standard-4") {
 
+  # projects/442003009360/locations/us-central1/endpoints/5359762943640600576
+  # parent for API request
+  parent <- endpoint$name
 
+  # model name for request body
+  model_id <- model$name
+
+  request_body <- structure(list())
 
   # https://{service-endpoint}/v1/{endpoint}:deployModel
-  # projects/442003009360/locations/us-central1/endpoints/5359762943640600576
-
-  # parent for API request
-  parent <- sprintf("projects/%s/locations/%s",
-                    projectId,
-                    locationId)
-
-  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/endpoints",
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:deployedModel",
                  locationId,
                  parent)
 
-  # https://{service-endpoint}/v1/{endpoint}:deployModel
 
-  # projects.locations.endpoints.deployModel
   f <- googleAuthR::gar_api_generator(url,
                                       "POST",
                                       data_parse_function = function(x) x,
                                       checkTrailingSlash = FALSE)
+  # projects.locations.endpoints.deployModel
+  # response <- f(the_body = request_body)
 
 }
 
