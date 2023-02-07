@@ -153,7 +153,6 @@ gcva_create_endpoint <- function(projectId = gcva_project_get(),
   response <- f(the_body = request_body)
 
   response <- gcva_wait_for_op(operation = response$name)
-  response
 
   out  <- gcva_endpoint(endpointName = response$response$name)
   out
@@ -184,11 +183,11 @@ gcva_deploy <- function(projectId = gcva_project_get(),
   stopifnot(inherits(endpoint, "gcva_endpoint"))
 
   # projects/442003009360/locations/us-central1/endpoints/5359762943640600576
-  # parent for API request
-  parent <- endpoint$name
+  # endpoint name for API request
+  name <- endpoint$name
 
   # model name for request body
-  model_id <- model$name
+  model <- model$name
 
   request_body <- structure(
     rmNullObs(
@@ -197,15 +196,15 @@ gcva_deploy <- function(projectId = gcva_project_get(),
         modelVersionId = modelVersionId,
         enableAccessLogging = enableAccessLogging
       ),
-           trafficSplit = trafficSplit
+      trafficSplit = trafficSplit
       )
-    )
+    ),class = c("list")
   )
 
   # https://{service-endpoint}/v1/{endpoint}:deployModel
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:deployedModel",
                  locationId,
-                 parent)
+                 name)
 
   f <- googleAuthR::gar_api_generator(url,
                                       "POST",
@@ -215,7 +214,11 @@ gcva_deploy <- function(projectId = gcva_project_get(),
   # projects.locations.endpoints.deployModel
   response <- f(the_body = request_body)
 
+  response <- gcva_wait_for_op(operation = response$name)
   response
+  # TODO - update after initial test
+  # out  <- gcva_endpoint(endpointName = response$response$name)
+  # out
 
 }
 
