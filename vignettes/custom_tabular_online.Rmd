@@ -344,6 +344,8 @@ endpoint
 ## Deploy Model to Endpoint 
 
 ```r
+model <- gcva_model(model = Sys.getenv("GCVA_TEST_MODEL_NAME_CUSTOM"))
+
 gcva_deploy(
   model = model,
   endpoint = endpoint, 

@@ -207,13 +207,15 @@ gcva_deploy <- function(projectId = gcva_project_get(),
                  locationId,
                  parent)
 
-  # f <- googleAuthR::gar_api_generator(url,
-  #                                     "POST",
-  #                                     data_parse_function = function(x) x,
-  #                                     checkTrailingSlash = FALSE)
+  f <- googleAuthR::gar_api_generator(url,
+                                      "POST",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
 
   # projects.locations.endpoints.deployModel
-  # response <- f(the_body = request_body)
+  response <- f(the_body = request_body)
+
+  response
 
 }
 

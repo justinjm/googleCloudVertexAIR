@@ -160,7 +160,7 @@ bq_destination_prefix <- sprintf("bq://%s.california_housing", projectId)
 
 ```r
 # hard code #modelName for testing purposes, model state = completed 
-# model <- Sys.getenv("GCVA_TEST_MODEL_NAME")
+# model <- Sys.getenv("GCVA_TEST_MODEL_NAME_AUTOML")
 
 batch_prediction_job <- gcva_batch_predict(
   jobDisplayName = sprintf("california-housing-%s", timestamp),
