@@ -42,7 +42,7 @@ models
 # Get model
 
 ```{r}
-model <- gcva_model(modelName = models[1,1])
+model <- gcva_model(model = models[1,1])
 model
 ```
 

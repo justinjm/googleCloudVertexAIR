@@ -1,6 +1,9 @@
 #' @title
 #' Lists Vertex AI Endpoints within a specific GCP Project
 #'
+#' @param projectId
+#' @param locationId
+#'
 #' @family Endpoints
 #'
 #' @export
@@ -36,6 +39,9 @@ gcva_list_endpoints <- function(projectId = gcva_project_get(),
 
 
 #'
+#' @param locationId
+#' @param endpointName
+#'
 #' @return a Endpoint object
 #'
 #' @family Endpoints
@@ -68,6 +74,8 @@ gcva_endpoint <- function(locationId = gcva_region_get(),
 #' @description
 #' Creates an Endpoint Resource. Models are deployed into it, and afterwards Endpoint is called to obtain predictions and explanations.
 #'
+#' @param projectId
+#' @param locationId
 #' @param name
 #' @param displayName STRING Required. Required. The display name of the Endpoint. The name can be up to 128 characters long and can consist of any UTF-8 characters.
 #' @param description
@@ -82,7 +90,7 @@ gcva_endpoint <- function(locationId = gcva_region_get(),
 #' @param enablePrivateServiceConnect
 #' @param modelDeploymentMonitoringJob
 #' @param predictRequestResponseLoggingConfig
-#' @return operation object
+#' @return Endpoint object
 #' https://cloud.google.com/vertex-ai/docs/reference/rest/Shared.Types/ListOperationsResponse#Operation
 #'
 #' @family Endpoints
@@ -153,16 +161,27 @@ gcva_create_endpoint <- function(projectId = gcva_project_get(),
 }
 
 #' @title
+#' Deploy a model to an Endpoint
 #'
-#' @param
+#' @param projectId
+#' @param locationId
+#' @param model Model object
 #' @param endpoint Endpoint object
 #' @param machineType STRING
 
 gcva_deploy <- function(projectId = gcva_project_get(),
                         locationId = gcva_region_get(),
                         model=NULL,
+                        modelVersionId=NULL,
                         endpoint=NULL,
+                        enableAccessLogging=NULL,
+                        trafficSplit=NULL,
                         machineType="n1-standard-4") {
+  ## checks
+  ### check if model object
+  stopifnot(inherits(model, "gcva_model"))
+  ### check if endpoint object
+  stopifnot(inherits(endpoint, "gcva_endpoint"))
 
   # projects/442003009360/locations/us-central1/endpoints/5359762943640600576
   # parent for API request
@@ -171,22 +190,34 @@ gcva_deploy <- function(projectId = gcva_project_get(),
   # model name for request body
   model_id <- model$name
 
-  request_body <- structure(list())
+  request_body <- structure(
+    rmNullObs(
+      list(deployedModel = list(
+        model = model,
+        modelVersionId = modelVersionId,
+        enableAccessLogging = enableAccessLogging
+      ),
+           trafficSplit = trafficSplit
+      )
+    )
+  )
 
   # https://{service-endpoint}/v1/{endpoint}:deployModel
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:deployedModel",
                  locationId,
                  parent)
 
+  # f <- googleAuthR::gar_api_generator(url,
+  #                                     "POST",
+  #                                     data_parse_function = function(x) x,
+  #                                     checkTrailingSlash = FALSE)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
   # projects.locations.endpoints.deployModel
   # response <- f(the_body = request_body)
 
 }
+
+
 
 
 
