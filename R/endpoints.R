@@ -180,7 +180,9 @@ gcva_deploy <- function(projectId = gcva_project_get(),
                         endpoint=NULL,
                         enableAccessLogging=NULL,
                         trafficSplit=NULL,
-                        machineType="n1-standard-4") {
+                        machineType="n1-standard-4",
+                        minReplicaCount=1,
+                        maxReplicaCount=NULL) {
   ## checks
   ### check if model object
   stopifnot(inherits(model, "gcva_model"))
@@ -199,7 +201,14 @@ gcva_deploy <- function(projectId = gcva_project_get(),
       list(deployedModel = list(
         model = model,
         modelVersionId = modelVersionId,
-        enableAccessLogging = enableAccessLogging
+        enableAccessLogging = enableAccessLogging,
+        dedicatedResources = list(
+          machineSpec = list(
+            machineType = machineType
+          ),
+          minReplicaCount = minReplicaCount,
+          maxReplicaCount = maxReplicaCount
+        )
       ),
       trafficSplit = trafficSplit
       )
