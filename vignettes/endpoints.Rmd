@@ -52,14 +52,20 @@ endpoints
 
 ## Deploy Model to Endpoint [DEV]
 
-```r
+```{r}
+# manually set model object (to fasttrack for testing)
 model <- gcva_model(model = Sys.getenv("GCVA_TEST_MODEL_NAME_CUSTOM"))
+model
+```
 
-gcva_deploy(
+
+```{r}
+model_deployed <- gcva_deploy(
   model = model,
   endpoint = endpoint, 
   machineType = "n1-standard-4"
 )
+model_deployed
 ```
 
 ## Undeploy 

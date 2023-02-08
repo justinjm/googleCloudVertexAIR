@@ -167,7 +167,12 @@ gcva_create_endpoint <- function(projectId = gcva_project_get(),
 #' @param model Model object
 #' @param endpoint Endpoint object
 #' @param machineType STRING
-
+#'
+#' @return Endpoint object
+#'
+#' @family Endpoints
+#'
+#' @export
 gcva_deploy <- function(projectId = gcva_project_get(),
                         locationId = gcva_region_get(),
                         model=NULL,
@@ -198,11 +203,11 @@ gcva_deploy <- function(projectId = gcva_project_get(),
       ),
       trafficSplit = trafficSplit
       )
-    ),class = c("list")
+    )
   )
 
   # https://{service-endpoint}/v1/{endpoint}:deployModel
-  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:deployedModel",
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:deployModel",
                  locationId,
                  name)
 
@@ -215,10 +220,10 @@ gcva_deploy <- function(projectId = gcva_project_get(),
   response <- f(the_body = request_body)
 
   response <- gcva_wait_for_op(operation = response$name)
-  response
+
   # TODO - update after initial test
-  # out  <- gcva_endpoint(endpointName = response$response$name)
-  # out
+  out  <- gcva_endpoint(endpointName = response$response$name)
+  out
 
 }
 
