@@ -152,9 +152,12 @@ gcva_create_endpoint <- function(projectId = gcva_project_get(),
   # projects.locations.endpoints.create
   response <- f(the_body = request_body)
 
-  response <- gcva_wait_for_op(operation = response$name)
+  # TODO - fix timing
+  # function works if 1) debug, 2) wait 10 seconds
+  # 3) step through the remaining functions below
+  response2 <- gcva_wait_for_op(operation = response$name)
 
-  out  <- gcva_endpoint(endpointName = response$response$name)
+  out  <- gcva_endpoint(endpointName = response2$response$name)
   out
 
 }
