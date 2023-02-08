@@ -228,11 +228,12 @@ gcva_deploy <- function(projectId = gcva_project_get(),
   # projects.locations.endpoints.deployModel
   response <- f(the_body = request_body)
 
-  response <- gcva_wait_for_op(operation = response$name)
+  response
+  # response <- gcva_wait_for_op(operation = response$name)
 
   # TODO - update after initial test
-  out  <- gcva_endpoint(endpointName = response$response$name)
-  out
+  # out  <- gcva_endpoint(endpointName = response$response$name)
+  # out
 
 }
 
