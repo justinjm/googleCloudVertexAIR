@@ -59,7 +59,7 @@ model
 ```
 
 
-```{r}
+```r
 model_deployed <- gcva_deploy(
   model = model,
   endpoint = endpoint, 
