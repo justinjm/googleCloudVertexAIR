@@ -226,5 +226,83 @@ test_that("We can get a batchPredictionJob", {
   )
 }
 )
+
+
+# context("Endpoints")
+
+# test_that("We can get a list of endpoints", {
+#   skip_if_no_token()
+
+#   projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+#   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+#   expect_true(projectId != "")
+#   expect_true(locationId != "")
+#   l <- gcva_list_endpoints(projectId, locationId)
+
+#   expect_s3_class(l, "data.frame")
+#   expect_true(
+#     all(
+#       names(l) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
+#                       "updateTime", "etag", "labels", "metadata")
+#     )
+#   )
+# })
+
+
+# test_that("We can create an endpoint", {
+#   skip_if_no_token()
+
+#   projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+#   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+#   expect_true(projectId != "")
+#   expect_true(locationId != "")
+#   d <- gcva_create_endpoint(
+#     displayName = "test_gcva_dataset"    
+
+#   expect_s3_class(d, "gcva_endpoint")
+#   expect_true(
+#     all(
+#       names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
+#                       "updateTime", "etag", "labels", "metadata",
+#                       "metadataArtifact")
+#     )
+#   )
+# })
+
+
+# test_that("We can get an endpoint", {
+#   skip_if_no_token()
+
+#   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+#   datasetName <- Sys.getenv("GCVA_TEST_DATASET_NAME")
+#   expect_true(locationId != "")
+#   expect_true(datasetName != "")
+#   d <- gcva_endpoint(locationId, XXXXXX)
+
+#   expect_s3_class(d, "gcva_endpoint")
+#   expect_true(
+#     all(
+#       names(d) %in% c("name", "displayName", "metadataSchemaUri", "createTime",
+#                       "updateTime", "etag", "labels", "metadata",
+#                       "metadataArtifact")
+#     )
+#   )
+# })
+
+
+# test_that("We can delete an endpoint", {
+#   skip_if_no_token()
+
+#   projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+#   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
+#   expect_true(projectId != "")
+#   expect_true(locationId != "")
+#   r <- gcva_delete_endpoint(projectId, locationId,
+#                            XXXXXXXXX)
+
+#   expect_null(r)
+
+# })
+
 #  to get list of names easily copy/paste-able from R console, use:
 # cat(names(OBJECT), sep=", ")

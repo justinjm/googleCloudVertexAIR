@@ -58,6 +58,8 @@ model <- gcva_model(model = Sys.getenv("GCVA_TEST_MODEL_NAME_CUSTOM"))
 model
 ```
 
+Doc: https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api
+API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/deployModel
 
 ```r
 model_deployed <- gcva_deploy(
