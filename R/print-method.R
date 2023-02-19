@@ -33,3 +33,13 @@ print.gcva_trainingPipeline <- function(x,...){
 
 
 }
+
+#' @export
+print.gcva_model <- function(x,...){
+  cat("==Google Cloud Vertex AI Model==\n")
+  cat0("name:                ", x$name)
+  cat0("displayName:         ", x$displayName)
+  cat0("createTime:          ", as.character(timestamp_to_r(x$createTime)))
+  cat0("versionId:           ", x$versionId)
+  cat0("versionAlias:        ", x$versionAlias)
+}

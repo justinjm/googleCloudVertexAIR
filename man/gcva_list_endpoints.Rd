@@ -9,6 +9,9 @@ gcva_list_endpoints(
   locationId = gcva_region_get()
 )
 }
+\arguments{
+\item{locationId}{}
+}
 \description{
 Lists Vertex AI Endpoints within a specific GCP Project
 }
@@ -16,6 +19,7 @@ Lists Vertex AI Endpoints within a specific GCP Project
 Other Endpoints: 
 \code{\link{gcva_create_endpoint}()},
 \code{\link{gcva_delete_endpoint}()},
+\code{\link{gcva_deploy}()},
 \code{\link{gcva_endpoint}()}
 }
 \concept{Endpoints}

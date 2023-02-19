@@ -27,7 +27,7 @@ gcva_create_endpoint(
 \item{displayName}{STRING Required. Required. The display name of the Endpoint. The name can be up to 128 characters long and can consist of any UTF-8 characters.}
 }
 \value{
-operation object
+Endpoint object
 https://cloud.google.com/vertex-ai/docs/reference/rest/Shared.Types/ListOperationsResponse#Operation
 }
 \description{
@@ -36,6 +36,7 @@ Creates an Endpoint Resource. Models are deployed into it, and afterwards Endpoi
 \seealso{
 Other Endpoints: 
 \code{\link{gcva_delete_endpoint}()},
+\code{\link{gcva_deploy}()},
 \code{\link{gcva_endpoint}()},
 \code{\link{gcva_list_endpoints}()}
 }
