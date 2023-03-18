@@ -274,6 +274,10 @@ gcva_wait_for_model_deploy <- function(locationId = gcva_region_get(),
 }
 
 
+# gcva_predict() <- function(){
+  #
+  # }
+
 
 # gcva_endpoint_undeploy_all <- function(){
 #
