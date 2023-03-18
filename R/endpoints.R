@@ -189,13 +189,13 @@ gcva_deploy <- function(projectId = gcva_project_get(),
   ### check if endpoint object
   stopifnot(inherits(endpoint, "gcva_endpoint"))
 
-  # projects/442003009360/locations/us-central1/endpoints/5359762943640600576
   # endpoint name for API request
   name <- endpoint$name
 
   # model name for request body
   model <- model$name
 
+  # request body
   request_body <- structure(
     rmNullObs(
       list(deployedModel = list(
@@ -215,7 +215,7 @@ gcva_deploy <- function(projectId = gcva_project_get(),
     )
   )
 
-  # https://{service-endpoint}/v1/{endpoint}:deployModel
+  # projects.locations.endpoints.deployModel
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:deployModel",
                  locationId,
                  name)
@@ -225,27 +225,15 @@ gcva_deploy <- function(projectId = gcva_project_get(),
                                       data_parse_function = function(x) x,
                                       checkTrailingSlash = FALSE)
 
-  # projects.locations.endpoints.deployModel
   response <- f(the_body = request_body)
 
   response <- gcva_wait_for_model_deploy(operation = response$name)
 
-  response
-
-  # TODO - update after initial test
-  # out  <- gcva_endpoint(endpointName = response$response$name)
-  # out
+  out  <- gcva_endpoint(endpointName = response$name)
+  out
 
 }
 
-# operation <- gcva_get_op(operationId = "projects/442003009360/locations/us-central1/endpoints/1585913581671546880/operations/3692839338099343360")
-# if ("done" %in% names(operation) && operation[["done"]] == TRUE) {
-#   # do something
-#   print("Operation is done!")
-# } else {
-#   # do something else
-#   print("Operation is not done yet!")
-# }
 
 #' Wait for an Model to deploy
 #'
@@ -254,30 +242,35 @@ gcva_deploy <- function(projectId = gcva_project_get(),
 #' @param wait the number of seconds to wait between checks
 #' Use this function to do a loop to check progress of a operation running
 #'
-#' @return After a while, a completed operation
+#' @return After a while, a completed model deployment operation
 #'
 #' @export
 gcva_wait_for_model_deploy <- function(locationId = gcva_region_get(),
                                        operation,
-                                       wait=3) {
+                                       wait=10) {
 
   status <- FALSE
   time <- Sys.time()
 
+  myMessage("Deploying model to endpoint...", level = 3)
+
   while(!status){
     Sys.sleep(wait)
-    myMessage("Waiting ", wait, " seconds...", level = 3)
+    myMessage("Model deployment in progress. Waiting ", wait,
+              " seconds before checking operation status.", level = 3)
 
     operation_response <- gcva_get_op(locationId, operationId = operation)
 
     if("done" %in% names(operation_response) && operation_response[["done"]] == TRUE){
       status <- TRUE
+      myMessage("Model deployment completed successfully.", level = 3)
     } else {
       status <- FALSE
     }
   }
 
   operation_response
+
 }
 
 
