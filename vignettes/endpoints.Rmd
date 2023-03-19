@@ -61,7 +61,7 @@ model
 Doc: https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/deployModel
 
-```r
+```{r}
 model_deployed <- gcva_deploy(
   model = model,
   endpoint = endpoint, 
@@ -73,6 +73,14 @@ model_deployed
 ## Undeploy 
 
 TODO 
+
+### Single 
+
+```r
+gcva_undeploy(endpoint = endpoint)
+```
+
+### All 
 
 ```r
 gcva_endpoint_undeploy_all(endpoint = endpoint)

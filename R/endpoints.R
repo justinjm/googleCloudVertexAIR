@@ -279,6 +279,42 @@ gcva_wait_for_model_deploy <- function(locationId = gcva_region_get(),
   # }
 
 
+#' @title
+#' Undeploy Model from Endpoint
+#'
+#' @param projectId
+#' @param locationId
+#' @param endpoint	string Required. Endpoint object `gcva_endpoint` or
+#' The name of the Endpoint resource from which to undeploy a Model.
+#' Format: projects/{project}/locations/{location}/endpoints/{endpoint}
+#'
+#'
+#'
+gcva_undeploy <- function(projectId = gcva_project_get(),
+                          locationId = gcva_region_get(),
+                          endpoint
+                          ){
+
+  if(inherits(endpoint, "gcva_endpoint")){
+    # if passing trainingPipeine objectm get from object
+    name <- endpoint$name
+  }
+
+  # "projects/442003009360/locations/us-central1/endpoints/1203107613345054720"
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+                 locationId,
+                 name)
+
+  # POST https://{service-endpoint}/v1/{endpoint}:undeployModel
+  f <- googleAuthR::gar_api_generator(url,
+                                      "POST",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  # response <- f(the_body = request_body)
+
+}
+
 # gcva_endpoint_undeploy_all <- function(){
 #
 # }
