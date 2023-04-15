@@ -301,7 +301,7 @@ gcva_undeploy <- function(projectId = gcva_project_get(),
   }
 
   # "projects/442003009360/locations/us-central1/endpoints/1203107613345054720"
-  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s",
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:undeployModel",
                  locationId,
                  name)
 

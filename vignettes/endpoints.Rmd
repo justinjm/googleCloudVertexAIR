@@ -72,15 +72,17 @@ model_deployed
 
 ## Undeploy 
 
-TODO 
-
 ### Single 
+
+TODO 
 
 ```r
 gcva_undeploy(endpoint = endpoint)
 ```
 
 ### All 
+
+TODO 
 
 ```r
 gcva_endpoint_undeploy_all(endpoint = endpoint)
