@@ -1,0 +1,48 @@
+---
+title: "Large Language Models"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{largelanguagemodels}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# options(googleAuthR.verbose = 0) # set when debugging
+```
+
+# Setup
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+## Set global arguements
+
+```{r gcva-global-arguements}
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set(region = "us-central1")
+gcva_project_set(projectId = projectId)
+```
+
+## Test Prompt - Text Generation 
+
+https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts
+
+```{r}
+result <- gcva_text_gen_predict(
+  prompt="Give me ten interview questions for the role of a Python software engineer.",
+  modelId="text-bison"
+)
+
+# cat(result)
+result
+```
