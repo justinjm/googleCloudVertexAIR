@@ -30,7 +30,14 @@ print.gcva_trainingPipeline <- function(x,...){
   # cat0("displayName:         ", x$displayName)
   # cat0("createTime:          ", as.character(timestamp_to_r(x$createTime)))
   # cat0("startTime:           ", as.character(timestamp_to_r(x$startTime)))
+}
 
+#' @export
+print.gcva_customContainerTrainingJob <- function(x,...){
+
+  cat("==Google Cloud Vertex AI Custom Container Training Job================\n")
+  cat(jsonlite::toJSON(x, pretty = TRUE, auto_unbox = TRUE))
+  cat("\n====================================================================")
 
 }
 

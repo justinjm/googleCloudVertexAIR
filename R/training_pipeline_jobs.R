@@ -129,6 +129,7 @@ gcva_custom_container_training_job <- function(
   )
 
   request_body
+  ## TODO - add print.method for ideal output
 
 }
 
