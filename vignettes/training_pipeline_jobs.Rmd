@@ -3,7 +3,7 @@ title: "Training Pipeline Jobs"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{trainingpipelinejobs}
+  %\VignetteIndexEntry{training_pipeline_jobs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

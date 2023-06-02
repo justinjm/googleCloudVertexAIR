@@ -3,7 +3,7 @@ title: "Endpoints"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Endpoints}
+  %\VignetteIndexEntry{endpoints}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -62,12 +62,12 @@ Doc: https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/deployModel
 
 ```{r}
-model_deployed <- gcva_deploy(
-  model = model,
-  endpoint = endpoint, 
-  machineType = "n1-standard-4"
-)
-model_deployed
+# model_deployed <- gcva_deploy(
+#   model = model,
+#   endpoint = endpoint, 
+#   machineType = "n1-standard-4"
+# )
+# model_deployed
 ```
 
 ## Undeploy 
@@ -94,7 +94,7 @@ gcva_endpoint_undeploy_all(endpoint = endpoint)
 ```{r}
 # gcva_delete_endpoint(endpoint = endpoints[1,1])
 # OR 
-gcva_delete_endpoint(endpoint = endpoint)
+# gcva_delete_endpoint(endpoint = endpoint)
 ```
 
 ## List Endpoints (again)

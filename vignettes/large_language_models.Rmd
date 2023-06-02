@@ -3,7 +3,7 @@ title: "Large Language Models"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{largelanguagemodels}
+  %\VignetteIndexEntry{large_language_models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

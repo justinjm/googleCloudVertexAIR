@@ -3,7 +3,7 @@ title: "Training and deploying a custom model"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{customtabularonline}
+  %\VignetteIndexEntry{custom_tabular_online}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -138,7 +138,7 @@ Run the gcloud artifacts repositories create command to create a new Docker repo
 
 Run the gcloud artifacts repositories list command to verify that your repository was created.
 
-```{r}
+```r
 sh('gcloud artifacts repositories create {private_repo} --repository-format=docker --location={gcva_region_get()} --description="Docker repository"')
 ```
 
@@ -335,10 +335,10 @@ Doc: [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create 
 
 ```{r}
-endpoint <- gcva_create_endpoint(
-    displayName = "CaliforniaHousingEndpoint"
-)
-endpoint
+# endpoint <- gcva_create_endpoint(
+#     displayName = "CaliforniaHousingEndpoint"
+# )
+# endpoint
 ```
 
 ## Deploy Model to Endpoint 
@@ -390,7 +390,7 @@ gcva_predict(
 
 ```{r}
 # gcva_undeploy_all(endpoint = endpoint)
-gcva_delete_endpoint(endpoint = endpoint)
+# gcva_delete_endpoint(endpoint = endpoint)
 ```
 ### Deletes 
 

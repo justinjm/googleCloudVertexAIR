@@ -3,7 +3,7 @@ title: "Performing batch prediction"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{batchpredictionjobs}
+  %\VignetteIndexEntry{batch_prediction_jobs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
