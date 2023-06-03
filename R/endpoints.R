@@ -273,10 +273,43 @@ gcva_wait_for_model_deploy <- function(locationId = gcva_region_get(),
 
 }
 
+#' @title
+#' Predict
+#'
+#' @param locationId locationId of operation
+#' @param endpoint an `Endpoint` resource name "projects/{project}/locations/{location}/endpoints/{endpoint}"
+#' @param instances a json object for online prediction request
+#'
+#' @family Endpoints
+#'
+#' @export
+gcva_predict <- function(locationId = gcva_region_get(),
+                         endpoint,
+                         instances){
 
-# gcva_predict() <- function(){
-  #
-  # }
+  request_body <- structure(
+    rmNullObs(instances)
+    )
+
+  # TODO - FIX
+  # browser()
+  # resource name for API request
+  name <- endpoint$name
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s:predict",
+                 locationId,
+                 name)
+
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "POST",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  response <- f(the_body = request_body)
+  out <- response
+  out
+}
 
 
 #' @title
@@ -288,12 +321,13 @@ gcva_wait_for_model_deploy <- function(locationId = gcva_region_get(),
 #' The name of the Endpoint resource from which to undeploy a Model.
 #' Format: projects/{project}/locations/{location}/endpoints/{endpoint}
 #'
+#' @family Endpoints
 #'
-#'
+#' @export
 gcva_undeploy <- function(projectId = gcva_project_get(),
                           locationId = gcva_region_get(),
                           endpoint
-                          ){
+){
 
   if(inherits(endpoint, "gcva_endpoint")){
     # if passing trainingPipeine objectm get from object

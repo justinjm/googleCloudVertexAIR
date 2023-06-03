@@ -12,6 +12,29 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+```{r warning=FALSE}
+library(withr) # for gcloud sdk: https://stackoverflow.com/a/64381848/1812363 
+library(glue) 
+
+sh <- function(cmd, args = c(), intern = FALSE) {
+  with_path(path.expand("~/google-cloud-sdk/bin/"), {
+    if (is.null(args)) {
+      cmd <- glue(cmd)
+      s <- strsplit(cmd, " ")[[1]]
+      cmd <- s[1]
+      args <- s[2:length(s)]
+    }
+    ret <- system2(cmd, args, stdout = TRUE, stderr = TRUE)
+    if ("errmsg" %in% attributes(attributes(ret))$names) cat(attr(ret, "errmsg"), "\n")
+    if (intern) return(ret) else cat(paste(ret, collapse = "\n"))
+  }
+  )
+}
+```
+
+
+
 ```{r auth, warning=FALSE}
 library(googleAuthR)
 library(googleCloudVertexAIR)
@@ -30,25 +53,32 @@ gcva_project_set(projectId = projectId)
 ```
 
 
-## Create Endpoint 
+## Create Endpoint
 
 Doc: [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create 
 
-```{r}
+```r
 endpoint <- gcva_create_endpoint(
     displayName = "CaliforniaHousingEndpoint"
 )
 endpoint
 ```
 
-## List Endpoints 
+
+```r
+## Dev 
+endpoint <- gcva_endpoint(
+  endpointName= "projects/442003009360/locations/us-central1/endpoints/1326763089051254784")
+endpoint
+```
+
+## List Endpoints
 
 ```{r}
 endpoints <- gcva_list_endpoints()
 endpoints
 ```
-
 
 ## Deploy Model to Endpoint [DEV]
 
@@ -118,9 +148,39 @@ attr(,"class")
 [1] "gcva_endpoint"
 ```
 
-## Undeploy 
+## Predict
 
-### Single 
+### Build sample request
+
+```{r}
+data_uri <- "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"
+library(jsonlite)
+## create example data for prediction request 
+data_raw <- read.csv(text=sh("gsutil cat {data_uri}", intern = TRUE))
+
+## convert all to string values to build correct prediction request
+data <- as.data.frame(lapply(data_raw, as.character))
+
+## build list of 5 examples/rows only for testing
+instances <- list(instances=head(data[, names(data) != "median_house_value"], 5))
+
+## convert to required format of JSON
+json_instances <- toJSON(instances, auto_unbox = TRUE, raw = "base64")
+json_instances
+```
+
+
+
+```{r}
+gcva_predict(
+  endpoint = endpoint,
+  instances = json_instances
+)
+```
+
+## Undeploy
+
+### Single
 
 TODO 
 
@@ -128,7 +188,7 @@ TODO
 gcva_undeploy(endpoint = endpoint)
 ```
 
-### All 
+### All
 
 TODO 
 

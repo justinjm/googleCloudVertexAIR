@@ -384,6 +384,7 @@ json_instances
 
 ```r 
 gcva_predict(
+  endpoint = endpoint,
   instances = json_instances 
 )
 ```
