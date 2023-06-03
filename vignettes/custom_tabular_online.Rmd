@@ -25,7 +25,7 @@ Core concept: [Create](https://cloud.google.com/vertex-ai/docs/training/create-t
 Run the following chunk to install `googleCloudVertexAIR` and the other required R packages to complete this tutorial (checking to see if they are installed first and only install if not already):
 
 ```{r install_packages, eval=FALSE}
-required_packages <- c("remotes", "googleAuthR", "withr")
+required_packages <- c("remotes", "googleAuthR", "withr", "jsonlite")
 missing_packages <- required_packages[!(required_packages %in%
                                           installed.packages()[,"Package"])]
 if(length(missing_packages)) install.packages(missing_packages)
@@ -334,11 +334,11 @@ state:                PIPELINE_STATE_SUCCEEDED
 Doc: [Overview of getting predictions on Vertex AI | Google Cloud](https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment)
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create 
 
-```{r}
-# endpoint <- gcva_create_endpoint(
-#     displayName = "CaliforniaHousingEndpoint"
-# )
-# endpoint
+```r
+endpoint <- gcva_create_endpoint(
+    displayName = "CaliforniaHousingEndpoint"
+)
+endpoint
 ```
 
 ## Deploy Model to Endpoint 
@@ -366,13 +366,17 @@ selecting the first 5 rows for ease of demonstration):
 
 ```{r}
 library(jsonlite)
-df <- read.csv(text=sh("gsutil cat {data_uri}", intern = TRUE))
-head(df, 5)
+## create example data for prediction request 
+data_raw <- read.csv(text=sh("gsutil cat {data_uri}", intern = TRUE))
 
-instances = list(instances=head(df[, names(df) != "median_house_value"], 5))
-instances
+## convert all to string values to build correct prediction request
+data <- as.data.frame(lapply(data_raw, as.character))
 
-json_instances = toJSON(instances)
+## build list of 5 examples/rows only for testing
+instances <- list(instances=head(data[, names(data) != "median_house_value"], 5))
+
+## convert to required format of JSON
+json_instances <- toJSON(instances, auto_unbox = TRUE)
 json_instances
 ```
 
@@ -388,11 +392,14 @@ gcva_predict(
 
 ### Undeploy 
 
-```{r}
+```r
 # gcva_undeploy_all(endpoint = endpoint)
-# gcva_delete_endpoint(endpoint = endpoint)
 ```
 ### Deletes 
+
+```r
+gcva_delete_endpoint(endpoint = endpoint)
+```
 
 ```r
 gcva_delete_job()

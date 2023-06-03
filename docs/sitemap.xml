@@ -22,13 +22,22 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/datasets.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/endpoints.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/large_language_models.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/models.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/multi-auth.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/multi_auth.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/test_dir_create_delete.html</loc>
@@ -61,6 +70,9 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_bucket_set.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_create_endpoint.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_create_tabluar_dataset.html</loc>
   </url>
   <url>
@@ -73,6 +85,12 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_delete_dataset.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_delete_endpoint.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_deploy.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_endpoint_create.html</loc>
   </url>
   <url>
@@ -80,6 +98,9 @@
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_list_datasets.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_list_endpoints.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_list_models.html</loc>
@@ -103,10 +124,19 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_run_job.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_text_gen_predict.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_trainingPipeline.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_undeploy.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_wait_for_batch_prediction_job.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_wait_for_model_deploy.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_wait_for_op.html</loc>

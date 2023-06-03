@@ -71,10 +71,16 @@
       <a href="../articles/datasets.html">Datasets</a>
     </li>
     <li>
+      <a href="../articles/endpoints.html">Endpoints</a>
+    </li>
+    <li>
+      <a href="../articles/large_language_models.html">Large Language Models</a>
+    </li>
+    <li>
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
-      <a href="../articles/multi-auth.html">multi-auth</a>
+      <a href="../articles/multi_auth.html">multi-auth</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -104,7 +110,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Datasets</h1>
             
-            <h4 data-toc-skip class="date">2023-02-04</h4>
+            <h4 data-toc-skip class="date">2023-06-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/datasets.Rmd" class="external-link"><code>vignettes/datasets.Rmd</code></a></small>
       <div class="hidden name"><code>datasets.Rmd</code></div>
@@ -130,20 +136,20 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span><span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:02:07&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:46:03&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span><span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:02:07&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:46:03&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 <p>First, let’s set a unique dataset name with a timestamp to avoid
 confusion:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d%H%M%S"</span><span class="op">)</span></span>
 <span><span class="va">timestamp</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "20230204130207"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "20230603154603"</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datasetDisplayName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span></span>
 <span><span class="va">datasetDisplayName</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "california-housing-20230204130207"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "california-housing-20230603154603"</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="list-datasets">List datasets<a class="anchor" aria-label="anchor" href="#list-datasets"></a>
@@ -151,33 +157,61 @@ confusion:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_list_datasets.html">gcva_list_datasets</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         displayName</span></span>
-<span><span class="co">## 1 california-housing-20230120172747</span></span>
-<span><span class="co">## 2 california-housing-20221113133926</span></span>
-<span><span class="co">## 3 california-housing-20221113163728</span></span>
+<span><span class="co">## 1 california-housing-20230603152752</span></span>
+<span><span class="co">## 2 california-housing-20230602151732</span></span>
+<span><span class="co">## 3 california-housing-20230602151425</span></span>
+<span><span class="co">## 4 california-housing-20230205131419</span></span>
+<span><span class="co">## 5 california-housing-20230120172747</span></span>
+<span><span class="co">## 6 california-housing-20221113133926</span></span>
+<span><span class="co">## 7 california-housing-20221113163728</span></span>
 <span><span class="co">##                                                                       name</span></span>
-<span><span class="co">## 1 projects/442003009360/locations/us-central1/datasets/1237603691154898944</span></span>
-<span><span class="co">## 2 projects/442003009360/locations/us-central1/datasets/3229769227103633408</span></span>
-<span><span class="co">## 3 projects/442003009360/locations/us-central1/datasets/7808241198279163904</span></span>
+<span><span class="co">## 1 projects/442003009360/locations/us-central1/datasets/2201923767226073088</span></span>
+<span><span class="co">## 2 projects/442003009360/locations/us-central1/datasets/4486093203233046528</span></span>
+<span><span class="co">## 3 projects/442003009360/locations/us-central1/datasets/6945340074754048000</span></span>
+<span><span class="co">## 4 projects/442003009360/locations/us-central1/datasets/1778563412020690944</span></span>
+<span><span class="co">## 5 projects/442003009360/locations/us-central1/datasets/1237603691154898944</span></span>
+<span><span class="co">## 6 projects/442003009360/locations/us-central1/datasets/3229769227103633408</span></span>
+<span><span class="co">## 7 projects/442003009360/locations/us-central1/datasets/7808241198279163904</span></span>
 <span><span class="co">##                                                         metadataSchemaUri</span></span>
 <span><span class="co">## 1 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">## 2 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">## 3 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 4 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 5 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 6 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 7 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">##            createTime                  updateTime</span></span>
-<span><span class="co">## 1 2023-01-20 22:27:56 2023-01-20T22:40:21.187713Z</span></span>
-<span><span class="co">## 2 2022-11-13 18:39:31 2022-11-20T18:46:10.716692Z</span></span>
-<span><span class="co">## 3 2022-11-13 21:37:42 2022-11-20T18:45:24.758277Z</span></span>
+<span><span class="co">## 1 2023-06-03 19:27:55 2023-06-03T19:27:56.201458Z</span></span>
+<span><span class="co">## 2 2023-06-02 19:17:34 2023-06-02T19:17:35.155780Z</span></span>
+<span><span class="co">## 3 2023-06-02 19:14:28 2023-06-02T19:14:28.637754Z</span></span>
+<span><span class="co">## 4 2023-02-05 18:14:20 2023-02-05T18:14:21.078906Z</span></span>
+<span><span class="co">## 5 2023-01-20 22:27:56 2023-01-20T22:40:21.187713Z</span></span>
+<span><span class="co">## 6 2022-11-13 18:39:31 2022-11-20T18:46:10.716692Z</span></span>
+<span><span class="co">## 7 2022-11-13 21:37:42 2022-11-20T18:45:24.758277Z</span></span>
 <span><span class="co">##                                                                   etag</span></span>
-<span><span class="co">## 1 AMEw9yOA1nIi6deb6qIgyzyE4Yg1nAvvUL7jnHeoiJgHGQvatHWk-PU29FCJ-ZREG3Y=</span></span>
-<span><span class="co">## 2 AMEw9yMdovdCc2SK_WZslfBMLwqQf0MasXUCnOEFDNQr1jiiXbJ3NBft8FsAgPy279B4</span></span>
-<span><span class="co">## 3 AMEw9yM_rAqDktDT8SZO32TnjKg3tbbnSIxRmcygr7oMTDFKY-bFF5e35zyyYIGJ1l6r</span></span>
+<span><span class="co">## 1 AMEw9yOcMJrxhQM0GeLVAEZ_0Kl-mc-4c8T6IDyK2XQxrl52llNmtPQi34TPlfpzEGQ=</span></span>
+<span><span class="co">## 2 AMEw9yNhmdHQcc0WfWhW33DB6UUnI7ODjdFqHQU7zlbirJCXradfIisWVjj9g1R0d_0=</span></span>
+<span><span class="co">## 3 AMEw9yNGzhpYn88oOmvy-ZhrwsWcYbqd5j6cp2ZZUoLIO0qJLfHBTTiA85cTouwRpH6u</span></span>
+<span><span class="co">## 4 AMEw9yN8KAp1CX_55AhDWYB_worZU9g1ciVOinbkEqfj4RcvrKaNrgloiNUB_k-D6h4=</span></span>
+<span><span class="co">## 5 AMEw9yPI4qOhuzYa6-jws3hWulai1kmF8M8Kn3g3lfleIB-jFIlG20TsqGbNJJAdSqs=</span></span>
+<span><span class="co">## 6 AMEw9yOleNYYB5vjF44r7N81g4U3v4ppHj5HYT54POfLSvGnkEUdOb94rMKhMlNbeHbI</span></span>
+<span><span class="co">## 7 AMEw9yPsH8x-gHnjOhsxWR4X_NnU1oIRkex9cRQwQ9drQzXySRZ2UXdNpsvU6KIzRmvU</span></span>
 <span><span class="co">##   labels.has_model labels.model_type</span></span>
-<span><span class="co">## 1              yes            custom</span></span>
-<span><span class="co">## 2              yes              &lt;NA&gt;</span></span>
-<span><span class="co">## 3              yes              &lt;NA&gt;</span></span>
+<span><span class="co">## 1             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 2             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 3             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 4             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 5              yes            custom</span></span>
+<span><span class="co">## 6              yes              &lt;NA&gt;</span></span>
+<span><span class="co">## 7              yes              &lt;NA&gt;</span></span>
 <span><span class="co">##                                                                                                      uri</span></span>
 <span><span class="co">## 1 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
 <span><span class="co">## 2 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
-<span><span class="co">## 3 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
+<span><span class="co">## 3 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 4 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 5 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 6 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 7 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="create-a-dataset">Create a dataset<a class="anchor" aria-label="anchor" href="#create-a-dataset"></a>
@@ -186,13 +220,13 @@ confusion:</p>
 <code class="sourceCode R"><span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_create_tabluar_dataset.html">gcva_create_tabluar_dataset</a></span><span class="op">(</span></span>
 <span>  displayName <span class="op">=</span> <span class="va">datasetDisplayName</span>,</span>
 <span>  gcsSource <span class="op">=</span> <span class="st">"gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:02:10&gt; Waiting 2 seconds...</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:46:06&gt; Waiting 2 seconds...</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI Dataset==</span></span>
-<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/8618405346089631744 </span></span>
-<span><span class="co">## displayName:          california-housing-20230204130207 </span></span>
-<span><span class="co">## createTime:           2023-02-04 18:02:08 </span></span>
+<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/2515768366258454528 </span></span>
+<span><span class="co">## displayName:          california-housing-20230603154603 </span></span>
+<span><span class="co">## createTime:           2023-06-03 19:46:04 </span></span>
 <span><span class="co">## gcsSource:            gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level2">
@@ -202,40 +236,68 @@ confusion:</p>
 <code class="sourceCode R"><span><span class="va">datasets_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_list_datasets.html">gcva_list_datasets</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">datasets_list</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         displayName</span></span>
-<span><span class="co">## 1 california-housing-20230204130207</span></span>
-<span><span class="co">## 2 california-housing-20230120172747</span></span>
-<span><span class="co">## 3 california-housing-20221113133926</span></span>
-<span><span class="co">## 4 california-housing-20221113163728</span></span>
+<span><span class="co">## 1 california-housing-20230603154603</span></span>
+<span><span class="co">## 2 california-housing-20230603152752</span></span>
+<span><span class="co">## 3 california-housing-20230602151732</span></span>
+<span><span class="co">## 4 california-housing-20230602151425</span></span>
+<span><span class="co">## 5 california-housing-20230205131419</span></span>
+<span><span class="co">## 6 california-housing-20230120172747</span></span>
+<span><span class="co">## 7 california-housing-20221113133926</span></span>
+<span><span class="co">## 8 california-housing-20221113163728</span></span>
 <span><span class="co">##                                                                       name</span></span>
-<span><span class="co">## 1 projects/442003009360/locations/us-central1/datasets/8618405346089631744</span></span>
-<span><span class="co">## 2 projects/442003009360/locations/us-central1/datasets/1237603691154898944</span></span>
-<span><span class="co">## 3 projects/442003009360/locations/us-central1/datasets/3229769227103633408</span></span>
-<span><span class="co">## 4 projects/442003009360/locations/us-central1/datasets/7808241198279163904</span></span>
+<span><span class="co">## 1 projects/442003009360/locations/us-central1/datasets/2515768366258454528</span></span>
+<span><span class="co">## 2 projects/442003009360/locations/us-central1/datasets/2201923767226073088</span></span>
+<span><span class="co">## 3 projects/442003009360/locations/us-central1/datasets/4486093203233046528</span></span>
+<span><span class="co">## 4 projects/442003009360/locations/us-central1/datasets/6945340074754048000</span></span>
+<span><span class="co">## 5 projects/442003009360/locations/us-central1/datasets/1778563412020690944</span></span>
+<span><span class="co">## 6 projects/442003009360/locations/us-central1/datasets/1237603691154898944</span></span>
+<span><span class="co">## 7 projects/442003009360/locations/us-central1/datasets/3229769227103633408</span></span>
+<span><span class="co">## 8 projects/442003009360/locations/us-central1/datasets/7808241198279163904</span></span>
 <span><span class="co">##                                                         metadataSchemaUri</span></span>
 <span><span class="co">## 1 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">## 2 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">## 3 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">## 4 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 5 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 6 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 7 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 8 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">##            createTime                  updateTime</span></span>
-<span><span class="co">## 1 2023-02-04 18:02:08 2023-02-04T18:02:09.377820Z</span></span>
-<span><span class="co">## 2 2023-01-20 22:27:56 2023-01-20T22:40:21.187713Z</span></span>
-<span><span class="co">## 3 2022-11-13 18:39:31 2022-11-20T18:46:10.716692Z</span></span>
-<span><span class="co">## 4 2022-11-13 21:37:42 2022-11-20T18:45:24.758277Z</span></span>
+<span><span class="co">## 1 2023-06-03 19:46:04 2023-06-03T19:46:05.048684Z</span></span>
+<span><span class="co">## 2 2023-06-03 19:27:55 2023-06-03T19:27:56.201458Z</span></span>
+<span><span class="co">## 3 2023-06-02 19:17:34 2023-06-02T19:17:35.155780Z</span></span>
+<span><span class="co">## 4 2023-06-02 19:14:28 2023-06-02T19:14:28.637754Z</span></span>
+<span><span class="co">## 5 2023-02-05 18:14:20 2023-02-05T18:14:21.078906Z</span></span>
+<span><span class="co">## 6 2023-01-20 22:27:56 2023-01-20T22:40:21.187713Z</span></span>
+<span><span class="co">## 7 2022-11-13 18:39:31 2022-11-20T18:46:10.716692Z</span></span>
+<span><span class="co">## 8 2022-11-13 21:37:42 2022-11-20T18:45:24.758277Z</span></span>
 <span><span class="co">##                                                                   etag</span></span>
-<span><span class="co">## 1 AMEw9yNJsAj0Z6SKaSJsmJ-YwigZUepVeCgHCqBFi9u6zQvnOoUzXocwsEzjk4CVAL59</span></span>
-<span><span class="co">## 2 AMEw9yPN_NskMVNfSMU3F-LRtHhx5fusTBt2J_iWeAAzxMBhrgAi_snlOoGLO75oHGs=</span></span>
-<span><span class="co">## 3 AMEw9yMddnUcuVtszGyIH5k8W4dtE10RQgtH1LeE0ORVYMqLkhA376Etta-iEN2YgdLn</span></span>
-<span><span class="co">## 4 AMEw9yNxCVDafK_RNkRWHCebTV2NMPitnDmuD9gyLdhJGMDjnUlEaUrmcVd112nZvDr6</span></span>
+<span><span class="co">## 1 AMEw9yORxxAJMUGRl0mm-hTkhCB1XZendZGYomXdVH9o0sq9-B57mvz-dKLpEtchWX8=</span></span>
+<span><span class="co">## 2 AMEw9yPZLc0MgQkg7JDbIHqN3QPapCk-V3wmr6orHszA-QxtG09nvD8Qxh-8URgxDJM=</span></span>
+<span><span class="co">## 3 AMEw9yPmWWmWmSPzezhN7Pq0xwd86FESODVRIFQACBDnnuMPTTZzwjUTrliYn3kft6w=</span></span>
+<span><span class="co">## 4 AMEw9yNzOeuHNyJE2iAuuGuqyNVGyI4QDt1j6RTQDJbbGD9L3yLEuLbK1P8sUXJ58uVp</span></span>
+<span><span class="co">## 5 AMEw9yO-gQthdIVRmiO7vha3w9T3my_SfEpoUBX0LIPWXdS-KWczcmJn0jSqOxC-MqY=</span></span>
+<span><span class="co">## 6 AMEw9yPY6uLseIuvvTGvUNUcNuuIR2KV4eN_blQzixugjHs7fAdmuav91wPvUafaOj0=</span></span>
+<span><span class="co">## 7 AMEw9yPobl6QRDUiDb41jSXcnvBWrwHlKkCg1AEmXrxw_Tx3IPezNNSlfQj6MJzar3uQ</span></span>
+<span><span class="co">## 8 AMEw9yPBG_b_guOfvbARKBLDMK8SNg2tVNHvyTbb-wVhmvnDRmkdcMgEbm9ZxBxiCq_y</span></span>
 <span><span class="co">##   labels.has_model labels.model_type</span></span>
 <span><span class="co">## 1             &lt;NA&gt;              &lt;NA&gt;</span></span>
-<span><span class="co">## 2              yes            custom</span></span>
-<span><span class="co">## 3              yes              &lt;NA&gt;</span></span>
-<span><span class="co">## 4              yes              &lt;NA&gt;</span></span>
+<span><span class="co">## 2             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 3             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 4             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 5             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 6              yes            custom</span></span>
+<span><span class="co">## 7              yes              &lt;NA&gt;</span></span>
+<span><span class="co">## 8              yes              &lt;NA&gt;</span></span>
 <span><span class="co">##                                                                                                      uri</span></span>
 <span><span class="co">## 1 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
 <span><span class="co">## 2 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
 <span><span class="co">## 3 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
-<span><span class="co">## 4 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
+<span><span class="co">## 4 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 5 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 6 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 7 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 8 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="get-a-dataset">Get a dataset<a class="anchor" aria-label="anchor" href="#get-a-dataset"></a>
@@ -243,9 +305,9 @@ confusion:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_dataset.html">gcva_dataset</a></span><span class="op">(</span>datasetName <span class="op">=</span> <span class="va">datasets_list</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI Dataset==</span></span>
-<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/8618405346089631744 </span></span>
-<span><span class="co">## displayName:          california-housing-20230204130207 </span></span>
-<span><span class="co">## createTime:           2023-02-04 18:02:08 </span></span>
+<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/2515768366258454528 </span></span>
+<span><span class="co">## displayName:          california-housing-20230603154603 </span></span>
+<span><span class="co">## createTime:           2023-06-03 19:46:04 </span></span>
 <span><span class="co">## gcsSource:            gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level2">
@@ -253,7 +315,7 @@ confusion:</p>
 </h2>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_delete_dataset.html">gcva_delete_dataset</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">dataset</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:02:12&gt; Dataset successfully deleted.</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:46:08&gt; Dataset successfully deleted.</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="list-datasets-1">List datasets<a class="anchor" aria-label="anchor" href="#list-datasets-1"></a>
@@ -261,33 +323,61 @@ confusion:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_list_datasets.html">gcva_list_datasets</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         displayName</span></span>
-<span><span class="co">## 1 california-housing-20230120172747</span></span>
-<span><span class="co">## 2 california-housing-20221113133926</span></span>
-<span><span class="co">## 3 california-housing-20221113163728</span></span>
+<span><span class="co">## 1 california-housing-20230603152752</span></span>
+<span><span class="co">## 2 california-housing-20230602151732</span></span>
+<span><span class="co">## 3 california-housing-20230602151425</span></span>
+<span><span class="co">## 4 california-housing-20230205131419</span></span>
+<span><span class="co">## 5 california-housing-20230120172747</span></span>
+<span><span class="co">## 6 california-housing-20221113133926</span></span>
+<span><span class="co">## 7 california-housing-20221113163728</span></span>
 <span><span class="co">##                                                                       name</span></span>
-<span><span class="co">## 1 projects/442003009360/locations/us-central1/datasets/1237603691154898944</span></span>
-<span><span class="co">## 2 projects/442003009360/locations/us-central1/datasets/3229769227103633408</span></span>
-<span><span class="co">## 3 projects/442003009360/locations/us-central1/datasets/7808241198279163904</span></span>
+<span><span class="co">## 1 projects/442003009360/locations/us-central1/datasets/2201923767226073088</span></span>
+<span><span class="co">## 2 projects/442003009360/locations/us-central1/datasets/4486093203233046528</span></span>
+<span><span class="co">## 3 projects/442003009360/locations/us-central1/datasets/6945340074754048000</span></span>
+<span><span class="co">## 4 projects/442003009360/locations/us-central1/datasets/1778563412020690944</span></span>
+<span><span class="co">## 5 projects/442003009360/locations/us-central1/datasets/1237603691154898944</span></span>
+<span><span class="co">## 6 projects/442003009360/locations/us-central1/datasets/3229769227103633408</span></span>
+<span><span class="co">## 7 projects/442003009360/locations/us-central1/datasets/7808241198279163904</span></span>
 <span><span class="co">##                                                         metadataSchemaUri</span></span>
 <span><span class="co">## 1 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">## 2 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">## 3 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 4 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 5 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 6 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
+<span><span class="co">## 7 gs://google-cloud-aiplatform/schema/dataset/metadata/tabular_1.0.0.yaml</span></span>
 <span><span class="co">##            createTime                  updateTime</span></span>
-<span><span class="co">## 1 2023-01-20 22:27:56 2023-01-20T22:40:21.187713Z</span></span>
-<span><span class="co">## 2 2022-11-13 18:39:31 2022-11-20T18:46:10.716692Z</span></span>
-<span><span class="co">## 3 2022-11-13 21:37:42 2022-11-20T18:45:24.758277Z</span></span>
+<span><span class="co">## 1 2023-06-03 19:27:55 2023-06-03T19:27:56.201458Z</span></span>
+<span><span class="co">## 2 2023-06-02 19:17:34 2023-06-02T19:17:35.155780Z</span></span>
+<span><span class="co">## 3 2023-06-02 19:14:28 2023-06-02T19:14:28.637754Z</span></span>
+<span><span class="co">## 4 2023-02-05 18:14:20 2023-02-05T18:14:21.078906Z</span></span>
+<span><span class="co">## 5 2023-01-20 22:27:56 2023-01-20T22:40:21.187713Z</span></span>
+<span><span class="co">## 6 2022-11-13 18:39:31 2022-11-20T18:46:10.716692Z</span></span>
+<span><span class="co">## 7 2022-11-13 21:37:42 2022-11-20T18:45:24.758277Z</span></span>
 <span><span class="co">##                                                                   etag</span></span>
-<span><span class="co">## 1 AMEw9yP-akz8vf63EIM-rPsJLjGmTNy7CXDdw1awQfG80Nmo75S6T5fYe1ei4k3sFdk=</span></span>
-<span><span class="co">## 2 AMEw9yMuWR2npbg3CG8o1T1kc2SPco8K02Iqz8n7CaxaILWOtMV-x5gFj07Mpz1RetZl</span></span>
-<span><span class="co">## 3 AMEw9yPgQqFh6QhtvEPSSU69OjbpIPWAsKpYebb04WMiEs1KN8wCMW_QQOEyzcB7yqu8</span></span>
+<span><span class="co">## 1 AMEw9yNG29tycZr_I7Uvg9KEqpsWT2KSl3Ptn-y3ihV8fAQ-aOJIc_rfNzWIaexCE_Y=</span></span>
+<span><span class="co">## 2 AMEw9yMxSkpt2-rTWA3e2tKoi_lP5qPGqJEsGzxZpw3OVRidIN9zRHXK37qy-OKCFmk=</span></span>
+<span><span class="co">## 3 AMEw9yM3T_SN3c0JqZ13ePxguC72fTFRevFZo6gLIoSBfgAtFzFgjZ7zjElEnG-3gmFo</span></span>
+<span><span class="co">## 4 AMEw9yOOlmanykbI2eeysNG5ZxggGA_EP4kE_KV5c1n5gbe5Zb8ajP7OtIiSCNczrS4=</span></span>
+<span><span class="co">## 5 AMEw9yOD3F5NTXoHmeVn5qFarth794t8peH2_MkQLmjLjptvBXZWBOnr9dL4pCyE5Ok=</span></span>
+<span><span class="co">## 6 AMEw9yOAqqIbFSUKANn6lS9bxGYnWVTHtfV6Eh89umPm6hyW6cFme-NFp-LtO5imfJq_</span></span>
+<span><span class="co">## 7 AMEw9yOnfbdFTBwos7fGngutjQx5jQH4dXs7L1OpmCycPwxJSDbdiSw2RjNKj1ub2VKL</span></span>
 <span><span class="co">##   labels.has_model labels.model_type</span></span>
-<span><span class="co">## 1              yes            custom</span></span>
-<span><span class="co">## 2              yes              &lt;NA&gt;</span></span>
-<span><span class="co">## 3              yes              &lt;NA&gt;</span></span>
+<span><span class="co">## 1             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 2             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 3             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 4             &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 5              yes            custom</span></span>
+<span><span class="co">## 6              yes              &lt;NA&gt;</span></span>
+<span><span class="co">## 7              yes              &lt;NA&gt;</span></span>
 <span><span class="co">##                                                                                                      uri</span></span>
 <span><span class="co">## 1 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
 <span><span class="co">## 2 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
-<span><span class="co">## 3 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
+<span><span class="co">## 3 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 4 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 5 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 6 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span>
+<span><span class="co">## 7 gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
   </div>
 

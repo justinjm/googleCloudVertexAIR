@@ -53,10 +53,16 @@
       <a href="../articles/datasets.html">Datasets</a>
     </li>
     <li>
+      <a href="../articles/endpoints.html">Endpoints</a>
+    </li>
+    <li>
+      <a href="../articles/large_language_models.html">Large Language Models</a>
+    </li>
+    <li>
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
-      <a href="../articles/multi-auth.html">multi-auth</a>
+      <a href="../articles/multi_auth.html">multi-auth</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -117,8 +123,10 @@
 
 
 <dt>model</dt>
-<dd><p>STRING The name of the Model resource that produces the predictions via this job,
-must share the same ancestor Location. Format: `projects/project/locations/location/models/model`
+<dd><p>an `trainingPipelineJob` object OR
+STRING The name of the Model resource that produces the predictions via this job,
+must share the same ancestor Location.
+Format: `projects/project/locations/location/models/model`
 Starting this job has no impact on any existing deployments of the Model and their resources.
 Exactly one of model and unmanagedContainerModel must be set.
 The model resource name may contain version id or version alias to specify the version,
@@ -126,12 +134,16 @@ if no version is specified, the default version will be used.</p></dd>
 
 
 <dt>gcsSource</dt>
-<dd><p>string Required. Google Cloud Storage URI(-s) to the input file(s). May contain wildcards. For more information on wildcards, see https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames.</p></dd>
+<dd><p>string Required. Google Cloud Storage URI(-s) to the input
+file(s). May contain wildcards. For more information on wildcards,
+ see https://cloud.google.com/storage/docs/gsutil/addlhelp/WildcardNames.</p></dd>
 
 
 <dt>bigquerySource</dt>
-<dd><p>string Required. BigQuery URI to a project or table, up to 2000 characters long.
-When only the project is specified, the Dataset and Table is created. When the full table reference is specified,
+<dd><p>string Required. BigQuery URI to a project or table,
+up to 2000 characters long.
+When only the project is specified, the Dataset and Table is created.
+ When the full table reference is specified,
 the Dataset must exist and table must not exist.
 Accepted forms: BigQuery URI to a table, up to 2000 characters long.
 Accepted forms: "bq://projectId.bqDatasetId.bqTableId"</p></dd>
@@ -142,12 +154,14 @@ Accepted forms: "bq://projectId.bqDatasetId.bqTableId"</p></dd>
 
 
 <dt>bigqueryDestinationPrefix</dt>
-<dd><p>BigQuery path. For example: bq://projectId or bq://projectId.bqDatasetId or bq://projectId.bqDatasetId.bqTableId.
+<dd><p>BigQuery path. For example: bq://projectId
+ or bq://projectId.bqDatasetId or bq://projectId.bqDatasetId.bqTableId.
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs#BatchPredictionJob</p></dd>
 
 
 <dt>sync</dt>
-<dd><p>If set to TRUE, the call will block while waiting for the asynchronous batch job to complete.</p></dd>
+<dd><p>If set to TRUE, the call will block while waiting for the
+asynchronous batch job to complete.</p></dd>
 
 </dl></div>
     <div id="value">

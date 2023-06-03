@@ -71,10 +71,16 @@
       <a href="../articles/datasets.html">Datasets</a>
     </li>
     <li>
+      <a href="../articles/endpoints.html">Endpoints</a>
+    </li>
+    <li>
+      <a href="../articles/large_language_models.html">Large Language Models</a>
+    </li>
+    <li>
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
-      <a href="../articles/multi-auth.html">multi-auth</a>
+      <a href="../articles/multi_auth.html">multi-auth</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -105,7 +111,7 @@
       <h1 data-toc-skip>Training a tabuluar AutoML model and performing
 batch prediction</h1>
             
-            <h4 data-toc-skip class="date">2023-02-04</h4>
+            <h4 data-toc-skip class="date">2023-06-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/automl_tabluar_classification_batch.Rmd" class="external-link"><code>vignettes/automl_tabluar_classification_batch.Rmd</code></a></small>
       <div class="hidden name"><code>automl_tabluar_classification_batch.Rmd</code></div>
@@ -188,14 +194,14 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:01:26&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:45:30&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:01:26&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:45:30&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y%m%d%H%M%S"</span><span class="op">)</span></span>
 <span><span class="va">timestamp</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "20230204130126"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "20230603154530"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="set-vertex-ai-managed-dataset-display-name">Set Vertex AI managed dataset display name<a class="anchor" aria-label="anchor" href="#set-vertex-ai-managed-dataset-display-name"></a>
@@ -203,7 +209,7 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datasetDisplayName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span></span>
 <span><span class="va">datasetDisplayName</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "california-housing-20230204130126"</span></span></code></pre>
+<pre><code><span><span class="co">## [1] "california-housing-20230603154530"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -218,13 +224,13 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <code class="sourceCode R"><span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_create_tabluar_dataset.html">gcva_create_tabluar_dataset</a></span><span class="op">(</span></span>
 <span>  displayName <span class="op">=</span> <span class="va">datasetDisplayName</span>,</span>
 <span>  gcsSource <span class="op">=</span> <span class="st">"gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:01:29&gt; Waiting 2 seconds...</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:45:33&gt; Waiting 2 seconds...</span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataset</span></span></code></pre></div>
 <pre><code><span><span class="co">## ==Google Cloud Vertex AI Dataset==</span></span>
-<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/6675102106879262720 </span></span>
-<span><span class="co">## displayName:          california-housing-20230204130126 </span></span>
-<span><span class="co">## createTime:           2023-02-04 18:01:27 </span></span>
+<span><span class="co">## name:                 projects/442003009360/locations/us-central1/datasets/1781681626997063680 </span></span>
+<span><span class="co">## displayName:          california-housing-20230603154530 </span></span>
+<span><span class="co">## createTime:           2023-06-03 19:45:31 </span></span>
 <span><span class="co">## gcsSource:            gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -259,18 +265,13 @@ be one of: <code>"us-central1"</code> or <code>"eu"</code>
 <h4 id="run-the-training-pipeline">Run the training pipeline<a class="anchor" aria-label="anchor" href="#run-the-training-pipeline"></a>
 </h4>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">trainingPipelineJob</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_run_job.html">gcva_run_job</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_run_job.html">gcva_run_job</a></span><span class="op">(</span></span>
 <span>  job <span class="op">=</span> <span class="va">job</span>,</span>
 <span>  dataset <span class="op">=</span> <span class="va">dataset</span>,</span>
 <span>  targetColumn <span class="op">=</span> <span class="st">"median_house_value"</span>,</span>
 <span>  modelDisplayName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"model-%s"</span>, <span class="va">datasetDisplayName</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">trainingPipelineJob</span></span></code></pre></div>
-<p>After model completes training, extract <code>modelName</code> to a
-variable for batch prediction</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">modelName</span> <span class="op">&lt;-</span> <span class="va">trainingPipelineJob</span><span class="op">$</span><span class="va">modelToUpload</span><span class="op">$</span><span class="va">name</span></span>
-<span><span class="va">modelName</span> </span></code></pre></div>
+<span><span class="va">model</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -302,7 +303,7 @@ variable for batch prediction</p>
 <div class="section level5">
 <h5 id="set-constants">set constants<a class="anchor" aria-label="anchor" href="#set-constants"></a>
 </h5>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bq_source_uri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"bq://%s.california_housing.batch_02"</span>, <span class="va">projectId</span><span class="op">)</span></span>
 <span><span class="va">bq_destination_prefix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"bq://%s.california_housing"</span>, <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -314,13 +315,13 @@ variable for batch prediction</p>
 <li>API: <a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.batchPredictionJobs/create</a>
 </li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># hard code #modelName for testing purposes, model state = completed </span></span>
-<span><span class="va">modelName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_TEST_MODEL_NAME"</span><span class="op">)</span></span>
+<span><span class="co"># model &lt;- Sys.getenv("GCVA_TEST_MODEL_NAME_AUTOML")</span></span>
 <span></span>
 <span><span class="va">batch_prediction_job</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_batch_predict.html">gcva_batch_predict</a></span><span class="op">(</span></span>
 <span>  jobDisplayName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"california-housing-%s"</span>, <span class="va">timestamp</span><span class="op">)</span>,</span>
-<span>  model <span class="op">=</span> <span class="va">modelName</span>, <span class="co">#modelName</span></span>
+<span>  model <span class="op">=</span> <span class="va">model</span>,</span>
 <span>  bigquerySource<span class="op">=</span> <span class="va">bq_source_uri</span>,</span>
 <span>  instancesFormat <span class="op">=</span> <span class="st">"bigquery"</span>,</span>
 <span>  predictionsFormat <span class="op">=</span> <span class="st">"bigquery"</span>,</span>
@@ -340,11 +341,11 @@ use the predictions</p>
 </h4>
 <p>Open BigQuery console and navigate to the dataset where the
 predictions were saved, then modify and run the query below:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  predicted_TARGET_COLUMN_NAME.<span class="fu">value</span>,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  predicted_TARGET_COLUMN_NAME.lower_bound,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  predicted_TARGET_COLUMN_NAME.upper_bound</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> BQ_DATASET_NAME.BQ_PREDICTIONS_TABLE_NAME</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  predicted_TARGET_COLUMN_NAME.<span class="fu">value</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  predicted_TARGET_COLUMN_NAME.lower_bound,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  predicted_TARGET_COLUMN_NAME.upper_bound</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> BQ_DATASET_NAME.BQ_PREDICTIONS_TABLE_NAME</span></code></pre></div>
 <p>See more details here: <a href="https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#retrieve-batch-results" class="external-link uri">https://cloud.google.com/vertex-ai/docs/tabular-data/classification-regression/get-batch-predictions#retrieve-batch-results</a></p>
 <ul>
 <li>If you are using BigQuery, the output of batch prediction is stored
@@ -362,9 +363,9 @@ job started: <code>predictions_TIMESTAMP</code>
 <div class="section level3">
 <h3 id="cleaning-up">Cleaning up<a class="anchor" aria-label="anchor" href="#cleaning-up"></a>
 </h3>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_delete_dataset.html">gcva_delete_dataset</a></span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">dataset</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-02-04 13:01:30&gt; Dataset successfully deleted.</span></span></code></pre>
+<pre><code><span><span class="co">## 2023-06-03 15:45:33&gt; Dataset successfully deleted.</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>

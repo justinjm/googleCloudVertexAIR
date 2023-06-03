@@ -53,10 +53,16 @@
       <a href="../articles/datasets.html">Datasets</a>
     </li>
     <li>
+      <a href="../articles/endpoints.html">Endpoints</a>
+    </li>
+    <li>
+      <a href="../articles/large_language_models.html">Large Language Models</a>
+    </li>
+    <li>
       <a href="../articles/models.html">Models</a>
     </li>
     <li>
-      <a href="../articles/multi-auth.html">multi-auth</a>
+      <a href="../articles/multi_auth.html">multi-auth</a>
     </li>
     <li>
       <a href="../articles/training_pipeline_jobs.html">Training Pipeline Jobs</a>
@@ -106,6 +112,10 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.bat
         </td>
         <td><p>Set staging bucket prefix</p></td>
       </tr><tr><td>
+          <p><code><a href="gcva_create_endpoint.html">gcva_create_endpoint()</a></code> </p>
+        </td>
+        <td><p>Creates a Vertex AI Endpoint</p></td>
+      </tr><tr><td>
           <p><code><a href="gcva_create_tabluar_dataset.html">gcva_create_tabluar_dataset()</a></code> </p>
         </td>
         <td><p>Creates a tabluar dataset</p></td>
@@ -123,9 +133,13 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.dat
         </td>
         <td><p>Deletes a dataset</p></td>
       </tr><tr><td>
-          <p><code><a href="gcva_endpoint_create.html">gcva_endpoint_create()</a></code> </p>
+          <p><code><a href="gcva_delete_endpoint.html">gcva_delete_endpoint()</a></code> </p>
         </td>
-        <td><p>Creates a Vertex AI Endpoint</p></td>
+        <td><p>Deletes a Vertex AI Endpoint</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_deploy.html">gcva_deploy()</a></code> </p>
+        </td>
+        <td><p>Deploy a model to an Endpoint</p></td>
       </tr><tr><td>
           <p><code><a href="gcva_get_op.html">gcva_get_op()</a></code> </p>
         </td>
@@ -135,6 +149,10 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.ope
           <p><code><a href="gcva_list_datasets.html">gcva_list_datasets()</a></code> </p>
         </td>
         <td><p>Lists datasets in a project.</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_list_endpoints.html">gcva_list_endpoints()</a></code> </p>
+        </td>
+        <td><p>Lists Vertex AI Endpoints within a specific GCP Project</p></td>
       </tr><tr><td>
           <p><code><a href="gcva_list_models.html">gcva_list_models()</a></code> </p>
         </td>
@@ -166,15 +184,28 @@ https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.mod
         <td><p>Executes an training job
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/create</p></td>
       </tr><tr><td>
+          <p><code><a href="gcva_text_gen_predict.html">gcva_text_gen_predict()</a></code> </p>
+        </td>
+        <td><p>Generate Text from Text Prompts
+https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts#generative-ai-test-text-prompt-python</p></td>
+      </tr><tr><td>
           <p><code><a href="gcva_trainingPipeline.html">gcva_trainingPipeline()</a></code> </p>
         </td>
         <td><p>Get a Training Pipeline object
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.trainingPipelines/get</p></td>
       </tr><tr><td>
+          <p><code><a href="gcva_undeploy.html">gcva_undeploy()</a></code> </p>
+        </td>
+        <td><p>Undeploy Model from Endpoint</p></td>
+      </tr><tr><td>
           <p><code><a href="gcva_wait_for_batch_prediction_job.html">gcva_wait_for_batch_prediction_job()</a></code> </p>
         </td>
         <td><p>Wait for a BatchPredctionJob operation
 https://cloud.google.com/vertex-ai/docs/reference/rest/v1/JobState</p></td>
+      </tr><tr><td>
+          <p><code><a href="gcva_wait_for_model_deploy.html">gcva_wait_for_model_deploy()</a></code> </p>
+        </td>
+        <td><p>Wait for an Model to deploy</p></td>
       </tr><tr><td>
           <p><code><a href="gcva_wait_for_op.html">gcva_wait_for_op()</a></code> </p>
         </td>

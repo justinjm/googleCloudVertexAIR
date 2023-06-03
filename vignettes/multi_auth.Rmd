@@ -4,7 +4,7 @@ author: "Justin Marciszewski"
 date: "2022-12-16"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{multi-auth}
+  %\VignetteIndexEntry{multi_auth}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

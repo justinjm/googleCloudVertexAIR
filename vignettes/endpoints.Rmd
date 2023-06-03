@@ -61,13 +61,61 @@ model
 Doc: https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api
 API: https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/deployModel
 
-```{r}
-# model_deployed <- gcva_deploy(
-#   model = model,
-#   endpoint = endpoint, 
-#   machineType = "n1-standard-4"
-# )
-# model_deployed
+```r
+model_deployed <- gcva_deploy(
+  model = model,
+  endpoint = endpoint,
+  machineType = "n1-standard-4"
+)
+model_deployed
+```
+
+```
+2023-03-18 20:45:18> Deploying model to endpoint...
+2023-03-18 20:45:28> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:45:38> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:45:48> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:45:58> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:46:08> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:46:19> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:46:29> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:46:39> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:46:49> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:46:59> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:47:09> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:47:19> Model deployment in progress. Waiting 10 seconds before checking operation status.
+2023-03-18 20:47:20> Model deployment completed successfully.
+$name
+[1] "projects/442003009360/locations/us-central1/endpoints/1203107613345054720/operations/4971509788551675904"
+
+$metadata
+$metadata$`@type`
+[1] "type.googleapis.com/google.cloud.aiplatform.v1.DeployModelOperationMetadata"
+
+$metadata$genericMetadata
+$metadata$genericMetadata$createTime
+[1] "2023-03-19T00:45:18.085624Z"
+
+$metadata$genericMetadata$updateTime
+[1] "2023-03-19T00:47:13.271833Z"
+
+
+
+$done
+[1] TRUE
+
+$response
+$response$`@type`
+[1] "type.googleapis.com/google.cloud.aiplatform.v1.DeployModelResponse"
+
+$response$deployedModel
+$response$deployedModel$id
+[1] "9074185901151617024"
+
+
+
+attr(,"class")
+[1] "gcva_endpoint"
 ```
 
 ## Undeploy 
@@ -94,7 +142,7 @@ gcva_endpoint_undeploy_all(endpoint = endpoint)
 ```{r}
 # gcva_delete_endpoint(endpoint = endpoints[1,1])
 # OR 
-# gcva_delete_endpoint(endpoint = endpoint)
+gcva_delete_endpoint(endpoint = endpoint)
 ```
 
 ## List Endpoints (again)
