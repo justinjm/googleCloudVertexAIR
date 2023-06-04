@@ -287,12 +287,14 @@ gcva_predict <- function(locationId = gcva_region_get(),
                          endpoint,
                          instances){
 
-  request_body <- structure(
-    rmNullObs(instances)
-    )
-
   # TODO - FIX
   # browser()
+
+  request_body <- structure(
+    list(instances = instances$instances)
+  )
+
+
   # resource name for API request
   name <- endpoint$name
 

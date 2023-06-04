@@ -65,14 +65,6 @@ endpoint <- gcva_create_endpoint(
 endpoint
 ```
 
-
-```r
-## Dev 
-endpoint <- gcva_endpoint(
-  endpointName= "projects/442003009360/locations/us-central1/endpoints/1326763089051254784")
-endpoint
-```
-
 ## List Endpoints
 
 ```{r}
@@ -80,12 +72,20 @@ endpoints <- gcva_list_endpoints()
 endpoints
 ```
 
-## Deploy Model to Endpoint [DEV]
+## Deploy Model to Endpoint 
+
+### [DEV]
 
 ```{r}
 # manually set model object (to fasttrack for testing)
 model <- gcva_model(model = Sys.getenv("GCVA_TEST_MODEL_NAME_CUSTOM"))
 model
+```
+
+```{r}
+endpoint <- gcva_endpoint(
+  endpointName= "projects/442003009360/locations/us-central1/endpoints/1326763089051254784")
+endpoint
 ```
 
 Doc: https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api
@@ -154,7 +154,7 @@ attr(,"class")
 
 ```{r}
 data_uri <- "gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"
-library(jsonlite)
+
 ## create example data for prediction request 
 data_raw <- read.csv(text=sh("gsutil cat {data_uri}", intern = TRUE))
 
@@ -165,16 +165,19 @@ data <- as.data.frame(lapply(data_raw, as.character))
 instances <- list(instances=head(data[, names(data) != "median_house_value"], 5))
 
 ## convert to required format of JSON
-json_instances <- toJSON(instances, auto_unbox = TRUE, raw = "base64")
-json_instances
+# library(jsonlite)
+# instances <- toJSON(instances, auto_unbox = TRUE)
+
+instances
 ```
 
 
 
 ```{r}
+options(googleAuthR.verbose = 0) # set when debugging
 gcva_predict(
   endpoint = endpoint,
-  instances = json_instances
+  instances = instances
 )
 ```
 
@@ -200,8 +203,6 @@ gcva_endpoint_undeploy_all(endpoint = endpoint)
 ## Delete Endpoint
 
 ```{r}
-# gcva_delete_endpoint(endpoint = endpoints[1,1])
-# OR 
 gcva_delete_endpoint(endpoint = endpoint)
 ```
 
