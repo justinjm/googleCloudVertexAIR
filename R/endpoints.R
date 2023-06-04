@@ -45,6 +45,7 @@ gcva_list_endpoints <- function(projectId = gcva_project_get(),
 #' @return a Endpoint object
 #'
 #' @family Endpoints
+#'
 #' @export
 gcva_endpoint <- function(locationId = gcva_region_get(),
                           endpointName){
@@ -244,6 +245,8 @@ gcva_deploy <- function(projectId = gcva_project_get(),
 #'
 #' @return After a while, a completed model deployment operation
 #'
+#' @family Endpoints
+#'
 #' @export
 gcva_wait_for_model_deploy <- function(locationId = gcva_region_get(),
                                        operation,
@@ -287,13 +290,9 @@ gcva_predict <- function(locationId = gcva_region_get(),
                          endpoint,
                          instances){
 
-  # TODO - FIX
-  # browser()
-
   request_body <- structure(
     list(instances = instances$instances)
   )
-
 
   # resource name for API request
   name <- endpoint$name
@@ -351,6 +350,13 @@ gcva_undeploy <- function(projectId = gcva_project_get(),
 
 }
 
+
+#' @title
+#'
+#'
+#' @family Endpoints
+#'
+#' @export
 # gcva_endpoint_undeploy_all <- function(){
 #
 # }

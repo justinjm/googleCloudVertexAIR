@@ -40,6 +40,7 @@ library(googleAuthR)
 library(googleCloudVertexAIR)
 
 options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+options(googleAuthR.verbose = 0) # set when debugging
 
 gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 ```
@@ -80,12 +81,6 @@ endpoints
 # manually set model object (to fasttrack for testing)
 model <- gcva_model(model = Sys.getenv("GCVA_TEST_MODEL_NAME_CUSTOM"))
 model
-```
-
-```{r}
-endpoint <- gcva_endpoint(
-  endpointName= "projects/442003009360/locations/us-central1/endpoints/1326763089051254784")
-endpoint
 ```
 
 Doc: https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api
@@ -165,19 +160,39 @@ data <- as.data.frame(lapply(data_raw, as.character))
 instances <- list(instances=head(data[, names(data) != "median_house_value"], 5))
 
 ## convert to required format of JSON
-# library(jsonlite)
-# instances <- toJSON(instances, auto_unbox = TRUE)
+library(jsonlite)
+instances_json <- toJSON(instances, auto_unbox = TRUE)
 
-instances
+instances_json
 ```
 
-
-
-```{r}
-options(googleAuthR.verbose = 0) # set when debugging
+```r
 gcva_predict(
   endpoint = endpoint,
   instances = instances
+)
+```
+
+```{r}
+library(glue)
+## set parameters for prediction request here so easier to understand 
+url <- glue(
+  "https://{gcva_region_get()}-aiplatform.googleapis.com/v1/{endpoint$name}:predict"
+)
+access_token <- sh("gcloud auth print-access-token", intern = TRUE)
+
+## make prediction request 
+sh(
+  "curl",
+  c(
+    "--tr-encoding",
+    "-s",
+    "-X POST",
+    glue("-H 'Authorization: Bearer {access_token}'"),
+    "-H 'Content-Type: application/json'",
+    url,
+    glue("-d '{instances_json}'")
+  )
 )
 ```
 
@@ -202,7 +217,7 @@ gcva_endpoint_undeploy_all(endpoint = endpoint)
 
 ## Delete Endpoint
 
-```{r}
+```r
 gcva_delete_endpoint(endpoint = endpoint)
 ```
 
