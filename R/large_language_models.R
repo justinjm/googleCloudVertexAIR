@@ -57,18 +57,9 @@ gcva_text_gen_predict <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = textPrompt)
 
+  # return pretty output, content only (default)
   if(rawResponse == FALSE) {
-    # return pretty output, content only (default)
-    printPretty <- function(text) {
-      pretty_text <- paste("===================================================\n",
-                           "        Response:       \n",
-                           "===================================================\n",
-                           text,
-                           "\n===================================================\n")
-      return(pretty_text)
-    }
-
-    printPretty(response$predictions$content)
+    response$predictions$content
 
   }  else if(rawResponse == TRUE) {
     # print raw result

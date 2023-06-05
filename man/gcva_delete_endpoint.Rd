@@ -19,6 +19,9 @@ Other Endpoints:
 \code{\link{gcva_create_endpoint}()},
 \code{\link{gcva_deploy}()},
 \code{\link{gcva_endpoint}()},
-\code{\link{gcva_list_endpoints}()}
+\code{\link{gcva_list_endpoints}()},
+\code{\link{gcva_predict}()},
+\code{\link{gcva_undeploy}()},
+\code{\link{gcva_wait_for_model_deploy}()}
 }
 \concept{Endpoints}

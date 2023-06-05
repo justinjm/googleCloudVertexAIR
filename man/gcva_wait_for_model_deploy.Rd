@@ -24,3 +24,14 @@ After a while, a completed model deployment operation
 \description{
 Wait for an Model to deploy
 }
+\seealso{
+Other Endpoints: 
+\code{\link{gcva_create_endpoint}()},
+\code{\link{gcva_delete_endpoint}()},
+\code{\link{gcva_deploy}()},
+\code{\link{gcva_endpoint}()},
+\code{\link{gcva_list_endpoints}()},
+\code{\link{gcva_predict}()},
+\code{\link{gcva_undeploy}()}
+}
+\concept{Endpoints}

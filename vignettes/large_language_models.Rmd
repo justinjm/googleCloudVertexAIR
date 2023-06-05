@@ -39,8 +39,10 @@ https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts
 ```{r}
 result <- gcva_text_gen_predict(
   prompt="Give me ten interview questions for the role of a Python software engineer.",
-  modelId="text-bison"
+  modelId="text-bison",
+  rawResponse = TRUE
 )
 
-cat(result)
+# result$predictions  # prediction  response with safteyAttributes 
+result$predictions$content # prediction response only
 ```

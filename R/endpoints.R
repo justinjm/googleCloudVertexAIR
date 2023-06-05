@@ -38,7 +38,8 @@ gcva_list_endpoints <- function(projectId = gcva_project_get(),
 }
 
 
-#'
+#' @title
+#' Get an Endpoint
 #' @param locationId
 #' @param endpointName
 #'
@@ -236,6 +237,7 @@ gcva_deploy <- function(projectId = gcva_project_get(),
 }
 
 
+#' @title
 #' Wait for an Model to deploy
 #'
 #' @param locationId locationId of operation
@@ -351,12 +353,9 @@ gcva_undeploy <- function(projectId = gcva_project_get(),
 }
 
 
-#' @title
 #'
 #'
-#' @family Endpoints
 #'
-#' @export
 # gcva_endpoint_undeploy_all <- function(){
 #
 # }
