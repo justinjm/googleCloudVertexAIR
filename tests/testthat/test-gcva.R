@@ -165,7 +165,7 @@ test_that("We can get a Model", {
   skip_if_no_token()
 
   locationId <- Sys.getenv("GCVA_DEFAULT_REGION")
-  modelName <- Sys.getenv("GCVA_TEST_MODEL_NAME")
+  modelName <- Sys.getenv("GCVA_TEST_MODEL_NAME_AUTOML")
   expect_true(locationId != "")
   expect_true(modelName != "")
   m <- gcva_model(locationId,modelName)
@@ -257,7 +257,7 @@ test_that("We can get a batchPredictionJob", {
 #   expect_true(projectId != "")
 #   expect_true(locationId != "")
 #   d <- gcva_create_endpoint(
-#     displayName = "test_gcva_dataset"    
+#     displayName = "test_gcva_dataset"
 
 #   expect_s3_class(d, "gcva_endpoint")
 #   expect_true(

@@ -86,7 +86,7 @@ timestamp_to_r <- function(t){
 #' @noRd
 myMessage <- function(..., level = 2){
 
-  compare_level <- getOption("googleAuthR.verbose")
+  compare_level <- getOption("googleCloudVertexAIR.verbose")
 
   if(level >= compare_level){
     message(Sys.time() ,"> ", ...)

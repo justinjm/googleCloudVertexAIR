@@ -40,7 +40,7 @@ library(googleAuthR)
 library(googleCloudVertexAIR)
 
 options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
-options(googleAuthR.verbose = 0) # set when debugging
+# options(googleAuthR.verbose = 0) # set when debugging
 
 gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
 ```
@@ -173,7 +173,7 @@ gcva_predict(
 )
 ```
 
-```{r}
+```r
 library(glue)
 ## set parameters for prediction request here so easier to understand 
 url <- glue(
