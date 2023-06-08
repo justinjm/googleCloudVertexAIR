@@ -15,7 +15,8 @@ LazyData: true
 Imports: 
     assertthat (>= 0.2.1),
     googleAuthR (>= 1.4.0),
-    jsonlite (>= 1.7.2)
+    jsonlite (>= 1.7.2),
+    gargle
 Suggests: 
     knitr,
     rmarkdown,

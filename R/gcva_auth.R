@@ -1,0 +1,239 @@
+## This file is the interface between googleCloudVertexAIR and the
+## auth functionality in gargle.
+
+# Initialization happens in .onLoad
+.auth <- NULL
+
+## The roxygen comments for these functions are mostly generated from data
+## in this list and template text maintained in gargle.
+gargle_lookup_table <- list(
+  PACKAGE     = "googleCloudVertexAIR",
+  YOUR_STUFF  = "your Vertex AI projects",
+  PRODUCT     = "Google Vertex AI",
+  API         = "Vertex AI API",
+  PREFIX      = "gcva"
+)
+
+#' Authorize googleCloudVertexAIR
+#'
+#' @eval gargle:::PREFIX_auth_description(gargle_lookup_table)
+#' @eval gargle:::PREFIX_auth_details(gargle_lookup_table)
+#' @eval gargle:::PREFIX_auth_params()
+#' @param scopes A character vector of scopes to request.
+#'   Pick from those listed at <https://developers.google.com/identity/protocols/oauth2/scopes>.
+#'
+#' @family auth functions
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' ## load/refresh existing credentials, if available
+#' ## otherwise, go to browser for authentication and authorization
+#' gcva_auth()
+#'
+#' ## force use of a token associated with a specific email
+#' gcva_auth(email = "jenny@example.com")
+#'
+#' ## force a menu where you can choose from existing tokens or
+#' ## choose to get a new one
+#' gcva_auth(email = NA)
+#'
+#'
+#' ## use a service account token
+#' gcva_auth(path = "foofy-83ee9e7c9c48.json")
+#' }
+gcva_auth <- function(email = gargle::gargle_oauth_email(),
+                    path = NULL,
+                    scopes = c(
+                      "https://www.googleapis.com/auth/cloud-platform"
+                    ),
+                    cache = gargle::gargle_oauth_cache(),
+                    use_oob = gargle::gargle_oob_default(),
+                    token = NULL) {
+  if (!missing(email) && !missing(path)) {
+    cli::cli_warn(c(
+      "It is very unusual to provide both {.arg email} and \\
+       {.arg path} to {.fun gcva_auth}.",
+      "They relate to two different auth methods.",
+      "The {.arg path} argument is only for a service account token.",
+      "If you need to specify your own OAuth client, use \\
+      {.fun gcva_auth_configure}."
+    ))
+  }
+
+  # In a BYO token situation, such as `gcva_auth(token = drive_token())`, it's
+  # easy to not have, e.g., googledrive attached (provides drive_token()).
+  # If we don't force here, the error is muffled in token_fetch()'s tryCatch()
+  # treatment, which makes it much harder to figure out what's wrong.
+  # By forcing here, we expose this mistake early and noisily.
+  force(token)
+
+  cred <- gargle::token_fetch(
+    scopes = scopes,
+    app = gcva_oauth_client() %||% gargle::tidyverse_client(),
+    email = email,
+    path = path,
+    package = "googleCloudVertexAIR",
+    cache = cache,
+    use_oob = use_oob,
+    token = token
+  )
+  if (!inherits(cred, "Token2.0")) {
+    stop(
+      "Can't get Google credentials.\n",
+      "Are you running googleCloudVertexAIR in a non-interactive session? Consider:\n",
+      "  * Call `gcva_auth()` directly with all necessary specifics.\n",
+      call. = FALSE
+    )
+  }
+  .auth$set_cred(cred)
+  .auth$set_auth_active(TRUE)
+
+  invisible()
+}
+
+#' Clear current token
+#'
+#' Clears any currently stored token. The next time googleCloudVertexAIR needs a token, the
+#' token acquisition process starts over, with a fresh call to [gcva_auth()] and,
+#' therefore, internally, a call to [gargle::token_fetch()]. Unlike some other
+#' packages that use gargle, googleCloudVertexAIR is not usable in a de-authorized state.
+#' Therefore, calling `gcva_deauth()` only clears the token, i.e. it does NOT
+#' imply that subsequent requests are made with an API key in lieu of a token.
+#'
+#' @family auth functions
+#' @export
+#' @examples
+#' \dontrun{
+#' gcva_deauth()
+#' }
+gcva_deauth <- function() {
+  .auth$clear_cred()
+  invisible()
+}
+
+#' Produce configured token
+#'
+#' @eval gargle:::PREFIX_token_description(gargle_lookup_table)
+#' @eval gargle:::PREFIX_token_return()
+#'
+#' @family low-level API functions
+#' @export
+#' @examples
+#' \dontrun{
+#' gcva_token()
+#' }
+gcva_token <- function() {
+  if (!gcva_has_token()) {
+    gcva_auth()
+  }
+  httr::config(token = .auth$cred)
+}
+
+#' Is there a token on hand?
+#'
+#' @eval gargle:::PREFIX_has_token_description(gargle_lookup_table)
+#' @eval gargle:::PREFIX_has_token_return()
+#'
+#' @family low-level API functions
+#' @export
+#'
+#' @examples
+#' gcva_has_token()
+gcva_has_token <- function() {
+  inherits(.auth$cred, "Token2.0")
+}
+
+#' Edit and view auth configuration
+#'
+#' @eval gargle:::PREFIX_auth_configure_description(gargle_lookup_table, .has_api_key = FALSE)
+#' @eval gargle:::PREFIX_auth_configure_params(.has_api_key = FALSE)
+#' @eval gargle:::PREFIX_auth_configure_return(gargle_lookup_table, .has_api_key = FALSE)
+#'
+#' @family auth functions
+#' @export
+#' @examples
+#' # see and store the current user-configured OAuth client (probably `NULL`)
+#' (original_client <- gcva_oauth_client())
+#'
+#' # the preferred way to configure your own client is via a JSON file
+#' # downloaded from Google Developers Console
+#' # this example JSON is indicative, but fake
+#' path_to_json <- system.file(
+#'   "extdata", "data", "client_secret_123.googleusercontent.com.json",
+#'   package = "googleCloudVertexAIR"
+#' )
+#' gcva_auth_configure(path = path_to_json)
+#'
+#' # confirm the changes
+#' gcva_oauth_client()
+#'
+#' # restore original auth config
+#' gcva_auth_configure(client = original_client)
+gcva_auth_configure <- function(client, path, app = deprecated()) {
+  if (lifecycle::is_present(app)) {
+    lifecycle::deprecate_warn(
+      "1.4.2",
+      "gcva_auth_configure(app)",
+      "gcva_auth_configure(client)"
+    )
+    gcva_auth_configure(client = app, path = path)
+  }
+
+  if (!xor(missing(client), missing(path))) {
+    stop("Must supply exactly one of `client` and `path`", call. = FALSE)
+  }
+  if (!missing(path)) {
+    stopifnot(is_string(path))
+    client <- gargle::gargle_oauth_client_from_json(path)
+  }
+  stopifnot(is.null(client) || inherits(client, "gargle_oauth_client"))
+
+  .auth$set_app(client)
+
+  invisible(.auth)
+}
+
+#' @export
+#' @rdname gcva_auth_configure
+gcva_oauth_client <- function() {
+  .auth$app
+}
+
+#' Get info on current user
+#'
+#' @eval gargle:::PREFIX_user_description()
+#' @eval gargle:::PREFIX_user_seealso()
+#' @eval gargle:::PREFIX_user_return()
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' gcva_user()
+#' }
+gcva_user <- function() {
+  if (gcva_has_token()) {
+    gargle::token_email(gcva_token())
+  } else {
+    NULL
+  }
+}
+
+# deprecated functions ----
+
+#' Get currently configured OAuth app (deprecated)
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' In light of the new [gargle::gargle_oauth_client()] constructor and class of
+#' the same name, `gcva_oauth_app()` is being replaced by
+#' [gcva_oauth_client()].
+#' @keywords internal
+#' @export
+gcva_oauth_app <- function() {
+  lifecycle::deprecate_warn(
+    "1.4.2", "gcva_oauth_app()", "gcva_oauth_client()"
+  )
+  gcva_oauth_client()
+}
