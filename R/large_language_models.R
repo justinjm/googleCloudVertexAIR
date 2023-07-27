@@ -17,7 +17,7 @@
 gcva_text_gen_predict <- function(projectId = gcva_project_get(),
                                   locationId = gcva_region_get(),
                                   prompt,
-                                  modelId,
+                                  modelId="text-bison",
                                   temperature=0.2,
                                   maxOutputTokens=256,
                                   topP=0.8,
@@ -38,7 +38,8 @@ gcva_text_gen_predict <- function(projectId = gcva_project_get(),
           topK = topK,
           topP = topP
         )
-      )), class = c("gcva_textPrompt", "list")
+      )
+    ), class = c("gcva_textPrompt", "list")
   )
 
   parent <- sprintf("projects/%s/locations/%s",
@@ -60,6 +61,53 @@ gcva_text_gen_predict <- function(projectId = gcva_project_get(),
   # return pretty output, content only (default)
   if(rawResponse == FALSE) {
     response$predictions$content
+
+  }  else if(rawResponse == TRUE) {
+    # print raw result
+    response
+  }
+
+}
+
+
+# https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings#generative-ai-get-text-embedding-drest
+gcva_get_text_embeddings <- function(projectId = gcva_project_get(),
+                                     locationId = gcva_region_get(),
+                                     modelId = "textembedding-gecko",
+                                     text,
+                                     rawResponse=FALSE) {
+
+  text_body <- structure(
+    rmNullObs(
+      list(
+        instances = list(
+          list(
+            content = text
+          )
+        )
+      )
+    ),class = c("gcva_textEmbeddings", "list")
+  )
+
+  parent <- sprintf("projects/%s/locations/%s",
+                    projectId,
+                    locationId)
+
+  url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/publishers/google/models/%s:predict",
+                 locationId,
+                 parent,
+                 modelId)
+
+  f <- googleAuthR::gar_api_generator(url,
+                                      "POST",
+                                      data_parse_function = function(x) x,
+                                      checkTrailingSlash = FALSE)
+
+  response <- f(the_body = text_body)
+
+  # return the vector
+  if(rawResponse == FALSE) {
+    unlist(response[["predictions"]][["embeddings"]][["values"]])
 
   }  else if(rawResponse == TRUE) {
     # print raw result

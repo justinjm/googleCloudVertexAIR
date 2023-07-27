@@ -32,17 +32,48 @@ gcva_region_set(region = "us-central1")
 gcva_project_set(projectId = projectId)
 ```
 
-## Test Prompt - Text Generation 
+## Text Generation 
 
 https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts
 
 ```{r}
-result <- gcva_text_gen_predict(
+text_generated <- gcva_text_gen_predict(
+  prompt="Give me ten interview questions for the role of a Python software engineer.",
+  modelId="text-bison"
+)
+
+cat(text_generated)
+```
+
+
+To get the full response, with `safteyAttributes` and metadata, set `rawResponse = TRUE`
+
+```{r}
+text_generated_raw <- gcva_text_gen_predict(
   prompt="Give me ten interview questions for the role of a Python software engineer.",
   modelId="text-bison",
   rawResponse = TRUE
 )
 
-# result$predictions  # prediction  response with safteyAttributes 
-result$predictions$content # prediction response only
+cat(text_generated_raw$predictions$content)
 ```
+
+```{r}
+text_generated_raw$predictions$safetyAttributes
+```
+
+## Text Embeddings 
+
+* Doc: https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-text-embeddings
+* API: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-embeddings
+
+
+```{r}
+text_embeddings <- gcva_get_text_embeddings(text = "What is life?")
+text_embeddings
+```
+
+```{r}
+length(text_embeddings)
+```
+
