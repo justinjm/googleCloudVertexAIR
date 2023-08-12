@@ -46,3 +46,31 @@ result <- gcva_text_gen_predict(
 # result$predictions  # prediction  response with safteyAttributes 
 result$predictions$content # prediction response only
 ```
+## Test Prompt - Text Chat 
+
+https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-chat
+https://github.com/GoogleCloudPlatform/generative-ai/blob/main/language/intro_palm_api.ipynb
+
+```{r}
+# gcva_InputOutputTextPair(
+#     input_text="How many moons does Mars have?",
+#     output_text="The planet Mars has two moons, Phobos and Deimos."
+#   )
+```
+
+
+
+```{r}
+# gcva_chat_predict(
+#   modelId = "chat-bison@001",
+#   context = "My name is Miles. You are an astronomer, knowledgeable about the solar system.",
+#   examples = gcva_InputOutputTextPair(
+#     input_text="How many moons does Mars have?",
+#     output_text="The planet Mars has two moons, Phobos and Deimos."
+#   ),
+#   messages = "How many planets are there in the solar system?"
+# )
+
+```
+  
+  
