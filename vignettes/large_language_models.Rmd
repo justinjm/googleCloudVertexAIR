@@ -74,3 +74,13 @@ https://github.com/GoogleCloudPlatform/generative-ai/blob/main/language/intro_pa
 ```
   
   
+## Gemini 
+
+```{r}
+# result_gemini <- gcva_gemini(
+#   prompt="Give me ten interview questions for the role of a Python software engineer.",
+#   modelId="gemini-1.0-pro-001"
+# )
+
+
+```
