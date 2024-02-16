@@ -1,0 +1,46 @@
+---
+title: "Gemini"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{gemini}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Setup
+
+```{r auth, warning=FALSE}
+library(googleAuthR)
+library(googleCloudVertexAIR)
+
+options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform")
+
+gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+```
+
+## Set global arguements
+
+```{r gcva-global-arguements}
+projectId <- Sys.getenv("GCVA_DEFAULT_PROJECT_ID")
+gcva_region_set(region = "us-central1")
+gcva_project_set(projectId = projectId)
+```
+
+
+## Text 
+
+```{r}
+# result_gemini <- gcva_gemini(
+#   prompt="Give me ten interview questions for the role of a Python software engineer.",
+#   modelId="gemini-1.0-pro-001"
+# )
+
+
+```
+
