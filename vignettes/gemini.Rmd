@@ -36,11 +36,19 @@ gcva_project_set(projectId = projectId)
 ## Text 
 
 ```{r}
-# result_gemini <- gcva_gemini(
-#   prompt="Give me ten interview questions for the role of a Python software engineer.",
-#   modelId="gemini-1.0-pro-001"
-# )
+## set verbose log for debugging assistance
+options(googleAuthR.verbose = 0)
 
+library(jsonlite)
 
+result_gemini <- gcva_gemini_text(
+  prompt="Give me ten interview questions for the role of a Python software engineer.",
+  modelId="gemini-1.0-pro"
+)
+```
+
+```{r debug-assist}
+request_debug <- readRDS("request_debug.rds")
+request_debug$body_json
 ```
 
