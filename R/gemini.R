@@ -115,11 +115,8 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = requestBody)
 
-  # response
-
+  # save candidates object from response to make parsing easier
   candidates <- response$candidates
-
-  n <- length(candidates)
 
   # Define a function to safely extract the text
   extract_text <- function(candidate) {
@@ -133,10 +130,10 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
     }
   }
 
-  # Use lapply to apply the function to each element of rg_candidates
+  # Use lapply to apply the function to each element of candidates
   texts <- lapply(candidates, extract_text)
 
-  # Concatenate all texts into a single string
+  # Concatenate all texts into a single string for output
   all_texts <- paste(unlist(texts), collapse = " ")
 
   all_texts
