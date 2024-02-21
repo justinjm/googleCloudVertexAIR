@@ -2,7 +2,7 @@
 # https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini#sample_requests
 gcva_gemini_text <- function(projectId = gcva_project_get(),
                              locationId = gcva_region_get(),
-                             modelId= c("gemini-1.0-pro-001"),
+                             modelId= c("gemini-1.0-pro"),
                              role=c("user"),
                              prompt,
                              data=NULL,
@@ -22,8 +22,8 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
                                              "BLOCK_MED_AND_ABOVE",
                                              "BLOCK_ONLY_HIGH"),
                              candidateCount=NULL,
-                             temperature = 0.9,
-                             maxOutputTokens=8192,
+                             temperature = 0.5,
+                             maxOutputTokens=NULL, #Mmax = 8192
                              topP = 1.0,
                              topK = 10,
                              stopSequences=NULL) {
@@ -97,6 +97,8 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
   parent <- sprintf("projects/%s/locations/%s",
                     projectId,
                     locationId)
+
+
 
   # POST https://{REGION}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locations/{REGION}/publishers/google/models/gemini-pro:streamGenerateContent
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/publishers/google/models/%s:streamGenerateContent",

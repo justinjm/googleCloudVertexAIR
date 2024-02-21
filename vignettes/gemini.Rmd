@@ -43,12 +43,15 @@ library(jsonlite)
 
 result_gemini <- gcva_gemini_text(
   prompt="Give me ten interview questions for the role of a Python software engineer.",
-  modelId="gemini-1.0-pro"
+  modelId="gemini-1.0-pro",
+  harmThreshold = "BLOCK_ONLY_HIGH"
 )
+
+result_gemini
 ```
 
 ```{r debug-assist}
-request_debug <- readRDS("request_debug.rds")
-request_debug$body_json
+# request_debug <- readRDS("request_debug.rds")
+# request_debug$body_json
 ```
 
