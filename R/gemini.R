@@ -3,7 +3,7 @@
 gcva_gemini_text <- function(projectId = gcva_project_get(),
                              locationId = gcva_region_get(),
                              modelId=c("gemini-1.0-pro"),
-                             stream=TRUE,
+                             stream=FALSE,
                              role=c("user"),
                              prompt,
                              data=NULL,
@@ -99,15 +99,11 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
                     projectId,
                     locationId)
 
-
-
   # POST https://{REGION}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locations/{REGION}/publishers/google/models/gemini-pro:streamGenerateContent
   url <- sprintf("https://%s-aiplatform.googleapis.com/v1/%s/publishers/google/models/%s:streamGenerateContent",
                  locationId,
                  parent,
                  modelId)
-
-
 
   f <- googleAuthR::gar_api_generator(url,
                                       "POST",
@@ -139,6 +135,7 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
   all_texts <- paste(unlist(texts), collapse = " ")
 
   all_texts
+
 
 }
 

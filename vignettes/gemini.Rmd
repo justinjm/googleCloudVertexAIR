@@ -44,7 +44,7 @@ gcva_project_set(projectId = projectId)
 result_gemini <- gcva_gemini_text(
   prompt="Give me ten interview questions for the role of a data scientist related to the R language.",
   modelId="gemini-1.0-pro",
-  stream=TRUE,
+  stream=FALSE,
   harmThreshold = "BLOCK_ONLY_HIGH")
 
 result_gemini
