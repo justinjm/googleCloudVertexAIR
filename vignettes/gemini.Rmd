@@ -35,21 +35,33 @@ gcva_project_set(projectId = projectId)
 
 ## Text 
 
-```{r}
+```{r debug-gar-verbose}
 ## set verbose log for debugging assistance
 # options(googleAuthR.verbose = 0)
+```
 
+```{r}
 result_gemini <- gcva_gemini_text(
   prompt="Give me ten interview questions for the role of a Python software engineer.",
   modelId="gemini-1.0-pro",
-  harmThreshold = "BLOCK_ONLY_HIGH" 
-  # per https://www.googlecloudcommunity.com/gc/AI-ML/Gemini-s-safety-config-400-error-from-today/m-p/712922/highlight/true
-)
-
+  harmThreshold = "BLOCK_ONLY_HIGH" )
 result_gemini
 ```
 
-```{r debug-assist}
+
+refs:
+
+* https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/overview
+* https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini#sample_requests
+
+
+notes:
+
+2024-02-21 - see potential bug here: https://www.googlecloudcommunity.com/gc/AI-ML/Gemini-s-safety-config-400-error-from-today/m-p/712922/highlight/true
+and references: https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/configure-safety-attributes#gemini-TASK-samples-drest
+
+
+```{r debug-read-rds}
 # request_debug <- readRDS("request_debug.rds")
 # request_debug$body_json
 ```

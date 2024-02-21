@@ -125,6 +125,7 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
         length(candidate[["content"]][["parts"]]) >= 1 &&
         !is.null(candidate[["content"]][["parts"]][[1]][["text"]])) {
       return(candidate[["content"]][["parts"]][[1]][["text"]])
+      # return(gsub("\n", " ", candidate[["content"]][["parts"]][[1]][["text"]]))
     } else {
       return(NA)  # Return NA if the path does not exist or is NULL
     }
