@@ -2,7 +2,8 @@
 # https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini#sample_requests
 gcva_gemini_text <- function(projectId = gcva_project_get(),
                              locationId = gcva_region_get(),
-                             modelId= c("gemini-1.0-pro"),
+                             modelId=c("gemini-1.0-pro"),
+                             stream=TRUE,
                              role=c("user"),
                              prompt,
                              data=NULL,
@@ -140,3 +141,45 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
   all_texts
 
 }
+
+## TODO: add streaming processing? outline below
+# library(httr)
+# library(jsonlite)
+#
+# # Define the API endpoint
+# url <- "http://api.example.com/stream"
+#
+# # Function to process each JSON object
+# process_data <- function(json_data) {
+#   # Assuming json_data is a list similar to rg_candidates
+#   # Extract and concatenate text as before
+#   texts <- lapply(json_data, function(candidate) {
+#     if (!is.null(candidate[["content"]]) &&
+#         !is.null(candidate[["content"]][["parts"]]) &&
+#         length(candidate[["content"]][["parts"]]) >= 1 &&
+#         !is.null(candidate[["content"]][["parts"]][[1]][["text"]])) {
+#       return(candidate[["content"]][["parts"]][[1]][["text"]])
+#     } else {
+#       return(NA)  # Assign NA if the path does not exist or is NULL
+#     }
+#   })
+#
+#   # Concatenate all texts into a single string for Markdown
+#   all_texts <- paste(unlist(texts), collapse = "\n\n")
+#   return(all_texts)
+# }
+#
+# # Set up a streaming connection
+# response <- GET(url, stream_with = function(con) {
+#   while(length(line <- readLines(con, n = 1, warn = FALSE)) > 0) {
+#     # Parse the JSON data
+#     data <- fromJSON(line)
+#
+#     # Process the data
+#     result <- process_data(data)
+#     print(result)  # Or do other processing as needed
+#   }
+# })
+#
+# # Close the connection
+# close(response)
