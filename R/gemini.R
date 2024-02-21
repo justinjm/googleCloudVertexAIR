@@ -115,6 +115,32 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
 
   response <- f(the_body = requestBody)
 
-  response
+  # response
+
+  candidates <- response$candidates
+
+  #parse response
+  n <- length(candidates)
+  # Initialize an empty list or vector to store the texts
+  texts <- vector("list", length = n)
+
+  # Loop through each sublist
+  for (i in 1:n) {
+    # Access the desired text element
+    if (!is.null(candidates[[i]][["content"]]) &&
+        !is.null(candidates[[i]][["content"]][["parts"]]) &&
+        length(candidates[[i]][["content"]][["parts"]]) >= 1 &&
+        !is.null(candidates[[i]][["content"]][["parts"]][[1]][["text"]])) {
+      texts[[i]] <- candidates[[i]][["content"]][["parts"]][[1]][["text"]]
+    } else {
+      texts[[i]] <- NA  # Assign NA if the path does not exist or is NULL
+    }
+  }
+
+  # 'texts' now contains all the text elements
+
+  all_texts <- paste(texts, collapse = " ")
+
+  all_texts
 
 }
