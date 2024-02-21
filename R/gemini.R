@@ -119,27 +119,25 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
 
   candidates <- response$candidates
 
-  #parse response
   n <- length(candidates)
-  # Initialize an empty list or vector to store the texts
-  texts <- vector("list", length = n)
 
-  # Loop through each sublist
-  for (i in 1:n) {
-    # Access the desired text element
-    if (!is.null(candidates[[i]][["content"]]) &&
-        !is.null(candidates[[i]][["content"]][["parts"]]) &&
-        length(candidates[[i]][["content"]][["parts"]]) >= 1 &&
-        !is.null(candidates[[i]][["content"]][["parts"]][[1]][["text"]])) {
-      texts[[i]] <- candidates[[i]][["content"]][["parts"]][[1]][["text"]]
+  # Define a function to safely extract the text
+  extract_text <- function(candidate) {
+    if (!is.null(candidate[["content"]]) &&
+        !is.null(candidate[["content"]][["parts"]]) &&
+        length(candidate[["content"]][["parts"]]) >= 1 &&
+        !is.null(candidate[["content"]][["parts"]][[1]][["text"]])) {
+      return(candidate[["content"]][["parts"]][[1]][["text"]])
     } else {
-      texts[[i]] <- NA  # Assign NA if the path does not exist or is NULL
+      return(NA)  # Return NA if the path does not exist or is NULL
     }
   }
 
-  # 'texts' now contains all the text elements
+  # Use lapply to apply the function to each element of rg_candidates
+  texts <- lapply(candidates, extract_text)
 
-  all_texts <- paste(texts, collapse = " ")
+  # Concatenate all texts into a single string
+  all_texts <- paste(unlist(texts), collapse = " ")
 
   all_texts
 

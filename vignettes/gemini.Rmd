@@ -42,7 +42,8 @@ gcva_project_set(projectId = projectId)
 result_gemini <- gcva_gemini_text(
   prompt="Give me ten interview questions for the role of a Python software engineer.",
   modelId="gemini-1.0-pro",
-  harmThreshold = "BLOCK_ONLY_HIGH"
+  harmThreshold = "BLOCK_ONLY_HIGH" 
+  # per https://www.googlecloudcommunity.com/gc/AI-ML/Gemini-s-safety-config-400-error-from-today/m-p/712922/highlight/true
 )
 
 result_gemini
