@@ -18,10 +18,7 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
                                             "HARM_CATEGORY_HATE_SPEECH",
                                             "HARM_CATEGORY_HARASSMENT",
                                             "HARM_CATEGORY_DANGEROUS_CONTENT"),
-                             harmThreshold=c("BLOCK_NONE",
-                                             "BLOCK_LOW_AND_ABOVE",
-                                             "BLOCK_MED_AND_ABOVE",
-                                             "BLOCK_ONLY_HIGH"),
+                             harmThreshold = "BLOCK_ONLY_HIGH",
                              candidateCount=NULL,
                              temperature = 0.5,
                              maxOutputTokens=NULL, #Mmax = 8192
@@ -32,6 +29,14 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
 
   modelId <- match.arg(modelId)
   role <- match.arg(role)
+
+  # Allowed values for harmThreshold
+  validHarmThresholds <- c("BLOCK_NONE", "BLOCK_LOW_AND_ABOVE", "BLOCK_MED_AND_ABOVE", "BLOCK_ONLY_HIGH")
+
+  # Check if provided harmThreshold value is valid
+  if (!harmThreshold %in% validHarmThresholds) {
+    stop("Invalid harmThreshold value. Choose from: ", paste(validHarmThresholds, collapse = ", "))
+  }
 
 
   requestBody <- structure(
