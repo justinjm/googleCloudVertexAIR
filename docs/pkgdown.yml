@@ -13,7 +13,7 @@ articles:
   models: models.html
   multi_auth: multi_auth.html
   training_pipeline_jobs: training_pipeline_jobs.html
-last_built: 2024-07-08T15:59Z
+last_built: 2024-07-08T16:28Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles

@@ -3,7 +3,7 @@ title: "Training a tabuluar AutoML model and performing batch prediction"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{automl_tabular_classification_batch}
+  %\VignetteIndexEntry{Training a tabuluar AutoML model and performing batch prediction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

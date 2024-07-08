@@ -36,8 +36,8 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
                       "createTime",
                       "updateTime",
                       "etag",
-                      "labels",
-                      "metadata")]
+                      "metadata",
+                      "metadataArtifact")]
   out
 
 }
