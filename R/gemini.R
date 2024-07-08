@@ -7,7 +7,7 @@
 #'
 #' @param projectId The ID of the Google Cloud project. Default is retrieved using `gcva_project_get()`.
 #' @param locationId The location ID for the AI model. Default is retrieved using `gcva_region_get()`.
-#' @param modelId Character vector specifying the model ID, ALWAYS "gemini-1.0-pro".
+#' @param modelId Character vector specifying the model ID, see list here: https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported_models
 #' @param stream Logical; whether to stream the output. ALWAYS FALSE
 #' @param role Character vector specifying the user role, default is "user".
 #' @param prompt Character string specifying the input prompt for text generation.
@@ -23,9 +23,9 @@
 #' @param harmThreshold Threshold for blocking harmful content, default is "BLOCK_ONLY_HIGH".
 #' @param candidateCount Number of candidate responses to generate.
 #' @param temperature Controls randomness in response generation, default is 0.5.
-#' @param maxOutputTokens The maximum number of output tokens, with a maximum value of 8192.
-#' @param topP Controls diversity of generated responses, default is 1.0.
-#' @param topK Limits the number of high probability tokens considered for each step, default is 10.
+#' @param maxOutputTokens Maximum number of tokens that can be generated in the response. A token is approximately four characters. 100 tokens correspond to roughly 60-80 words.
+#' @param topP Controls diversity of generated responses
+#' @param topK Limits the number of high probability tokens considered for each step
 #' @param stopSequences Sequences where the model should stop generating further tokens.
 #'
 #' @return A response object from the Google Cloud Vertex AI.
@@ -39,7 +39,13 @@
 #' @export
 gcva_gemini_text <- function(projectId = gcva_project_get(),
                              locationId = gcva_region_get(),
-                             modelId=c("gemini-1.0-pro"),
+                             modelId=c("gemini-1.5-flash-001",
+                                       "gemini-1.5-pro-001",
+                                       "gemini-1.0-pro-001",
+                                       "gemini-1.0-pro-vision-001",
+                                       "gemini-1.0-pro",
+                                       "gemini-1.0-pro-001",
+                                       "gemini-1.0-pro-002"),
                              stream=FALSE,
                              role=c("user"),
                              prompt,
@@ -57,10 +63,10 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
                                             "HARM_CATEGORY_DANGEROUS_CONTENT"),
                              harmThreshold = "BLOCK_ONLY_HIGH",
                              candidateCount=NULL,
-                             temperature = 0.5,
-                             maxOutputTokens=NULL, #max = 8192
-                             topP = 1.0,
-                             topK = 10,
+                             temperature = NULL,
+                             maxOutputTokens=NULL,
+                             topP=NULL,
+                             topK=NULL,
                              stopSequences=NULL) {
 
 

@@ -7,7 +7,9 @@
 gcva_gemini_text(
   projectId = gcva_project_get(),
   locationId = gcva_region_get(),
-  modelId = c("gemini-1.0-pro"),
+  modelId = c("gemini-1.5-flash-001", "gemini-1.5-pro-001", "gemini-1.0-pro-001",
+    "gemini-1.0-pro-vision-001", "gemini-1.0-pro", "gemini-1.0-pro-001",
+    "gemini-1.0-pro-002"),
   stream = FALSE,
   role = c("user"),
   prompt,
@@ -23,10 +25,10 @@ gcva_gemini_text(
     "HARM_CATEGORY_HARASSMENT", "HARM_CATEGORY_DANGEROUS_CONTENT"),
   harmThreshold = "BLOCK_ONLY_HIGH",
   candidateCount = NULL,
-  temperature = 0.5,
+  temperature = NULL,
   maxOutputTokens = NULL,
-  topP = 1,
-  topK = 10,
+  topP = NULL,
+  topK = NULL,
   stopSequences = NULL
 )
 }
@@ -35,7 +37,7 @@ gcva_gemini_text(
 
 \item{locationId}{The location ID for the AI model. Default is retrieved using `gcva_region_get()`.}
 
-\item{modelId}{Character vector specifying the model ID, ALWAYS "gemini-1.0-pro".}
+\item{modelId}{Character vector specifying the model ID, see list here: https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported_models}
 
 \item{stream}{Logical; whether to stream the output. ALWAYS FALSE}
 
@@ -67,11 +69,11 @@ gcva_gemini_text(
 
 \item{temperature}{Controls randomness in response generation, default is 0.5.}
 
-\item{maxOutputTokens}{The maximum number of output tokens, with a maximum value of 8192.}
+\item{maxOutputTokens}{Maximum number of tokens that can be generated in the response. A token is approximately four characters. 100 tokens correspond to roughly 60-80 words.}
 
-\item{topP}{Controls diversity of generated responses, default is 1.0.}
+\item{topP}{Controls diversity of generated responses}
 
-\item{topK}{Limits the number of high probability tokens considered for each step, default is 10.}
+\item{topK}{Limits the number of high probability tokens considered for each step}
 
 \item{stopSequences}{Sequences where the model should stop generating further tokens.}
 }
