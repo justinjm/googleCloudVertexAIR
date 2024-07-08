@@ -1,5 +1,5 @@
-pandoc: 2.19.2
-pkgdown: 2.0.6
+pandoc: 3.1.11
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   automl_tabluar_classification_batch: automl_tabluar_classification_batch.html
@@ -8,12 +8,12 @@ articles:
   custom_tabular_online: custom_tabular_online.html
   datasets: datasets.html
   endpoints: endpoints.html
+  gemini: gemini.html
   large_language_models: large_language_models.html
   models: models.html
   multi_auth: multi_auth.html
   training_pipeline_jobs: training_pipeline_jobs.html
-last_built: 2023-06-03T19:45Z
+last_built: 2024-07-08T15:50Z
 urls:
   reference: https://code.justinmarciszewski.me/googleCloudVertexAIR/reference
   article: https://code.justinmarciszewski.me/googleCloudVertexAIR/articles
-
