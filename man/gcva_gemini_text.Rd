@@ -37,35 +37,15 @@ gcva_gemini_text(
 
 \item{locationId}{The location ID for the AI model. Default is retrieved using `gcva_region_get()`.}
 
-\item{modelId}{Character vector specifying the model ID, see list here: https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported_models}
+\item{modelId}{Character vector specifying the model ID}
 
 \item{stream}{Logical; whether to stream the output. ALWAYS FALSE}
 
-\item{role}{Character vector specifying the user role, default is "user".}
-
 \item{prompt}{Character string specifying the input prompt for text generation.}
-
-\item{data}{Optional additional data for the request. UNUSED}
-
-\item{mimeType}{The MIME type of the `data`. UNUSED}
-
-\item{fileUri}{URI of the file containing data.}
-
-\item{startOffsetSeconds}{Start offset in seconds for processing the input. UNUSED}
-
-\item{startOffsetNanos}{Nanoseconds part of the start offset. UNUSED}
-
-\item{endOffsetSeconds}{End offset in seconds for processing the input. UNUSED}
-
-\item{endOffsetNanos}{Nanoseconds part of the end offset. UNUSED}
-
-\item{functionDeclarations}{Additional function declarations for the request. UNUSED}
 
 \item{harmCategory}{Categories of harmful content to be filtered, with defaults set.}
 
 \item{harmThreshold}{Threshold for blocking harmful content, default is "BLOCK_ONLY_HIGH".}
-
-\item{candidateCount}{Number of candidate responses to generate.}
 
 \item{temperature}{Controls randomness in response generation, default is 0.5.}
 
@@ -74,8 +54,6 @@ gcva_gemini_text(
 \item{topP}{Controls diversity of generated responses}
 
 \item{topK}{Limits the number of high probability tokens considered for each step}
-
-\item{stopSequences}{Sequences where the model should stop generating further tokens.}
 }
 \value{
 A response object from the Google Cloud Vertex AI.
@@ -85,12 +63,4 @@ This function interfaces with Google Cloud Vertex AI to generate text using the 
 It allows for specifying various parameters like project ID, location ID, model ID, and more,
 to customize the text generation process.
 https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini#sample_requests
-}
-\examples{
-# Example usage:
-response <- gcva_gemini_text(projectId = "your-project-id",
-                             locationId = "your-location-id",
-                             modelId = "gemini-1.0-pro",
-                             prompt = "Hello, world!")
-
 }

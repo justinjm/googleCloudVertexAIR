@@ -7,34 +7,18 @@
 #'
 #' @param projectId The ID of the Google Cloud project. Default is retrieved using `gcva_project_get()`.
 #' @param locationId The location ID for the AI model. Default is retrieved using `gcva_region_get()`.
-#' @param modelId Character vector specifying the model ID, see list here: https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#supported_models
+#' @param modelId Character vector specifying the model ID
 #' @param stream Logical; whether to stream the output. ALWAYS FALSE
-#' @param role Character vector specifying the user role, default is "user".
 #' @param prompt Character string specifying the input prompt for text generation.
-#' @param data Optional additional data for the request. UNUSED
-#' @param mimeType The MIME type of the `data`. UNUSED
-#' @param fileUri URI of the file containing data.
-#' @param startOffsetSeconds Start offset in seconds for processing the input. UNUSED
-#' @param startOffsetNanos Nanoseconds part of the start offset. UNUSED
-#' @param endOffsetSeconds End offset in seconds for processing the input. UNUSED
-#' @param endOffsetNanos Nanoseconds part of the end offset. UNUSED
-#' @param functionDeclarations Additional function declarations for the request. UNUSED
 #' @param harmCategory Categories of harmful content to be filtered, with defaults set.
 #' @param harmThreshold Threshold for blocking harmful content, default is "BLOCK_ONLY_HIGH".
-#' @param candidateCount Number of candidate responses to generate.
 #' @param temperature Controls randomness in response generation, default is 0.5.
 #' @param maxOutputTokens Maximum number of tokens that can be generated in the response. A token is approximately four characters. 100 tokens correspond to roughly 60-80 words.
 #' @param topP Controls diversity of generated responses
 #' @param topK Limits the number of high probability tokens considered for each step
-#' @param stopSequences Sequences where the model should stop generating further tokens.
+
 #'
 #' @return A response object from the Google Cloud Vertex AI.
-#' @examples
-#' # Example usage:
-#' response <- gcva_gemini_text(projectId = "your-project-id",
-#'                              locationId = "your-location-id",
-#'                              modelId = "gemini-1.0-pro",
-#'                              prompt = "Hello, world!")
 #'
 #' @export
 gcva_gemini_text <- function(projectId = gcva_project_get(),
