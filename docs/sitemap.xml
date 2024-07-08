@@ -25,6 +25,9 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/endpoints.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/gemini.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/articles/index.html</loc>
   </url>
   <url>
@@ -55,6 +58,12 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/index.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_ChatMessage.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_InputOutputTextPair.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_automl_tabluar_training_job.html</loc>
   </url>
   <url>
@@ -68,6 +77,9 @@
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_bucket_set.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_chat_predict.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_create_endpoint.html</loc>
@@ -91,7 +103,13 @@
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_deploy.html</loc>
   </url>
   <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_endpoint.html</loc>
+  </url>
+  <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_endpoint_create.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_gemini_text.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_get_op.html</loc>
@@ -107,6 +125,9 @@
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_model.html</loc>
+  </url>
+  <url>
+    <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_predict.html</loc>
   </url>
   <url>
     <loc>https://code.justinmarciszewski.me/googleCloudVertexAIR/reference/gcva_project_get.html</loc>

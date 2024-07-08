@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Custom sh • googleCloudVertexAIR</title>
+<title>Gemini • googleCloudVertexAIR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Custom sh">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Gemini">
 <meta property="og:description" content="googleCloudVertexAIR">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -111,71 +111,64 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Custom sh</h1>
+      <h1 data-toc-skip>Gemini</h1>
             
             <h4 data-toc-skip class="date">2024-07-08</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/custom_sh.Rmd" class="external-link"><code>vignettes/custom_sh.Rmd</code></a></small>
-      <div class="hidden name"><code>custom_sh.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/gemini.Rmd" class="external-link"><code>vignettes/gemini.Rmd</code></a></small>
+      <div class="hidden name"><code>gemini.Rmd</code></div>
 
     </div>
 
     
     
 <div class="section level2">
-<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p>A custom function for calling <code>gcloud</code> SDK from Rmarkdown
-via OS command <code><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2()</a></code></p>
-</div>
-<div class="section level2">
-<h2 id="create-function">Create function<a class="anchor" aria-label="anchor" href="#create-function"></a>
-</h2>
-<p>Create function for calling <code>gcloud</code> SDK from
-Rmarkdow:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://withr.r-lib.org" class="external-link">withr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/" class="external-link">glue</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sh</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">intern</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://withr.r-lib.org/reference/with_path.html" class="external-link">with_path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~/google-cloud-sdk/bin/"</span><span class="op">)</span>, <span class="op">{</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">args</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">)</span></span>
-<span>      <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="st">" "</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span>      <span class="va">cmd</span> <span class="op">&lt;-</span> <span class="va">s</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
-<span>      <span class="va">args</span> <span class="op">&lt;-</span> <span class="va">s</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">]</span></span>
-<span>    <span class="op">}</span></span>
-<span>    <span class="va">ret</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span>, stdout <span class="op">=</span> <span class="cn">TRUE</span>, stderr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="st">"errmsg"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">ret</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">names</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">ret</span>, <span class="st">"errmsg"</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">intern</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ret</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">ret</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="authenticate-with-google-cloud-and-vertex-ai">Authenticate with Google Cloud and Vertex AI<a class="anchor" aria-label="anchor" href="#authenticate-with-google-cloud-and-vertex-ai"></a>
-</h2>
-<p>Authenticate with Google Cloud and Vertex AI via
-<code>googleAuthR</code> package and
-<code>googleCloudVertexAIR</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://code.markedmondson.me/googleAuthR/" class="external-link">googleAuthR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/justinjm/googleCloudVertexAIR" class="external-link">googleCloudVertexAIR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>googleAuthR.scopes.selected <span class="op">=</span> <span class="st">"https://www.googleapis.com/auth/cloud-platform"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html" class="external-link">gar_auth_service</a></span><span class="op">(</span>json_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GAR_SERVICE_JSON"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Set <code>gcloud</code> project:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">sh</span><span class="op">(</span><span class="st">"gcloud config set project {gcva_project_get()}"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Updated property [core/project].</span></span></code></pre>
-<p>List <code>gcloud</code> configuration to verify:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">sh</span><span class="op">(</span><span class="st">"gcloud config list"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="set-global-arguements">Set global arguements<a class="anchor" aria-label="anchor" href="#set-global-arguements"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2024-07-08 12:35:30.808604&gt; Region set to 'us-central1'</span></span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2024-07-08 12:35:30.809378&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
-</h2>
-<p>Special thanks to [Fabian Hirschmann](<a href="https://github.com/fhirschmann" class="external-link uri">https://github.com/fhirschmann</a>, the original author of
-this source code.</p>
+<div class="section level3">
+<h3 id="text">Text<a class="anchor" aria-label="anchor" href="#text"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## set verbose log for debugging assistance</span></span>
+<span><span class="co"># options(googleAuthR.verbose = 0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">result_gemini</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_gemini_text.html">gcva_gemini_text</a></span><span class="op">(</span></span>
+<span>  prompt<span class="op">=</span><span class="st">"Give me ten interview questions for the role of a data scientist related to the R language."</span>,</span>
+<span>  modelId<span class="op">=</span><span class="st">"gemini-1.0-pro"</span>,</span>
+<span>  stream<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result_gemini</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "##  10 Interview Questions for a Data Scientist (R-focused):\n\n1.  **What are your preferred packages in R for data manipulation, analysis, and visualization?** ( This assesses their familiarity with core R functionalities and popular packages.)\n2. **Describe your experience with data cleaning and wrangling in R. Have you encountered any  challenging datasets, and how did you handle them?** (Evaluates their data cleaning skills and problem-solving abilities.)\n3. **Explain the difference between  supervised and unsupervised learning. Can you provide an example of each using R code with a real-world dataset?** (Tests their understanding of machine learning concepts and ability to apply them in R.)\n4. **How do you choose the appropriate  machine learning model for a given problem? What are your criteria for evaluating model performance?** (Examines their model selection and evaluation expertise.)\n5. **Have you ever created interactive data visualizations in R using libraries like `shiny` or ` plotly`? If so, could you describe a project and its impact?** (Assesses their ability to create impactful and insightful visualizations.)\n6. **Explain the concept of cross-validation and its importance in machine learning. How do you implement it in R?** (Evaluates their understanding of bias-variance trade -off and model validation techniques.)\n7. **How do you handle missing data in your R projects? What methods do you use for imputation or handling missing values?** (Assesses their ability to address common data quality issues.)\n8. **Describe your experience with deploying machine learning models into production. What tools  or platforms have you used?** (Examines their understanding of model deployment and real-world applications.)\n9. **Have you ever collaborated with other data scientists or teams on R projects? How did you manage communication and code versioning?** (Evaluates their teamwork and collaboration skills.)\n10. **What are  some of the current trends or advancements in the R ecosystem that you are following?** (Assesses their awareness of ongoing developments and their commitment to staying updated.)\n\n**Bonus:**\n\n* **Present a portfolio or GitHub repository showcasing your R projects and explain your approach to each project.** (This allows the interviewer to directly assess your skills  and experience.)\n\n**Additional Notes:**\n\n* Adjust the difficulty level of the questions based on the candidate's experience and seniority.\n* Encourage the candidate to elaborate on their answers and showcase their problem-solving skills.\n* Be prepared to answer any clarifying questions they might have about the questions or R functionalities.\n\nI  hope these questions are helpful for your interview! "</span></span></code></pre>
+<p>refs:</p>
+<ul>
+<li><a href="https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/overview" class="external-link uri">https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/overview</a></li>
+<li><a href="https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini#sample_requests" class="external-link uri">https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini#sample_requests</a></li>
+</ul>
+<p>notes:</p>
+<p>2024-02-21 - see potential bug here: <a href="https://www.googlecloudcommunity.com/gc/AI-ML/Gemini-s-safety-config-400-error-from-today/m-p/712922/highlight/true" class="external-link uri">https://www.googlecloudcommunity.com/gc/AI-ML/Gemini-s-safety-config-400-error-from-today/m-p/712922/highlight/true</a>
+and references: <a href="https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/configure-safety-attributes#gemini-TASK-samples-drest" class="external-link uri">https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/configure-safety-attributes#gemini-TASK-samples-drest</a></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># request_debug &lt;- readRDS("request_debug.rds")</span></span>
+<span><span class="co"># request_debug$body_json</span></span></code></pre></div>
+</div>
 </div>
   </div>
 

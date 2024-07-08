@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Large Language Models • googleCloudVertexAIR</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -74,6 +74,9 @@
       <a href="../articles/endpoints.html">Endpoints</a>
     </li>
     <li>
+      <a href="../articles/gemini.html">Gemini</a>
+    </li>
+    <li>
       <a href="../articles/large_language_models.html">Large Language Models</a>
     </li>
     <li>
@@ -110,7 +113,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Large Language Models</h1>
             
-            <h4 data-toc-skip class="date">2023-06-03</h4>
+            <h4 data-toc-skip class="date">2024-07-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/large_language_models.Rmd" class="external-link"><code>vignettes/large_language_models.Rmd</code></a></small>
       <div class="hidden name"><code>large_language_models.Rmd</code></div>
@@ -135,10 +138,10 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-06-03 15:46:16&gt; Region set to 'us-central1'</span></span></code></pre>
+<pre><code><span><span class="co">## 2024-07-08 12:35:39.784433&gt; Region set to 'us-central1'</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-06-03 15:46:16&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2024-07-08 12:35:39.785023&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="test-prompt---text-generation">Test Prompt - Text Generation<a class="anchor" aria-label="anchor" href="#test-prompt---text-generation"></a>
@@ -147,24 +150,34 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_text_gen_predict.html">gcva_text_gen_predict</a></span><span class="op">(</span></span>
 <span>  prompt<span class="op">=</span><span class="st">"Give me ten interview questions for the role of a Python software engineer."</span>,</span>
-<span>  modelId<span class="op">=</span><span class="st">"text-bison"</span></span>
+<span>  modelId<span class="op">=</span><span class="st">"text-bison"</span>,</span>
+<span>  rawResponse <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## ===================================================</span></span>
-<span><span class="co">##          Response:       </span></span>
-<span><span class="co">##  ===================================================</span></span>
-<span><span class="co">##  1. What is your experience with Python?</span></span>
-<span><span class="co">## 2. What are your favorite Python libraries?</span></span>
-<span><span class="co">## 3. What are your strengths and weaknesses as a Python developer?</span></span>
-<span><span class="co">## 4. How would you solve a complex problem using Python?</span></span>
-<span><span class="co">## 5. Can you write a Python program to solve a real-world problem?</span></span>
-<span><span class="co">## 6. How would you unit test a Python program?</span></span>
-<span><span class="co">## 7. How would you deploy a Python application?</span></span>
-<span><span class="co">## 8. What are the best practices for writing Python code?</span></span>
-<span><span class="co">## 9. What are the latest trends in Python development?</span></span>
-<span><span class="co">## 10. What are your salary expectations? </span></span>
-<span><span class="co">## ===================================================</span></span></code></pre>
+<span><span class="co"># result$predictions  # prediction  response with safteyAttributes </span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">predictions</span><span class="op">$</span><span class="va">content</span> <span class="co"># prediction response only</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] " **1. What are the different data structures in Python?**\n\n**2. How do you handle exceptions in Python?**\n\n**3. What is the difference between a list and a tuple in Python?**\n\n**4. What is the purpose of the `self` parameter in Python methods?**\n\n**5. What is the difference between a class and an instance in Python?**\n\n**6. What is the purpose of the `__init__` method in Python classes?**\n\n**7. What is the difference between inheritance and composition in Python?**\n\n**8. What is the purpose of the `super()` keyword in Python?**\n\n**9. What is the difference between a module and a package in Python?**\n\n**10. What is the purpose of the `import` statement in Python?**"</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="test-prompt---text-chat">Test Prompt - Text Chat<a class="anchor" aria-label="anchor" href="#test-prompt---text-chat"></a>
+</h3>
+<p><a href="https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-chat" class="external-link uri">https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-chat</a>
+<a href="https://github.com/GoogleCloudPlatform/generative-ai/blob/main/language/intro_palm_api.ipynb" class="external-link uri">https://github.com/GoogleCloudPlatform/generative-ai/blob/main/language/intro_palm_api.ipynb</a></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># gcva_InputOutputTextPair(</span></span>
+<span><span class="co">#     input_text="How many moons does Mars have?",</span></span>
+<span><span class="co">#     output_text="The planet Mars has two moons, Phobos and Deimos."</span></span>
+<span><span class="co">#   )</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># gcva_chat_predict(</span></span>
+<span><span class="co">#   modelId = "chat-bison@001",</span></span>
+<span><span class="co">#   context = "My name is Miles. You are an astronomer, knowledgeable about the solar system.",</span></span>
+<span><span class="co">#   examples = gcva_InputOutputTextPair(</span></span>
+<span><span class="co">#     input_text="How many moons does Mars have?",</span></span>
+<span><span class="co">#     output_text="The planet Mars has two moons, Phobos and Deimos."</span></span>
+<span><span class="co">#   ),</span></span>
+<span><span class="co">#   messages = "How many planets are there in the solar system?"</span></span>
+<span><span class="co"># )</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -186,7 +199,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

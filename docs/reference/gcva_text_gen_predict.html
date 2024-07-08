@@ -10,7 +10,7 @@ https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts#gen
 
   gtag('config', 'UA-161482740-1');
 </script></head><body data-spy="scroll" data-target="#toc">
-
+    
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -35,7 +35,7 @@ https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts#gen
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -75,14 +75,14 @@ https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts#gen
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/justinjm/googleCloudVertexAIR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-
+     
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-
+      
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -113,43 +113,43 @@ https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts#gen
 
     <div id="arguments">
     <h2>Arguments</h2>
-
-
-<dl><dt id="arg-projectid">projectId<a class="anchor" aria-label="anchor" href="#arg-projectid"></a></dt>
+    <dl><dt>projectId</dt>
 <dd><p>GCP project id</p></dd>
 
 
-<dt id="arg-locationid">locationId<a class="anchor" aria-label="anchor" href="#arg-locationid"></a></dt>
+<dt>locationId</dt>
 <dd><p>location of GCP resources</p></dd>
 
 
-<dt id="arg-prompt">prompt<a class="anchor" aria-label="anchor" href="#arg-prompt"></a></dt>
+<dt>prompt</dt>
 <dd><p>A prompt is a natural language request submitted to a language model to receive a response back. Prompts can contain questions, instructions, contextual information, examples, and text for the model to complete or continue. (Don't add quotes around the prompt here.)</p></dd>
 
 
-<dt id="arg-temperature">temperature<a class="anchor" aria-label="anchor" href="#arg-temperature"></a></dt>
+<dt>temperature</dt>
 <dd><p>The temperature is used for sampling during response generation, which occurs when topP and topK are applied. Temperature controls the degree of randomness in token selection. Lower temperatures are good for prompts that require a more deterministic and less open-ended or creative response, while higher temperatures can lead to more diverse or creative results. A temperature of 0 is deterministic, meaning that the highest probability response is always selected.</p></dd>
 
 
-<dt id="arg-maxoutputtokens">maxOutputTokens<a class="anchor" aria-label="anchor" href="#arg-maxoutputtokens"></a></dt>
+<dt>maxOutputTokens</dt>
 <dd><p>Maximum number of tokens that can be generated in the response. A token is approximately four characters. 100 tokens correspond to roughly 60-80 words. Specify a lower value for shorter responses and a higher value for longer responses.</p></dd>
 
 
-<dt id="arg-topp">topP<a class="anchor" aria-label="anchor" href="#arg-topp"></a></dt>
+<dt>topP</dt>
 <dd><p>Top-P changes how the model selects tokens for output. Tokens are selected from the most (see top-K) to least probable until the sum of their probabilities equals the top-P value. For example, if tokens A, B, and C have a probability of 0.3, 0.2, and 0.1 and the top-P value is 0.5, then the model will select either A or B as the next token by using temperature and excludes C as a candidate.</p></dd>
 
 
-<dt id="arg-topk">topK<a class="anchor" aria-label="anchor" href="#arg-topk"></a></dt>
+<dt>topK</dt>
 <dd><p>Top-K changes how the model selects tokens for output. A top-K of 1 means the next selected token is the most probable among all tokens in the model's vocabulary (also called greedy decoding), while a top-K of 3 means that the next token is selected from among the three most probable tokens by using temperature. For each token selection step, the top-K tokens with the highest probabilities are sampled. Then tokens are further filtered based on top-P with the final token selected using temperature sampling. Specify a lower value for less random responses and a higher value for more random responses. The default top-K is 40.</p></dd>
 
 
-<dt id="arg-rawresponse">rawResponse<a class="anchor" aria-label="anchor" href="#arg-rawresponse"></a></dt>
+<dt>rawResponse</dt>
 <dd><p>print raw response or only text response, default FALSE</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Prediction response from Vertex AI API</p>
+    
+
+<p>Prediction response from Vertex AI API</p>
     </div>
 
   </div>
@@ -164,15 +164,15 @@ https://cloud.google.com/vertex-ai/docs/generative-ai/text/test-text-prompts#gen
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer></div>
 
+  
 
 
-
-
+  
 
   </body></html>
 

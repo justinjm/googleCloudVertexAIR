@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Endpoints • googleCloudVertexAIR</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -74,6 +74,9 @@
       <a href="../articles/endpoints.html">Endpoints</a>
     </li>
     <li>
+      <a href="../articles/gemini.html">Gemini</a>
+    </li>
+    <li>
       <a href="../articles/large_language_models.html">Large Language Models</a>
     </li>
     <li>
@@ -110,7 +113,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Endpoints</h1>
             
-            <h4 data-toc-skip class="date">2023-06-03</h4>
+            <h4 data-toc-skip class="date">2024-07-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/justinjm/googleCloudVertexAIR/blob/HEAD/vignettes/endpoints.Rmd" class="external-link"><code>vignettes/endpoints.Rmd</code></a></small>
       <div class="hidden name"><code>endpoints.Rmd</code></div>
@@ -120,72 +123,69 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://withr.r-lib.org" class="external-link">withr</a></span><span class="op">)</span> <span class="co"># for gcloud sdk: https://stackoverflow.com/a/64381848/1812363 </span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/" class="external-link">glue</a></span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">sh</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">intern</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://withr.r-lib.org/reference/with_path.html" class="external-link">with_path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~/google-cloud-sdk/bin/"</span><span class="op">)</span>, <span class="op">{</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">args</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="va">cmd</span><span class="op">)</span></span>
+<span>      <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="st">" "</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span>      <span class="va">cmd</span> <span class="op">&lt;-</span> <span class="va">s</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>      <span class="va">args</span> <span class="op">&lt;-</span> <span class="va">s</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span><span class="op">]</span></span>
+<span>    <span class="op">}</span></span>
+<span>    <span class="va">ret</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a></span><span class="op">(</span><span class="va">cmd</span>, <span class="va">args</span>, stdout <span class="op">=</span> <span class="cn">TRUE</span>, stderr <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="st">"errmsg"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">ret</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">names</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">ret</span>, <span class="st">"errmsg"</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">intern</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">ret</span><span class="op">)</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">ret</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://code.markedmondson.me/googleAuthR/" class="external-link">googleAuthR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/justinjm/googleCloudVertexAIR" class="external-link">googleCloudVertexAIR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>googleAuthR.scopes.selected <span class="op">=</span> <span class="st">"https://www.googleapis.com/auth/cloud-platform"</span><span class="op">)</span></span>
+<span><span class="co"># options(googleAuthR.verbose = 0) # set when debugging</span></span>
 <span></span>
 <span><span class="fu"><a href="https://code.markedmondson.me/googleAuthR//reference/gar_auth_service.html" class="external-link">gar_auth_service</a></span><span class="op">(</span>json_file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GAR_SERVICE_JSON"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="set-global-arguements">Set global arguements<a class="anchor" aria-label="anchor" href="#set-global-arguements"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">projectId</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_DEFAULT_PROJECT_ID"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gcva_region_set.html">gcva_region_set</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"us-central1"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-06-03 15:46:10&gt; Region set to 'us-central1'</span></span></code></pre>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## 2024-07-08 12:35:26.614851&gt; Region set to 'us-central1'</span></span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_project_set.html">gcva_project_set</a></span><span class="op">(</span>projectId <span class="op">=</span> <span class="va">projectId</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-06-03 15:46:10&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
+<pre><code><span><span class="co">## 2024-07-08 12:35:26.615399&gt; ProjectId set to 'gc-vertex-ai-r'</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="create-endpoint">Create Endpoint<a class="anchor" aria-label="anchor" href="#create-endpoint"></a>
 </h2>
 <p>Doc: <a href="https://cloud.google.com/vertex-ai/docs/predictions/overview#model_deployment" class="external-link">Overview
 of getting predictions on Vertex AI | Google Cloud</a> API: <a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/create</a></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">endpoint</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_create_endpoint.html">gcva_create_endpoint</a></span><span class="op">(</span></span>
 <span>    displayName <span class="op">=</span> <span class="st">"CaliforniaHousingEndpoint"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-06-03 15:46:13&gt; Waiting 2 seconds...</span></span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">endpoint</span></span></code></pre></div>
-<pre><code><span><span class="co">## $name</span></span>
-<span><span class="co">## [1] "projects/442003009360/locations/us-central1/endpoints/8949105458375819264"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $displayName</span></span>
-<span><span class="co">## [1] "CaliforniaHousingEndpoint"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $etag</span></span>
-<span><span class="co">## [1] "AMEw9yNAoHIydbcymz1McLDWIwLH9hscmR8cJH9u-KIMXh7p5UPEY58zJoNVauheIY-K"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $createTime</span></span>
-<span><span class="co">## [1] "2023-06-03T19:46:11.293392Z"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## $updateTime</span></span>
-<span><span class="co">## [1] "2023-06-03T19:46:12.401411Z"</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## attr(,"class")</span></span>
-<span><span class="co">## [1] "gcva_endpoint"</span></span></code></pre>
+<span><span class="op">)</span></span>
+<span><span class="va">endpoint</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="list-endpoints">List Endpoints<a class="anchor" aria-label="anchor" href="#list-endpoints"></a>
 </h2>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">endpoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_list_endpoints.html">gcva_list_endpoints</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">endpoints</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                                                        name</span></span>
-<span><span class="co">## 1 projects/442003009360/locations/us-central1/endpoints/8949105458375819264</span></span>
-<span><span class="co">##                 displayName</span></span>
-<span><span class="co">## 1 CaliforniaHousingEndpoint</span></span>
-<span><span class="co">##                                                                   etag</span></span>
-<span><span class="co">## 1 AMEw9yOvfPuf8zD16J5_nY29KEkeU312nHf0hFgCFY8kxdXG_rXvudm2e7lWvQLIA8Ip</span></span>
-<span><span class="co">##            createTime                  updateTime</span></span>
-<span><span class="co">## 1 2023-06-03 19:46:11 2023-06-03T19:46:12.401411Z</span></span></code></pre>
+<pre><code><span><span class="co">## $createTime</span></span>
+<span><span class="co">## POSIXct of length 0</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="deploy-model-to-endpoint-dev">Deploy Model to Endpoint [DEV]<a class="anchor" aria-label="anchor" href="#deploy-model-to-endpoint-dev"></a>
+<h2 id="deploy-model-to-endpoint">Deploy Model to Endpoint<a class="anchor" aria-label="anchor" href="#deploy-model-to-endpoint"></a>
 </h2>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="section level3">
+<h3 id="dev">[DEV]<a class="anchor" aria-label="anchor" href="#dev"></a>
+</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># manually set model object (to fasttrack for testing)</span></span>
 <span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_model.html">gcva_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GCVA_TEST_MODEL_NAME_CUSTOM"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">model</span></span></code></pre></div>
@@ -197,7 +197,7 @@ of getting predictions on Vertex AI | Google Cloud</a> API: <a href="https://clo
 <span><span class="co">## versionAlias:         default</span></span></code></pre>
 <p>Doc: <a href="https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api" class="external-link uri">https://cloud.google.com/vertex-ai/docs/predictions/get-predictions#api</a>
 API: <a href="https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/deployModel" class="external-link uri">https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/deployModel</a></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model_deployed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_deploy.html">gcva_deploy</a></span><span class="op">(</span></span>
 <span>  model <span class="op">=</span> <span class="va">model</span>,</span>
 <span>  endpoint <span class="op">=</span> <span class="va">endpoint</span>,</span>
@@ -250,6 +250,59 @@ $response$deployedModel$id
 attr(,"class")
 [1] "gcva_endpoint"</code></pre>
 </div>
+</div>
+<div class="section level2">
+<h2 id="predict">Predict<a class="anchor" aria-label="anchor" href="#predict"></a>
+</h2>
+<div class="section level3">
+<h3 id="build-sample-request">Build sample request<a class="anchor" aria-label="anchor" href="#build-sample-request"></a>
+</h3>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_uri</span> <span class="op">&lt;-</span> <span class="st">"gs://cloud-samples-data/ai-platform-unified/datasets/tabular/california-housing-tabular-regression.csv"</span></span>
+<span></span>
+<span><span class="co">## create example data for prediction request </span></span>
+<span><span class="va">data_raw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>text<span class="op">=</span><span class="fu">sh</span><span class="op">(</span><span class="st">"gsutil cat {data_uri}"</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## convert all to string values to build correct prediction request</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">data_raw</span>, <span class="va">as.character</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## build list of 5 examples/rows only for testing</span></span>
+<span><span class="va">instances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>instances<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"median_house_value"</span><span class="op">]</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## convert to required format of JSON</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jeroen.r-universe.dev/jsonlite" class="external-link">jsonlite</a></span><span class="op">)</span></span>
+<span><span class="va">instances_json</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">toJSON</a></span><span class="op">(</span><span class="va">instances</span>, auto_unbox <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">instances_json</span></span></code></pre></div>
+<pre><code><span><span class="co">## {"instances":[{"longitude":"-122.23","latitude":"37.88","housing_median_age":"41","total_rooms":"880","total_bedrooms":"129","population":"322","households":"126","median_income":"8.3252"},{"longitude":"-122.22","latitude":"37.86","housing_median_age":"21","total_rooms":"7099","total_bedrooms":"1106","population":"2401","households":"1138","median_income":"8.3014"},{"longitude":"-122.24","latitude":"37.85","housing_median_age":"52","total_rooms":"1467","total_bedrooms":"190","population":"496","households":"177","median_income":"7.2574"},{"longitude":"-122.25","latitude":"37.85","housing_median_age":"52","total_rooms":"1274","total_bedrooms":"235","population":"558","households":"219","median_income":"5.6431"},{"longitude":"-122.25","latitude":"37.85","housing_median_age":"52","total_rooms":"1627","total_bedrooms":"280","population":"565","households":"259","median_income":"3.8462"}]}</span></span></code></pre>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_predict.html">gcva_predict</a></span><span class="op">(</span></span>
+<span>  endpoint <span class="op">=</span> <span class="va">endpoint</span>,</span>
+<span>  instances <span class="op">=</span> <span class="va">instances</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://glue.tidyverse.org/" class="external-link">glue</a></span><span class="op">)</span></span>
+<span><span class="co">## set parameters for prediction request here so easier to understand </span></span>
+<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://{gcva_region_get()}-aiplatform.googleapis.com/v1/{endpoint$name}:predict"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">access_token</span> <span class="op">&lt;-</span> <span class="fu">sh</span><span class="op">(</span><span class="st">"gcloud auth print-access-token"</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## make prediction request </span></span>
+<span><span class="fu">sh</span><span class="op">(</span></span>
+<span>  <span class="st">"curl"</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"--tr-encoding"</span>,</span>
+<span>    <span class="st">"-s"</span>,</span>
+<span>    <span class="st">"-X POST"</span>,</span>
+<span>    <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"-H 'Authorization: Bearer {access_token}'"</span><span class="op">)</span>,</span>
+<span>    <span class="st">"-H 'Content-Type: application/json'"</span>,</span>
+<span>    <span class="va">url</span>,</span>
+<span>    <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"-d '{instances_json}'"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
 <div class="section level2">
 <h2 id="undeploy">Undeploy<a class="anchor" aria-label="anchor" href="#undeploy"></a>
 </h2>
@@ -257,31 +310,28 @@ attr(,"class")
 <h3 id="single">Single<a class="anchor" aria-label="anchor" href="#single"></a>
 </h3>
 <p>TODO</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_undeploy.html">gcva_undeploy</a></span><span class="op">(</span>endpoint <span class="op">=</span> <span class="va">endpoint</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="all">All<a class="anchor" aria-label="anchor" href="#all"></a>
 </h3>
 <p>TODO</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gcva_endpoint_undeploy_all</span><span class="op">(</span>endpoint <span class="op">=</span> <span class="va">endpoint</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="delete-endpoint">Delete Endpoint<a class="anchor" aria-label="anchor" href="#delete-endpoint"></a>
 </h2>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># gcva_delete_endpoint(endpoint = endpoints[1,1])</span></span>
-<span><span class="co"># OR </span></span>
-<span><span class="fu"><a href="../reference/gcva_delete_endpoint.html">gcva_delete_endpoint</a></span><span class="op">(</span>endpoint <span class="op">=</span> <span class="va">endpoint</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 2023-06-03 15:46:14&gt; endpoint successfully deleted.</span></span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gcva_delete_endpoint.html">gcva_delete_endpoint</a></span><span class="op">(</span>endpoint <span class="op">=</span> <span class="va">endpoint</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="list-endpoints-again">List Endpoints (again)<a class="anchor" aria-label="anchor" href="#list-endpoints-again"></a>
 </h2>
 <p>to confirm deleted</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">endpoints</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gcva_list_endpoints.html">gcva_list_endpoints</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">endpoints</span></span></code></pre></div>
 <pre><code><span><span class="co">## $createTime</span></span>
@@ -306,7 +356,7 @@ attr(,"class")
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
