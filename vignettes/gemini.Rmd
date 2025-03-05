@@ -67,3 +67,13 @@ and references: https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal
 # request_debug$body_json
 ```
 
+
+```{r}
+# result_gemini <- gcva_gemini_generate_content(
+#   prompt="Give me ten interview questions for the role of a data scientist related to the R language.",
+#   modelId="gemini-1.0-pro",
+#   stream=FALSE)
+# 
+# result_gemini
+```
+
