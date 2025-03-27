@@ -43,7 +43,7 @@ gcva_project_set(projectId = projectId)
 ```{r}
 result_gemini <- gcva_gemini_text(
   prompt="Give me ten interview questions for the role of a data scientist related to the R language.",
-  modelId="gemini-1.0-pro",
+  modelId="gemini-1.5-pro-002",
   stream=FALSE)
 
 result_gemini
