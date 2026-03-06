@@ -47,12 +47,7 @@ gcva_get_op <- function(locationId = gcva_region_get(),
                  locationId,
                  operationId)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f()
+  response <- gcva_api_request(url, method = "GET", parse_fn = function(x) x)
 
   response
 

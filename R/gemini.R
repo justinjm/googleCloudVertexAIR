@@ -138,12 +138,8 @@ gcva_gemini_text <- function(projectId = gcva_project_get(),
                  parent,
                  modelId)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f(the_body = requestBody)
+  response <- gcva_api_request(url, method = "POST", body = requestBody,
+                               parse_fn = function(x) x)
 
   # save candidates object from response to make parsing easier
   candidates <- response$candidates

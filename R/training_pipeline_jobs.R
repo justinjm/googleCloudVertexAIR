@@ -197,14 +197,11 @@ gcva_run_job <- function(projectId = gcva_project_get(),
                  locationId,
                  parent)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
   stopifnot(inherits(TrainingPipeline, "gcva_job"))
 
-  trainingPipeline <- f(the_body = TrainingPipeline)
+  trainingPipeline <- gcva_api_request(url, method = "POST",
+                                        body = TrainingPipeline,
+                                        parse_fn = function(x) x)
 
   if(sync == FALSE) {
     #return right away
@@ -281,12 +278,7 @@ gcva_trainingPipeline <- function(locationId = gcva_region_get(),
                  trainingPipelineName)
 
   # projects.locations.trainingPipelines.get
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f()
+  response <- gcva_api_request(url, method = "GET", parse_fn = function(x) x)
 
   out <- structure(response, class = "gcva_trainingPipeline")
 

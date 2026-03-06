@@ -25,10 +25,7 @@ gcva_list_datasets <- function(projectId = gcva_project_get(),
 
   }
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = parse_ld)
-  response <- f()
+  response <- gcva_api_request(url, method = "GET", parse_fn = parse_ld)
 
   out <- response[, c("displayName",
                       "name",
@@ -58,12 +55,7 @@ gcva_dataset <- function(locationId = gcva_region_get(),
                  locationId,
                  datasetName)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f()
+  response <- gcva_api_request(url, method = "GET", parse_fn = function(x) x)
 
   out <- structure(response, class = "gcva_dataset")
 
@@ -117,12 +109,8 @@ gcva_create_tabluar_dataset <- function(projectId = gcva_project_get(),
                  locationId,
                  parent)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f(the_body = Dataset)
+  response <- gcva_api_request(url, method = "POST", body = Dataset,
+                               parse_fn = function(x) x)
 
   response <- gcva_wait_for_op(operation = response$name)
 
@@ -173,11 +161,7 @@ gcva_delete_dataset <- function(projectId = gcva_project_get(),
                  locationId,
                  name)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "DELETE",
-                                      data_parse_function = function(x) x)
-
-  response <- f()
+  response <- gcva_api_request(url, method = "DELETE", parse_fn = function(x) x)
 
   out <- response
 

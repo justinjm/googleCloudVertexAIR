@@ -26,10 +26,7 @@ gcva_list_endpoints <- function(projectId = gcva_project_get(),
 
   }
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = parse_ld)
-  response <- f()
+  response <- gcva_api_request(url, method = "GET", parse_fn = parse_ld)
 
   out <- response
 
@@ -55,12 +52,7 @@ gcva_endpoint <- function(locationId = gcva_region_get(),
                  locationId,
                  endpointName)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f()
+  response <- gcva_api_request(url, method = "GET", parse_fn = function(x) x)
 
   out <- structure(response, class = "gcva_endpoint")
 
@@ -146,13 +138,9 @@ gcva_create_endpoint <- function(projectId = gcva_project_get(),
                  locationId,
                  parent)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
   # projects.locations.endpoints.create
-  response <- f(the_body = request_body)
+  response <- gcva_api_request(url, method = "POST", body = request_body,
+                                parse_fn = function(x) x)
 
   response2 <- gcva_wait_for_op(operation = response$name)
 
@@ -222,12 +210,8 @@ gcva_deploy <- function(projectId = gcva_project_get(),
                  locationId,
                  name)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f(the_body = request_body)
+  response <- gcva_api_request(url, method = "POST", body = request_body,
+                               parse_fn = function(x) x)
 
   response <- gcva_wait_for_model_deploy(operation = response$name)
 
@@ -304,12 +288,8 @@ gcva_predict <- function(locationId = gcva_region_get(),
                  name)
 
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f(the_body = request_body)
+  response <- gcva_api_request(url, method = "POST", body = request_body,
+                               parse_fn = function(x) x)
   out <- response
   out
 }
@@ -343,12 +323,8 @@ gcva_undeploy <- function(projectId = gcva_project_get(),
                  name)
 
   # POST https://{service-endpoint}/v1/{endpoint}:undeployModel
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  # response <- f(the_body = request_body)
+  # response <- gcva_api_request(url, method = "POST", body = request_body,
+  #                               parse_fn = function(x) x)
 
 }
 
@@ -399,11 +375,7 @@ gcva_delete_endpoint <- function(projectId = gcva_project_get(),
                  locationId,
                  name)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "DELETE",
-                                      data_parse_function = function(x) x)
-
-  response <- f()
+  response <- gcva_api_request(url, method = "DELETE", parse_fn = function(x) x)
 
   out <- response
 

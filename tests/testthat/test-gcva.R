@@ -1,12 +1,15 @@
 context("Setup")
 
-options(
-  googleAuthR.scopes.selected = "https://www.googleapis.com/auth/cloud-platform"
-)
-googleAuthR::gar_auth_service(json_file = Sys.getenv("GAR_SERVICE_JSON"))
+# Authenticate using a service account JSON file.
+# Set GCVA_AUTH_FILE (preferred) or the legacy GAR_SERVICE_JSON env var.
+auth_file <- Sys.getenv("GCVA_AUTH_FILE",
+                         unset = Sys.getenv("GAR_SERVICE_JSON"))
+if (nzchar(auth_file)) {
+  gcva_auth(path = auth_file)
+}
 
 skip_if_no_token <- function() {
-  testthat::skip_if_not(googleAuthR::gar_has_token(), "No token")
+  testthat::skip_if_not(gcva_has_token(), "No token")
 }
 
 context("Authentication")
@@ -15,7 +18,7 @@ test_that("Authentication", {
   skip_if_no_token()
 
   # manual auth
-  expect_true(googleAuthR::gar_has_token())
+  expect_true(gcva_has_token())
 })
 
 context("Datasets")

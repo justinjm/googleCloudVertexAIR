@@ -50,12 +50,8 @@ gcva_text_gen_predict <- function(projectId = gcva_project_get(),
                  parent,
                  modelId)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f(the_body = textPrompt)
+  response <- gcva_api_request(url, method = "POST", body = textPrompt,
+                               parse_fn = function(x) x)
 
   # return pretty output, content only (default)
   if(rawResponse == FALSE) {
@@ -187,12 +183,8 @@ gcva_chat_predict <- function(projectId = gcva_project_get(),
                  parent,
                  modelId)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  # response <- f(the_body = request_body)
+  # response <- gcva_api_request(url, method = "POST", body = request_body,
+  #                               parse_fn = function(x) x)
   #
   # response
 

@@ -87,14 +87,11 @@ gcva_batch_predict <- function(projectId = gcva_project_get(),
                  locationId,
                  parent)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "POST",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
   stopifnot(inherits(batchPredictionJob, "gcva_batchPredictionJob"))
 
-  batchPredictionJob <- f(the_body = batchPredictionJob)
+  batchPredictionJob <- gcva_api_request(url, method = "POST",
+                                         body = batchPredictionJob,
+                                         parse_fn = function(x) x)
 
   if(sync == FALSE) {
     #return right away
@@ -174,12 +171,7 @@ gcva_batch_prediction_job <- function(locationId = gcva_region_get(),
                  locationId,
                  batchPredictionJob)
 
-  f <- googleAuthR::gar_api_generator(url,
-                                      "GET",
-                                      data_parse_function = function(x) x,
-                                      checkTrailingSlash = FALSE)
-
-  response <- f()
+  response <- gcva_api_request(url, method = "GET", parse_fn = function(x) x)
 
   out <- structure(response, class = "gcva_batchPredictionJob")
 
